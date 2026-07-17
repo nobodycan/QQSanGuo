@@ -164,12 +164,14 @@ func exchange_equipment(catagory):
 		print(self.item_name)
 		PlayerInventory.update_put_on(item_name)
 		PlayerInventory.update_put_off(temp)
+		PlayerInventory.equipment[catagory] = self.item_name
 		self.set_item(temp, 1)
 		#交换图片即可
 	else:
 		find_parent("Inventory").get_node("equipment").get_node(catagory).texture_normal = self.get_node("TextureRect").texture_normal
 		find_parent("Inventory").get_node("equipment").get_node(catagory).item_name = self.item_name
 		PlayerInventory.update_put_on(item_name)
+		PlayerInventory.equipment[catagory] = self.item_name
 		remove_inventory_item()
 	
 	

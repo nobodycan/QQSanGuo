@@ -35,6 +35,7 @@ SaveState="*res://SaveState.gd"
 SceneChange="*res://Scene/SceneChange.gd"
 FreeNodes="*res://free_nodes.gd"
 PlayerStorage="*res://player_storage.gd"
+GameState="*res://autoload/GameState.gd"
 
 [display]
 

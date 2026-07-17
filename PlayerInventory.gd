@@ -3,6 +3,7 @@ extends Node
 
 const NUM_INVENTORY_SLOTS = 50
 const NUM_HOTBAR_SLOTS = 8
+const EQUIPMENT_SLOTS = ["Head", "Up_Body", "Necklace", "Hand", "Sword", "Boot", "Down_Body", "Wing", "Mask", "Ring"]
 
 var money = 0
 var juntuan = 0
@@ -34,12 +35,19 @@ var hotbar = {
 #	0 : ["金疮药", 99]
 }
 
+var equipment = {
+	"Head": "", "Up_Body": "", "Necklace": "", "Hand": "", "Sword": "",
+	"Boot": "", "Down_Body": "", "Wing": "", "Mask": "", "Ring": ""
+}
+var known_skills = []
+var equipped_skills = []
+
 var active_item_slot = 0
 
 func add_item(item_name, item_quantity):
 	for i in inventory:
 		if inventory[i][0] == item_name:
-			var stack_size = int(jsonData.item_data[item_name]["StackSize"])
+			var stack_size = int(_item_data()[item_name]["StackSize"])
 			var able_to_add = stack_size - inventory[i][1]
 			if able_to_add >= item_quantity:
 				inventory[i][1] += item_quantity
@@ -100,12 +108,15 @@ func update_slot_visual(slot_index, item_name, new_quantity):
 		slot.initialize_item(item_name, new_quantity)
 
 func update_put_on(new_name):
-	var temp_item = jsonData.item_data[new_name]
+	var temp_item = _item_data()[new_name]
 	add_property(temp_item)
 
 func update_put_off(new_name):
-	var temp_item = jsonData.item_data[new_name]
+	var temp_item = _item_data()[new_name]
 	sub_property(temp_item)
+
+func _item_data() -> Dictionary:
+	return get_node("/root/jsonData").item_data
 
 func sub_property(temp_item):
 	if temp_item.WuGong != null:
