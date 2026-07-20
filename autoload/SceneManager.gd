@@ -7,7 +7,10 @@ func restore_snapshot(snapshot):
 	var normalized = state.normalize(snapshot)
 	if normalized == null:
 		return _failure("invalid_state")
-	var scene_result = yield(change_to_map(normalized.map_path), "completed")
+	var scene_operation = change_to_map(normalized.map_path)
+	var scene_result = scene_operation
+	if scene_operation is GDScriptFunctionState:
+		scene_result = yield(scene_operation, "completed")
 	if not scene_result["ok"]:
 		return scene_result
 	if not state.apply_to_scene(get_tree().current_scene, normalized):

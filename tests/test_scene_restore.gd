@@ -13,6 +13,13 @@ func _run():
 		push_error("SceneManager Autoload is missing")
 		quit(1)
 		return
+	var missing_snapshot = state.new_save_data()
+	missing_snapshot["map_path"] = "res://does-not-exist.tscn"
+	var missing_result = manager.restore_snapshot(missing_snapshot)
+	if typeof(missing_result) != TYPE_DICTIONARY or missing_result.get("ok", true) or missing_result.get("error", "") != "scene_change_failed":
+		push_error("Missing scene did not return scene_change_failed")
+		quit(1)
+		return
 	var result = yield(manager.restore_snapshot(snapshot), "completed")
 	if not result["ok"]:
 		push_error("Scene restoration failed: " + str(result))
