@@ -6,15 +6,19 @@ func _ready():
 
 
 func _on_Button_pressed():
-	SaveState.save_game()
-	print("save")
-	pass # Replace with function body.
+	var result = SaveState.save_game()
+	if result.get("ok", false):
+		print("save")
+	else:
+		print(result.get("error", "unknown_save_error"))
 
 
 func _on_Button2_pressed():
-	SaveState.load_game()
-	print("load")
-	pass # Replace with function body.
+	var result = SaveState.load_game()
+	if result.get("ok", false):
+		print("load")
+	else:
+		print(result.get("error", "unknown_load_error"))
 
 
 func _on_Button3_pressed():

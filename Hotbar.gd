@@ -30,6 +30,16 @@ func initialize_hotbar():
 	for i in range(slots.size()): ##每个子节点都连上 函数
 		if PlayerInventory.hotbar.has(i): ##initialize_item函数 有BUG 
 			slots[i].initialize_item(PlayerInventory.hotbar[i][0], PlayerInventory.hotbar[i][1])
+
+func refresh_from_player_inventory():
+	for slot in slots:
+		if slot.item != null:
+			if slot.item.get_parent() == slot:
+				slot.remove_child(slot.item)
+			slot.item.queue_free()
+			slot.item = null
+	initialize_hotbar()
+	update_active_item_label()
 func slot_gui_input(event: InputEvent, slot: SlotClass):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT && event.pressed:

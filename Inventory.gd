@@ -36,6 +36,15 @@ func initialize_inventory():
 	for i in range(slots.size()): ##每个子节点都连上 函数
 		if PlayerInventory.inventory.has(i): ##initialize_item函数 有BUG 
 			slots[i].initialize_item(PlayerInventory.inventory[i][0], PlayerInventory.inventory[i][1])
+
+func refresh_from_player_inventory():
+	for slot in inventory_slots.get_children():
+		if slot.item != null:
+			if slot.item.get_parent() == slot:
+				slot.remove_child(slot.item)
+			slot.item.queue_free()
+			slot.item = null
+	initialize_inventory()
 		
 func _input(event):
 	if find_parent("UserInterFace").holding_item:
