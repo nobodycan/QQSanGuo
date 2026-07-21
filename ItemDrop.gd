@@ -6,6 +6,7 @@ var velocity = Vector2.ZERO
 export var item_name = "五级翅膀男"
 
 onready var show_item = preload("res://UI/item_drop/show_item/show_item.tscn").instance()
+const ItemIconResolver = preload("res://ItemIconResolver.gd")
 
 var player = null
 var being_picked_up = false
@@ -36,7 +37,7 @@ func _physics_process(delta): ##物理效果
 				get_tree().current_scene.get_node("Steve").gain_speed(30)
 			else:
 				PlayerInventory.add_item(item_name, 1) ##加入包里
-				get_tree().current_scene.get_node("UserInterFace/show_item/Control/texture").texture = load("res://UI/item_icons/" + item_name + ".png")
+				get_tree().current_scene.get_node("UserInterFace/show_item/Control/texture").texture = load(ItemIconResolver.resolve_path(item_name))
 				get_tree().current_scene.get_node("UserInterFace/show_item/Control/name").text = item_name
 				get_tree().current_scene.get_node("UserInterFace/show_item/AnimationPlayer").play("show")
 			queue_free()

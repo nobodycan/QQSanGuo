@@ -1,6 +1,7 @@
 extends Control
 
 var drag_position = null
+const ItemIconResolver = preload("res://ItemIconResolver.gd")
 
 func _ready():
 	self.visible = false
@@ -22,7 +23,7 @@ func refresh():
 		for j in PlayerInventory.NUM_INVENTORY_SLOTS:
 			if a==b:
 				if PlayerInventory.inventory.has(j):
-					i.get_child(0).texture = load("res://UI/item_icons/"+PlayerInventory.inventory[j][0]+".png")
+					i.get_child(0).texture = load(ItemIconResolver.resolve_path(PlayerInventory.inventory[j][0]))
 					i.get_child(1).text = "X"+str(PlayerInventory.inventory[j][1])
 					i.get_child(2).text = str(PlayerInventory.inventory[j][0])
 					break

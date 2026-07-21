@@ -7,6 +7,7 @@ var item_quantity
 var item_slot
 var Tooltip = load("UI/ToolTip.tscn")
 var userInterFace
+const ItemIconResolver = preload("res://ItemIconResolver.gd")
 
 func _ready():
 #	var name_set = jsonData.item_data.keys()
@@ -14,7 +15,7 @@ func _ready():
 #	print(item_name)
 	item_slot = get_parent().slot_index
 	userInterFace = find_parent("UserInterFace")
-	$TextureRect.texture_normal = load("res://UI/item_icons/" + item_name + ".png")
+	$TextureRect.texture_normal = load(ItemIconResolver.resolve_path(item_name))
 	var stack_size = int(jsonData.item_data[item_name]["StackSize"])
 	
 #	if item_quantity == 1:
@@ -35,7 +36,7 @@ func sub_item_quantity(amount):
 func set_item(nm, qt):
 	item_name = nm
 	item_quantity = qt
-	$TextureRect.texture_normal = load("res://UI/item_icons/" + item_name + ".png")
+	$TextureRect.texture_normal = load(ItemIconResolver.resolve_path(item_name))
 	
 	var stack_size = int(jsonData.item_data[item_name]["StackSize"])
 	if stack_size == 1:
