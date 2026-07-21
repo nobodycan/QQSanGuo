@@ -42,6 +42,8 @@ try {
         $utf8Manifest = New-Fixture 'utf8-manifest' '' 'res://assets/ok.png' '{"schema_version":1,"images":["res://assets/utf8-\u00e9.png"],"audio":[],"other":[]}'
         Write-Utf8File (Join-Path $utf8Manifest ('assets\utf8-' + [char]0x00E9 + '.png')) 'fixture'
         $duplicateManifest = New-Fixture 'duplicate-manifest' '' 'res://assets/ok.png' '{"schema_version":1,"images":["res://assets/ok.png"],"audio":["res://assets/ok.png"],"other":[]}'
+        $trailingSlashManifest = New-Fixture 'trailing-slash-manifest' '' 'res://assets/ok.png' '{"schema_version":1,"images":["res://assets/ok.png/"],"audio":[],"other":[]}'
+        $stringManifestField = New-Fixture 'string-manifest-field' '' 'res://assets/ok.png' '{"schema_version":1,"images":"res://assets/ok.png","audio":[],"other":[]}'
         $spaced = New-Fixture 'spaced' '' 'res://assets/Iron Sword.png' '{"schema_version":1,"images":[],"audio":[],"other":[]}'
         Write-Utf8File (Join-Path $spaced 'assets\Iron Sword.png') 'fixture'
         $directoryPrefix = New-Fixture 'directory-prefix' '' 'res://assets/ok.png' '{"schema_version":1,"images":[],"audio":[],"other":[]}'
@@ -57,6 +59,8 @@ try {
             @{ Name = 'invalid-manifest'; Root = $invalidManifest; Exit = 1; Code = 'invalid_manifest' },
             @{ Name = 'utf8-manifest'; Root = $utf8Manifest; Exit = 0; Code = $null },
             @{ Name = 'duplicate-manifest'; Root = $duplicateManifest; Exit = 1; Code = 'invalid_manifest' },
+            @{ Name = 'trailing-slash-manifest'; Root = $trailingSlashManifest; Exit = 1; Code = 'invalid_manifest' },
+            @{ Name = 'string-manifest-field'; Root = $stringManifestField; Exit = 1; Code = 'invalid_manifest' },
             @{ Name = 'spaced'; Root = $spaced; Exit = 0; Code = $null },
             @{ Name = 'directory-prefix'; Root = $directoryPrefix; Exit = 0; Code = $null },
             @{ Name = 'comment-only'; Root = $commentOnly; Exit = 0; Code = $null }

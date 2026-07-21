@@ -60,6 +60,10 @@ function Test-ResPath([string]$Path, [string]$Owner) {
 }
 
 function Test-ManifestValue([string]$Path, [string]$Owner) {
+    if ($Path.EndsWith('/', [System.StringComparison]::Ordinal)) {
+        Add-Issue $invalidManifest 'invalid_manifest' $Owner $Path
+        return $false
+    }
     if (-not $manifestValues.Add($Path)) {
         Add-Issue $invalidManifest 'invalid_manifest' $Owner $Path
         return $false
@@ -84,7 +88,7 @@ if (-not (Test-Path -LiteralPath $ManifestPath)) {
         if ($manifest.schema_version -ne 1) { throw 'schema_version must be 1' }
         foreach ($field in @('images', 'audio', 'other')) {
             $values = $manifest.$field
-            if ($null -eq $values -or -not ($values -is [System.Collections.IEnumerable])) { throw "$field must be an array" }
+            if ($null -eq $values -or $values -is [string] -or -not ($values -is [System.Collections.IEnumerable])) { throw "$field must be an array" }
             foreach ($value in @($values)) {
                 if ($value -isnot [string]) { Add-Issue $invalidManifest 'invalid_manifest' "manifest.$field" ([string]$value); continue }
                 $references.Add($value)
