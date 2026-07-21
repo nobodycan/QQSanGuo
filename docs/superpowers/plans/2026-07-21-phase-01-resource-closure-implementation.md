@@ -37,10 +37,10 @@
 - Create: `tests/resource_scene_smoke.gd`
 - Create: `docs/superpowers/reports/2026-07-21-phase-01-resource-closure-acceptance.md`
 
-- [ ] Write a runner that returns a JSON terminal result and fails on any scene load/instance error after two idle and two physics frames.
-- [ ] Run it with Godot 3.5.3 `--no-window --audio-driver Dummy --fixed-fps 60`.
-- [ ] Create two explicit temporary detached checkouts, run `--editor --no-window --audio-driver Dummy --quit`, classify logs, and remove only those verified temporary worktrees.
-- [ ] Run static validation, stage exact Phase paths, commit, and record evidence.
+- [x] Write a runner that returns a JSON terminal result and fails on any scene load/instance error after two idle and two physics frames.
+- [x] Run it with Godot 3.5.3 `--no-window --audio-driver Dummy --fixed-fps 60`.
+- [x] Create two explicit temporary detached checkouts, run `--editor --no-window --audio-driver Dummy --quit`, classify logs, and remove only those verified temporary worktrees.
+- [x] Run static validation, stage exact Phase paths, commit, and record evidence.
 
 ## Plan self-review
 
