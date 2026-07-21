@@ -48,10 +48,6 @@ mouse_cursor/custom_image="res://assets/mouse/28168-1.png"
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
-[editor_plugins]
-
-enabled=PoolStringArray( "codeandweb.texturepacker" )
-
 [gui]
 
 theme/custom_font="res://new_dynamicfont.tres"

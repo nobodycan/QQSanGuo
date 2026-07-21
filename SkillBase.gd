@@ -28,7 +28,6 @@ var _cooling_timer := Timer.new()
 var skill_data = {}
 
 func _ready():
-	var picture_path = "res://assets/texture/js"
 	skill_data = SkillsFactory.skill_data[skill_name]
 	cast_dist = skill_data["attack_range"]
 	need_level = skill_data["need_level"]

@@ -2,7 +2,7 @@ extends Node2D
 
 signal monster_die
 
-var eneme_set = preload("res://Enemy//Snake.tscn")
+var eneme_set = preload("res://Enemy/Snake.tscn")
 
 
 func _ready():

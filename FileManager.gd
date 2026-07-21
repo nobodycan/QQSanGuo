@@ -1,11 +1,5 @@
 extends Node
 
-## 返回 Unit 的 csv 文件数据
-func get_unit_data() -> Dictionary:
-	var data_list = parse_csv_file("res://UnitData.csv")
-	return data_list
-
-
 ## 解析 csv 文件
 ## @path 文件路径
 ## @key 以数据中的哪个值作为 key 值记录到字典中
