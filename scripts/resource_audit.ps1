@@ -16,6 +16,7 @@ $invalidManifest = New-Object System.Collections.Generic.List[object]
 $missingPlugin = New-Object System.Collections.Generic.List[object]
 $references = New-Object System.Collections.Generic.List[string]
 $directoryEntryCache = @{}
+$manifestValues = New-Object 'System.Collections.Generic.HashSet[string]' ([System.StringComparer]::Ordinal)
 
 function Add-Issue([System.Collections.Generic.List[object]]$List, [string]$Code, [string]$Owner, [string]$Path) {
     $List.Add([pscustomobject]@{ code = $Code; owner = $Owner; path = $Path })
@@ -58,6 +59,14 @@ function Test-ResPath([string]$Path, [string]$Owner) {
     }
 }
 
+function Test-ManifestValue([string]$Path, [string]$Owner) {
+    if (-not $manifestValues.Add($Path)) {
+        Add-Issue $invalidManifest 'invalid_manifest' $Owner $Path
+        return $false
+    }
+    return $true
+}
+
 if (-not (Test-Path -LiteralPath (Join-Path $root 'project.godot'))) {
     Add-Issue $missing 'missing_resource' 'project' 'project.godot'
 } else {
@@ -79,7 +88,9 @@ if (-not (Test-Path -LiteralPath $ManifestPath)) {
             foreach ($value in @($values)) {
                 if ($value -isnot [string]) { Add-Issue $invalidManifest 'invalid_manifest' "manifest.$field" ([string]$value); continue }
                 $references.Add($value)
-                Test-ResPath $value "manifest.$field"
+                if (Test-ManifestValue $value "manifest.$field") {
+                    Test-ResPath $value "manifest.$field"
+                }
             }
         }
     } catch {
