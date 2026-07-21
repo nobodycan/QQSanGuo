@@ -25,7 +25,7 @@
 
 - [x] **Step 1: Inspect the current editor and the matching official release asset**
 
-Run from `D:\AI coding\QQSanGuo\.worktrees\game-state-save`:
+Run from `D:\AI4coding\QQSanGuo\.worktrees\game-state-save`:
 
 ```powershell
 & .\.tools\godot-3.5.3\Godot_v3.5.3-stable_win64.exe --version

@@ -8,7 +8,7 @@
 
 | 字段 | 值 |
 |---|---|
-| 原始路径 | `D:\AI coding\QQSanGuo\arch.md` |
+| 原始路径 | `D:\AI4coding\QQSanGuo\arch.md` |
 | 原始状态 | 主工作区未跟踪文件，不存在于 `game-state-save` worktree |
 | 行数 | 1,187 |
 | SHA-256 | `8731C8420DC4898D3F23F5CC5D2174BE3F45F3313C846594B30593DBB409F397` |
@@ -53,7 +53,7 @@
 在原始文件仍存在时，可用 PowerShell 复核：
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath 'D:\AI coding\QQSanGuo\arch.md'
+Get-FileHash -Algorithm SHA256 -LiteralPath 'D:\AI4coding\QQSanGuo\arch.md'
 ```
 
 预期哈希必须等于第 1 节记录值。

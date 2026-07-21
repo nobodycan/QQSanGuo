@@ -15,7 +15,7 @@ Every later Phase can reproduce the same Godot 3.5.3 toolchain, identify the exa
 - The repository uses Godot 3.5.3, but the editor binary and export templates were not both recorded in tracked project documentation.
 - `.tools/` contains a local Godot archive, executable, and test logs but was not ignored by `.gitignore`.
 - The working tree already contains thousands of generated or user-owned differences; Phase work must not stage them.
-- `D:\AI coding\QQSanGuo\arch.md` is an external architecture input. Its SHA-256 must remain tied to the approved architecture input record.
+- `D:\AI4coding\QQSanGuo\arch.md` is an external architecture input. Its SHA-256 must remain tied to the approved architecture input record.
 - Later resource, save, and gameplay phases need a fixed inventory of the existing project before they can prove deltas.
 
 ## 3. User flows
@@ -47,7 +47,7 @@ Every later Phase can reproduce the same Godot 3.5.3 toolchain, identify the exa
 
 ### P00-FR-02 Immutable architecture input
 
-- Given `D:\AI coding\QQSanGuo\arch.md`, when its SHA-256 differs from `arch-input-record.md` or the baseline manifest, then Phase execution stops before consuming the changed input.
+- Given `D:\AI4coding\QQSanGuo\arch.md`, when its SHA-256 differs from `arch-input-record.md` or the baseline manifest, then Phase execution stops before consuming the changed input.
 
 ### P00-FR-03 Baseline inventory
 
