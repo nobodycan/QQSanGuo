@@ -12,3 +12,6 @@ data_*/
 
 # Local Git worktrees
 .worktrees/
+
+# Local engine binaries, export templates, and test logs.
+.tools/

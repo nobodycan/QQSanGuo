@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "captured_on": "2026-07-21",
+  "baseline_commit": "db2daee15d3cf49e097e48633ab555b90848902b",
+  "engine": {
+    "version": "3.5.3.stable.official.6c814135b",
+    "distribution": "standard",
+    "platform": "windows-x86_64",
+    "local_path": ".tools/godot-3.5.3/Godot_v3.5.3-stable_win64.exe",
+    "source_url": "https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_win64.exe.zip",
+    "sha256": "0078FE6BB0400046FE58CDEB9613A1FD0A819E53BC8A9767E71D59FDABDEB2BB"
+  },
+  "export_templates": {
+    "version": "3.5.3.stable",
+    "distribution": "standard-non-dotnet",
+    "local_path": ".tools/Godot_v3.5.3-stable_export_templates.tpz",
+    "source_url": "https://github.com/godotengine/godot-builds/releases/download/3.5.3-stable/Godot_v3.5.3-stable_export_templates.tpz",
+    "size_bytes": 575689292,
+    "sha256": "AE3C1F6FBD431B9E3B67C1F9E42539A6D270A0CCC35558F13072F04B968312D1"
+  },
+  "architecture_input": {
+    "source_path": "D:/AI coding/QQSanGuo/arch.md",
+    "record_path": "docs/superpowers/specs/2026-07-20-arch-input-record.md",
+    "sha256": "8731C8420DC4898D3F23F5CC5D2174BE3F45F3313C846594B30593DBB409F397"
+  },
+  "project_inventory": {
+    "scene_count": 75,
+    "gdscript_count": 73,
+    "json_count": 3,
+    "tres_count": 8,
+    "autoload_count": 13
+  },
+  "workspace_policy": {
+    "line_endings": "LF for tracked Phase documents and JSON",
+    "tool_artifact_policy": ".tools/ is ignored and never staged",
+    "generated_artifact_policy": "Do not stage pre-existing .import, .tscn, or .tres differences unless a Phase explicitly owns and verifies them",
+    "stage_policy": "Use explicit git add paths; git add -A is prohibited"
+  }
+}
