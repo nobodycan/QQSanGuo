@@ -60,7 +60,7 @@ Given two fresh detached checkouts at the same commit, when each runs Godot 3.5.
 
 ## 7. Data and content contract
 
-- `Data/resource_manifest.json` has schema version `1` and arrays `images`, `audio`, and `other`; every value is an ASCII `res://` string.
+- `Data/resource_manifest.json` has schema version `1` and arrays `images`, `audio`, and `other`; every value is a unique, canonical UTF-8 `res://` string. JSON `\\uXXXX` escapes are permitted for repository paths containing non-ASCII characters.
 - `scripts/resource_audit.ps1` emits one JSON object to stdout: `RESOURCE_AUDIT_RESULT` with `ok`, counts, `missing`, `case_mismatch`, `invalid_manifest`, and `references` fields.
 - Error identifiers are ASCII: `missing_resource`, `case_mismatch`, `invalid_manifest`, `missing_plugin`.
 

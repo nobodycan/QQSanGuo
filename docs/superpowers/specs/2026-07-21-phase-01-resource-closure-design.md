@@ -46,7 +46,7 @@ The audit never writes into `res://`. Only temporary clean checkouts may receive
 {"schema_version":1,"images":[],"audio":[],"other":[]}
 ```
 
-All arrays contain unique, canonical ASCII `res://` relative paths. Audit output uses sorted arrays of `{owner,path,code}` objects.
+All arrays contain unique, canonical UTF-8 `res://` relative paths; JSON `\\uXXXX` escapes may encode non-ASCII repository paths. Audit output uses sorted arrays of `{owner,path,code}` objects.
 
 ## 6. Sequencing and errors
 
