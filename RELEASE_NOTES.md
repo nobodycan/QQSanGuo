@@ -8,6 +8,7 @@
 - Added explicit 10000-to-14000 basis-point multipliers, deterministic rounding, derived enhanced modifiers, and a stable `power_score`.
 - Added regression coverage for every enhancement level, cap rejection, independent same-name instances, and V2 JSON round-trip migration.
 - Added a three-tier enhancement quote and atomic wallet, material, and equipment transaction with idempotent operation handling.
+- Extended the legacy equipment bridge with per-slot enhancement and presenter-safe name, level, and power-score projection.
 
 ### Phase 24 - Economy Foundation
 
