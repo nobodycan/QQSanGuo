@@ -81,6 +81,10 @@ func _run():
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
 	var boss_result = dengmao.injury(-7, false)
 	test.expect(boss_result.ok and boss_result.damage == 7 and dengmao.now_hp == boss_result.vitals.health, "dengmao Boss injury resolves through CombatAction and Vitals")
+	var boss_money_before = PlayerInventory.money
+	dengmao.die()
+	dengmao.die()
+	test.expect(PlayerInventory.money == boss_money_before + 10000, "repeated dengmao death grants its money reward exactly once")
 	snake.money = 7
 	snake.exprience = 0
 	var money_before_reward = PlayerInventory.money

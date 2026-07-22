@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 const CombatAction = preload("res://actors/CombatAction.gd")
 const Vitals = preload("res://actors/Vitals.gd")
+const DefeatRewardGate = preload("res://actors/DefeatRewardGate.gd")
 
 export var damage = 20
 export var hp = 100
@@ -22,6 +23,7 @@ var vitals_model = Vitals.new()
 var vitals_state = {}
 var combat_action = CombatAction.new()
 var combat_hit_sequence = 0
+var defeat_rewards = DefeatRewardGate.new()
 
 
 func _ready():
@@ -113,6 +115,8 @@ func injury(num, crit=false):
 	return result
 
 func die():
+	if not defeat_rewards.claim("boss.dengmao." + str(get_instance_id())):
+		return
 	var num = int(rand_range(2, 7))
 	if player:
 		player.temp_enemy = null
