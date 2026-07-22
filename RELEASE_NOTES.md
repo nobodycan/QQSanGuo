@@ -6,6 +6,7 @@
 
 - Added a seed-deterministic LootTable with guaranteed, probabilistic, quantity-ranged, and condition-gated drops.
 - Added atomic multi-item reward commits; a full inventory rolls back every item and currency component.
+- Added LootRewardService to resolve fixed-seed table output into templates and commit it through one idempotent reward operation.
 
 ### Phase 25 - Deterministic Enhancement Foundation
 
