@@ -13,3 +13,4 @@
 ## Verification
 
 - `test_player_stats` verifies N-1/N/N+1 XP behavior for every level, cumulative multi-level progression, the level cap, overflow XP, normalization, and repeated v0-to-v1 migration.
+- `test_game_state_v2` verifies player v0 upgrade, repeat normalization, and PlayerStats v1 persistence inside a V2 envelope.
