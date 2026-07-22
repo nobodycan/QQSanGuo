@@ -5,6 +5,7 @@ const NUM_INVENTORY_SLOTS = 50
 const NUM_HOTBAR_SLOTS = 8
 const EQUIPMENT_SLOTS = ["Head", "Up_Body", "Necklace", "Hand", "Sword", "Boot", "Down_Body", "Wing", "Mask", "Ring"]
 const LegacyInventoryBridge = preload("res://actors/LegacyInventoryBridge.gd")
+const LegacyWalletBridge = preload("res://actors/LegacyWalletBridge.gd")
 
 var money = 0
 var juntuan = 0
@@ -45,6 +46,9 @@ var equipped_skills = []
 
 var active_item_slot = 0
 var inventory_bridge = LegacyInventoryBridge.new()
+var wallet_bridge = LegacyWalletBridge.new()
+var wallet_initialized = false
+var wallet_operation_sequence = 0
 
 func add_item(item_name, item_quantity):
 	if _add_item_with_bridge(item_name, item_quantity):
@@ -71,6 +75,23 @@ func add_item(item_name, item_quantity):
 
 func _ready():
 	call_deferred("_initialize_inventory_bridge")
+	call_deferred("_initialize_wallet_bridge")
+
+func _initialize_wallet_bridge():
+	wallet_initialized = wallet_bridge.import_legacy(money, juntuan)
+
+func apply_wallet_operation(operation_id: String, money_delta: int, juntuan_delta: int) -> Dictionary:
+	if not wallet_initialized:
+		_initialize_wallet_bridge()
+	if operation_id.empty():
+		wallet_operation_sequence += 1
+		operation_id = "legacy.wallet." + str(wallet_operation_sequence)
+	var result = wallet_bridge.apply(operation_id, money_delta, juntuan_delta)
+	if result.ok:
+		var projected = wallet_bridge.project_legacy()
+		money = projected.money
+		juntuan = projected.juntuan
+	return result
 
 func _initialize_inventory_bridge():
 	if not has_node("/root/jsonData"):

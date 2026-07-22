@@ -7,6 +7,7 @@
 - Added versioned WalletState with non-negative balance preflight, bounded idempotency ledger, atomic delta application, and v0 migration.
 - Added GameStateV2 wallet section v1 with safe initialization for older envelopes and explicit future/lossy migration rejection.
 - Added a legacy wallet bridge that projects idempotent wallet operations back to the existing money and juntuan UI fields.
+- Routed Steve reward updates through PlayerInventory wallet operations, preserving legacy calls while supporting explicit idempotent reward IDs.
 
 ### Phase 23 - Equipment Foundation
 

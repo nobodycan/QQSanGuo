@@ -158,10 +158,11 @@ func _legacy_player_stats() -> Dictionary:
 		result[key] = PlayerInventory.get(key)
 	return result
 	
-func gain_money(amount_m, amount_j):
-	PlayerInventory.money += amount_m
-	PlayerInventory.juntuan += amount_j
-	userInterface.update_inventory(PlayerInventory.money, PlayerInventory.juntuan)
+func gain_money(amount_m, amount_j, operation_id: String = ""):
+	var result = PlayerInventory.apply_wallet_operation(operation_id, int(amount_m), int(amount_j))
+	if result.ok:
+		userInterface.update_inventory(PlayerInventory.money, PlayerInventory.juntuan)
+	return result
 	
 func use_item(new_item):
 	add_property(new_item)
