@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 24 - Economy Foundation
+
+- Added versioned WalletState with non-negative balance preflight, bounded idempotency ledger, atomic delta application, and v0 migration.
+
 ### Phase 23 - Equipment Foundation
 
 - Added a versioned 10-slot EquipmentState with job/level validation, equip/swap/unequip commands, and base-derived modifier aggregation without stat drift.

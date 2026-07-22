@@ -26,6 +26,10 @@ EquipmentState now provides an idempotent v0 migration using explicit legacy-nam
 
 The legacy equipment bridge now converts existing item JSON fields into canonical modifiers, validates job and level gates, and projects equipped names back to the current UI dictionary.
 
+## Economy Foundation
+
+Phase 24 has begun with WalletState: versioned money and juntuan balances, non-negative preflight, and an operation ledger that makes rewards and transactions idempotent.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
