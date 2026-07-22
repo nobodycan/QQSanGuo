@@ -8,6 +8,7 @@
 - Added a passing deterministic two-skill by two-enemy CombatAction integration matrix.
 - Added a fixed-seed 12-tick encounter trace covering target selection, enemy state transitions, and spawn ownership; matching seeds reproduce and distinct pilot roles diverge.
 - Added a 54,000-tick combat soak covering continuous targeting, effect expiry, idempotent defeats, and one-time rewards across 60 encounters.
+- Routed the legacy Steve and Snake `injury` entry points through CombatAction and Vitals while retaining animation and UI compatibility callbacks.
 
 ### Phase 20 - EnemyBrain Foundation
 

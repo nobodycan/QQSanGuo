@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+const CombatAction = preload("res://actors/CombatAction.gd")
+const Vitals = preload("res://actors/Vitals.gd")
+
 var mouse_shape = preload("res://assets/mouse/28158-1.png")
 var mouse_default = preload("res://assets/mouse/28168-1.png")
 
@@ -40,6 +43,10 @@ var direction = Vector2.RIGHT
 var player = null
 var state_machine
 var die_state = false
+var vitals_model = Vitals.new()
+var vitals_state = {}
+var combat_action = CombatAction.new()
+var combat_hit_sequence = 0
 
 func init():
 	first_attack = true
@@ -50,6 +57,9 @@ func init():
 	$Name.visible = true
 	$HealthBar/HealthBar.max_value = max_health
 	$HealthBar/HealthBar.value = health
+	vitals_state = vitals_model.new_state(max_health, 0)
+	vitals_state.health = clamp(health, 0, vitals_state.max_health)
+	health = vitals_state.health
 	$Sprite.visible = false
 	$floor_left.enabled = true
 	$floor_right.enabled = true
@@ -148,17 +158,26 @@ func move(delta):
 	velocity = move_and_slide(velocity)
 
 func injury(damage, crit = false):
-	var health = $HealthBar/HealthBar.value
+	combat_hit_sequence += 1
+	var action = {
+		"id": "legacy.player_to_enemy." + str(combat_hit_sequence),
+		"attacker": {"id": "player", "faction": "player"},
+		"defender": {"id": "snake." + str(get_instance_id()), "faction": "enemy"},
+		"damage": {"base_damage": abs(int(damage)), "defense": defend, "critical": crit, "critical_multiplier": 1.5}
+	}
+	var result = combat_action.resolve(action, vitals_state)
+	if not result.ok:
+		return result
+	vitals_state = result.vitals
+	health = vitals_state.health
+	damage = -int(result.damage)
 	if $deathAndInjury.playing == false:
 		$deathAndInjury.play()
 	#$Tween.interpolate_property(self, "modulate", Color(255,255,255,0), Color(255, 255, 255, 1), 1,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 	#$Tween.start()
 	
 	state_machine.travel("injury")
-	if crit:
-		damage *= 1.5
-	health += damage
-	if health <= 0:
+	if not vitals_state.alive:
 		state = DIE
 	else:
 		state = COMBAT
@@ -191,6 +210,7 @@ func injury(damage, crit = false):
 		$FCTmgr.show_value(damage, true)
 	else:
 		$FCTmgr.show_value(damage, false)
+	return result
 	
 	
 	

@@ -6,6 +6,7 @@ const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
 const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
 const PlayerStats = preload("res://actors/PlayerStats.gd")
 const Vitals = preload("res://actors/Vitals.gd")
+const CombatAction = preload("res://actors/CombatAction.gd")
 
 export(NodePath)var route
 
@@ -51,6 +52,8 @@ var player_stats_model = PlayerStats.new()
 var player_stats_state = {}
 var vitals_model = Vitals.new()
 var vitals_state = {}
+var combat_action = CombatAction.new()
+var combat_hit_sequence = 0
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -368,7 +371,26 @@ func set_automation_intent(intent):
 	automation_intent = intent.copy() if intent != null else null
 
 func injury(damage, crit = false):
-	_on_Steve_health_updated(damage, crit)
+	combat_hit_sequence += 1
+	var action = {
+		"id": "legacy.enemy_to_player." + str(combat_hit_sequence),
+		"attacker": {"id": "legacy.enemy", "faction": "enemy"},
+		"defender": {"id": "player", "faction": "player"},
+		"damage": {"base_damage": abs(int(damage)), "defense": 0, "critical": crit, "critical_multiplier": 1.5}
+	}
+	var result = combat_action.resolve(action, vitals_state)
+	if not result.ok:
+		return result
+	var was_alive = vitals_state.alive
+	vitals_state = result.vitals
+	_sync_vitals()
+	if was_alive and not vitals_state.alive:
+		velocity = Vector2.ZERO
+		dead()
+	state_machine.travel("injury")
+	$FCTmgr.show_value(-result.damage, crit)
+	get_parent().get_node("UserInterFace").emit_signal("health_updated", health, magic)
+	return result
 
 func die():
 	state_machine.travel("die")
