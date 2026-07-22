@@ -15,5 +15,5 @@
 
 ## Verification
 
-- `test_player_intent` covers automation while manual input is idle, manual interruption, walking state, climb exit jump, and movement locking.
+- `test_player_intent` covers automation while manual input is idle, manual interruption, walking state, climb exit jump, and movement locking across 600 state-transition frames.
 - The full test runner remains the Phase 14 regression gate.

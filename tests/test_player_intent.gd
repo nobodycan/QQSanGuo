@@ -27,4 +27,18 @@ func _init():
 	test.expect(animations.movement_animation(walking, true) == "run", "walking selects run animation")
 	test.expect(animations.movement_animation(climbing, true) == "jump", "climb jump selects jump animation")
 	test.expect(animations.movement_animation(locked, true) == "idle", "locked idle state selects idle animation")
+	var is_climbing = false
+	for frame in range(600):
+		var intent = PlayerIntent.new()
+		intent.horizontal = -1 if frame % 4 == 0 else 1 if frame % 4 == 1 else 0
+		intent.vertical = -1 if frame % 4 == 2 else 1 if frame % 4 == 3 else 0
+		intent.jump_pressed = frame % 17 == 0
+		var locked_frame = frame % 29 == 0
+		var next = model.next_state(intent, is_climbing, locked_frame)
+		if not locked_frame:
+			is_climbing = next.climbing
+		if next.jump:
+			is_climbing = false
+		test.expect(not locked_frame or (next.direction == 0 and not next.jump), "locked frame has no movement at frame " + str(frame))
+	test.expect(model.next_state(automation, false, false).direction == 1, "movement lock does not persist after 600 frames")
 	test.finish(self, "player_intent")
