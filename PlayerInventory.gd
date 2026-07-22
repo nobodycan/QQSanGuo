@@ -4,6 +4,7 @@ extends Node
 const NUM_INVENTORY_SLOTS = 50
 const NUM_HOTBAR_SLOTS = 8
 const EQUIPMENT_SLOTS = ["Head", "Up_Body", "Necklace", "Hand", "Sword", "Boot", "Down_Body", "Wing", "Mask", "Ring"]
+const LegacyInventoryBridge = preload("res://actors/LegacyInventoryBridge.gd")
 
 var money = 0
 var juntuan = 0
@@ -43,8 +44,11 @@ var known_skills = []
 var equipped_skills = []
 
 var active_item_slot = 0
+var inventory_bridge = LegacyInventoryBridge.new()
 
 func add_item(item_name, item_quantity):
+	if _add_item_with_bridge(item_name, item_quantity):
+		return
 	for i in inventory:
 		if inventory[i][0] == item_name:
 			var stack_size = int(_item_data()[item_name]["StackSize"])
@@ -66,7 +70,32 @@ func add_item(item_name, item_quantity):
 			
 
 func _ready():
-	pass
+	call_deferred("_initialize_inventory_bridge")
+
+func _initialize_inventory_bridge():
+	if not has_node("/root/jsonData"):
+		return
+	var aliases = {}
+	for item_name in inventory:
+		var name = str(inventory[item_name][0])
+		var item_data = _item_data().get(name, {})
+		var template = inventory_bridge.register_template(name, int(item_data.get("StackSize", 1)))
+		if template.empty():
+			return
+		aliases[name] = template.id
+	if inventory_bridge.import_legacy(inventory, aliases):
+		inventory = inventory_bridge.project_legacy()
+
+func _add_item_with_bridge(item_name, item_quantity) -> bool:
+	if not has_node("/root/jsonData"):
+		return false
+	var item_data = _item_data().get(item_name, {})
+	if not inventory_bridge.add_legacy(str(item_name), int(item_quantity), int(item_data.get("StackSize", 1))):
+		return false
+	inventory = inventory_bridge.project_legacy()
+	for slot_index in inventory:
+		update_slot_visual(slot_index, inventory[slot_index][0], inventory[slot_index][1])
+	return true
 
 func add_item_to_empty_slot(item, slot, is_hotbar: bool = false):
 	if is_hotbar:

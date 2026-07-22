@@ -1,9 +1,25 @@
 extends Reference
 
 const InventoryState = preload("res://actors/InventoryState.gd")
+const ItemTemplate = preload("res://actors/ItemTemplate.gd")
+const ItemInstance = preload("res://actors/ItemInstance.gd")
 
 var state = {}
 var names_by_template = {}
+var templates_by_name = {}
+var instances = ItemInstance.new()
+
+func register_template(legacy_name: String, stack_limit: int) -> Dictionary:
+	if legacy_name.empty() or stack_limit < 1:
+		return {}
+	if templates_by_name.has(legacy_name):
+		return templates_by_name[legacy_name]
+	var template = ItemTemplate.new().normalize({"id": "legacy." + legacy_name.md5_text(), "stack_limit": stack_limit})
+	if template.empty():
+		return {}
+	templates_by_name[legacy_name] = template
+	names_by_template[template.id] = legacy_name
+	return template
 
 func import_legacy(legacy: Dictionary, aliases: Dictionary) -> bool:
 	var inventory = InventoryState.new()
@@ -14,6 +30,18 @@ func import_legacy(legacy: Dictionary, aliases: Dictionary) -> bool:
 	names_by_template.clear()
 	for legacy_name in aliases:
 		names_by_template[str(aliases[legacy_name])] = str(legacy_name)
+	return true
+
+func add_legacy(legacy_name: String, quantity: int, stack_limit: int) -> bool:
+	var template = register_template(legacy_name, stack_limit)
+	if template.empty() or quantity < 1:
+		return false
+	if state.empty():
+		state = InventoryState.new().normalize(InventoryState.new().new_state())
+	var next = InventoryState.new().add(state, template, quantity, instances)
+	if next.empty():
+		return false
+	state = next
 	return true
 
 func move(from_slot: int, to_slot: int) -> bool:

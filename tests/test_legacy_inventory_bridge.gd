@@ -7,6 +7,10 @@ func _init():
 	var test = TestProtocol.new()
 	var bridge = LegacyInventoryBridge.new()
 	var aliases = {"legacy herb": "item.herb", "legacy sword": "item.sword"}
+	test.expect(bridge.add_legacy("new herb", 12, 10), "adds a legacy pickup through a canonical command")
+	var added = bridge.project_legacy()
+	test.expect(added[0] == ["new herb", 10] and added[1] == ["new herb", 2], "canonical pickup projects deterministic legacy stacks")
+	bridge = LegacyInventoryBridge.new()
 	test.expect(bridge.import_legacy({"0": ["legacy herb", 7], "4": ["legacy sword", 1]}, aliases), "imports legacy slots through explicit aliases")
 	test.expect(bridge.move(4, 1), "moves canonical legacy inventory slot")
 	test.expect(bridge.split(0, 3, 2), "splits canonical legacy stack")

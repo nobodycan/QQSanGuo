@@ -8,6 +8,8 @@ The inventory foundation now includes a versioned 50-slot state with determinist
 
 The migration boundary now includes a tested legacy inventory bridge: explicit item-name aliases import old slots into canonical state, command operations mutate that state, and a compatibility projection preserves the shape consumed by the existing UI.
 
+`PlayerInventory.add_item` now routes pickups through this bridge when item metadata is available, so stack capacity and full-inventory rejection are enforced by the canonical command model before the legacy UI projection is refreshed.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
