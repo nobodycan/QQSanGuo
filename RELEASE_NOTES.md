@@ -15,6 +15,7 @@
 - Routed PlayerInventory pickup insertion through the legacy bridge when metadata is available, preserving the existing UI projection while enforcing canonical capacity rules.
 - Routed legacy inventory take, place, and quantity adjustments through the command bridge; hotbar behavior remains unchanged pending its separate migration.
 - Replaced remaining inventory UI dictionary mutations with PlayerInventory command calls for consumption, deletion, and legacy slot drag operations.
+- Legacy non-stack inventory imports now mint distinct ItemInstance identities, preserving same-name equipment separation across migration.
 
 ### Phase 21 - Combat Gate Audit
 

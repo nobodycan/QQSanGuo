@@ -26,10 +26,25 @@ func import_legacy(legacy: Dictionary, aliases: Dictionary) -> bool:
 	var migrated = inventory.migrate_v0(legacy, aliases)
 	if migrated.empty():
 		return false
-	state = migrated
 	names_by_template.clear()
 	for legacy_name in aliases:
-		names_by_template[str(aliases[legacy_name])] = str(legacy_name)
+		var template_id = str(aliases[legacy_name])
+		var template = templates_by_name.get(str(legacy_name), {})
+		if template.empty() or template.id != template_id:
+			return false
+		names_by_template[template_id] = str(legacy_name)
+	for index in range(InventoryState.SLOT_COUNT):
+		var slot = migrated.slots[index]
+		if slot.empty():
+			continue
+		var template = templates_by_name.get(str(names_by_template.get(str(slot.template_id), "")), {})
+		if template.empty() or int(slot.quantity) > int(template.stack_limit):
+			return false
+		if not template.stackable:
+			if int(slot.quantity) != 1:
+				return false
+			migrated.slots[index] = instances.new_instance(template)
+	state = migrated
 	return true
 
 func add_legacy(legacy_name: String, quantity: int, stack_limit: int) -> bool:
