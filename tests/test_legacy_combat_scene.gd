@@ -3,6 +3,7 @@ extends Node
 const CombatUiStub = preload("res://tests/fixtures/CombatUiStub.gd")
 const Steve = preload("res://Character/Steve.tscn")
 const Snake = preload("res://Enemy/Snake.tscn")
+const Dengmao = preload("res://Character/dengmao.tscn")
 const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
@@ -33,10 +34,13 @@ func _run():
 	world.add_child(snake)
 	var second_snake = Snake.instance()
 	world.add_child(second_snake)
+	var dengmao = Dengmao.instance()
+	world.add_child(dengmao)
 	yield(get_tree(), "idle_frame")
 	steve.set_physics_process(false)
 	snake.set_process(false)
 	second_snake.set_process(false)
+	dengmao.set_process(false)
 	var manual_intent = PlayerIntent.new()
 	manual_intent.source = PlayerIntent.SOURCE_MANUAL
 	var automation_intent = PlayerIntent.new()
@@ -75,6 +79,8 @@ func _run():
 	var snake_health = snake.health
 	var snake_result = snake.injury(-7, false)
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
+	var boss_result = dengmao.injury(-7, false)
+	test.expect(boss_result.ok and boss_result.damage == 7 and dengmao.now_hp == boss_result.vitals.health, "dengmao Boss injury resolves through CombatAction and Vitals")
 	snake.money = 7
 	snake.exprience = 0
 	var money_before_reward = PlayerInventory.money

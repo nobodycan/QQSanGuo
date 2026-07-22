@@ -2,7 +2,7 @@
 
 ## Combat Gate Status
 
-Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) component soak, and a 54,000-tick real Steve/Snake adapter-scene soak. The real scene now covers the full manual and automation two-skill by two-enemy matrix; repeated real Snake death grants money once. dengmao Boss HP now uses CombatAction/Vitals; the remaining hard-gate work is Boss-specific scene coverage.
+Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) component soak, and a 54,000-tick real Steve/Snake adapter-scene soak. The real scene now covers the full manual and automation two-skill by two-enemy matrix; repeated real Snake death grants money once. dengmao Boss HP uses CombatAction/Vitals with project-scene coverage; the remaining work is the final hard-gate audit.
 
 The current [Phase 21 Combat Gate acceptance report](docs/superpowers/reports/2026-07-23-phase-21-combat-gate-acceptance.md) records verified evidence and the remaining real-scene soak requirement.
 

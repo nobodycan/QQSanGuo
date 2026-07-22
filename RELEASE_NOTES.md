@@ -20,6 +20,7 @@
 - Expanded the real Steve/Snake fixture to cover the complete manual and automation two-skill by two-enemy matrix.
 - Routed Steve's remaining injury signal through the CombatAction/Vitals compatibility adapter.
 - Routed dengmao Boss incoming damage through CombatAction and Vitals while preserving legacy presentation.
+- Added project-scene coverage for dengmao resolved damage and Vitals-backed HP synchronization.
 
 ### Phase 20 - EnemyBrain Foundation
 
