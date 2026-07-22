@@ -8,6 +8,7 @@
 - Updated the legacy Steve adapter to consume resolved movement intents; non-idle manual input interrupts automation in the same physics frame.
 - Added a movement animation adapter for the legacy idle, run, jump, and climb animation-tree states.
 - Added a 600-frame movement state-transition regression that proves temporary movement locks do not persist.
+- Recorded Phase 14 acceptance evidence for shared intent entry, movement/animation extraction, and manual interruption of automation.
 - Added regression coverage for intent arbitration, climbing jumps, and movement locking.
 
 ### Phase 13 - Foundation Gate Audit
