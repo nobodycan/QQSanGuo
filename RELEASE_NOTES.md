@@ -8,6 +8,7 @@
 - Added safe empty-v0 migration plus duplicate-ID and malformed-section rejection coverage.
 - Added idempotent world commands for flags, map unlocks, boss defeats, and checkpoints.
 - Added MapAccessPolicy to reject unknown, invalid-spawn, and locked map transitions before scene loading.
+- Added a SceneManager access-gated replacement path that leaves the active world untouched for locked transitions.
 
 ### Phase 26 - Loot Foundation
 

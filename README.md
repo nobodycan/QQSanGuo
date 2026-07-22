@@ -68,6 +68,8 @@ WorldState commands apply flag, map-unlock, boss-defeat, and checkpoint changes 
 
 MapAccessPolicy checks registered map/spawn targets and WorldState unlocks before a scene transition is attempted.
 
+SceneManager now exposes an access-gated world replacement path that preserves the active world when a transition is locked.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

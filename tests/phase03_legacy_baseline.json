@@ -2,7 +2,7 @@
     "assets\\map\\guyidaoguanai.gd:20:\tget_tree().change_scene(\"res://Level1.tscn\")",
     "assets\\map\\guyidaoguanai.gd:24:\tget_tree().change_scene(\"res://JiangLinXiJiao.tscn\")",
     "autoload\\GameState.gd:165:\treturn get_node_or_null(\"/root/PlayerInventory\")",
-    "autoload\\SceneManager.gd:25:\tif get_tree().change_scene(map_path) != OK:",
+    "autoload\\SceneManager.gd:26:\tif get_tree().change_scene(map_path) != OK:",
     "Character\\Steve.gd:105:\tuserInterface.update_text(PlayerInventory.level, PlayerInventory.max_health, PlayerInventory.max_magic,",
     "Character\\Steve.gd:106:\t\t\t\t\t\t\t PlayerInventory.basic_damage, PlayerInventory.basic_defende,",
     "Character\\Steve.gd:107:\t\t\t\t\t\t\t PlayerInventory.basic_shugong, PlayerInventory.basic_shufang,",

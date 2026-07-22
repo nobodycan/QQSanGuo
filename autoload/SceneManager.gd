@@ -1,6 +1,7 @@
 extends Node
 
 const GameStateScript = preload("res://autoload/GameState.gd")
+const MapAccessPolicy = preload("res://actors/MapAccessPolicy.gd")
 
 func restore_snapshot(snapshot):
 	var state = _game_state()
@@ -46,6 +47,12 @@ func replace_world(world_root: Node, map_path: String) -> Dictionary:
 		world_root.remove_child(previous)
 		previous.queue_free()
 	return {"ok": true, "map_path": map_path}
+
+func replace_world_if_allowed(world_root: Node, map_path: String, maps: Array, world_state: Dictionary, target_map_id: String, target_spawn_id: String, current_map_id: String = "") -> Dictionary:
+	var access = MapAccessPolicy.new().can_enter(maps, world_state, target_map_id, target_spawn_id, current_map_id)
+	if not access.ok:
+		return _failure("map_" + access.reason)
+	return replace_world(world_root, map_path)
 
 func _game_state():
 	var singleton = get_node_or_null("/root/GameState")
