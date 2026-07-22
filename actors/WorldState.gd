@@ -21,3 +21,17 @@ func migrate_v0(raw) -> Dictionary:
 	if typeof(raw) != TYPE_DICTIONARY: return {}
 	if int(raw.get("version", 0)) == VERSION: return normalize(raw)
 	return new_state() if raw.empty() else {}
+
+func apply(raw: Dictionary, operation_id: String, kind: String, value: String) -> Dictionary:
+	var state = normalize(raw)
+	if state.empty() or operation_id.empty() or value.empty() or not ["flag", "unlock_map", "defeat_boss", "checkpoint"].has(kind):
+		return {"ok": false, "state": raw.duplicate(true), "duplicate": false}
+	if state.ledger.has(operation_id):
+		return {"ok": true, "state": state, "duplicate": true}
+	if kind == "flag" and not state.flags.has(value): state.flags.append(value)
+	elif kind == "unlock_map" and not state.unlocked_maps.has(value): state.unlocked_maps.append(value)
+	elif kind == "defeat_boss" and not state.defeated_bosses.has(value): state.defeated_bosses.append(value)
+	elif kind == "checkpoint": state.checkpoint = value
+	state.ledger.append(operation_id)
+	if state.ledger.size() > LEDGER_LIMIT: state.ledger.pop_front()
+	return {"ok": true, "state": state, "duplicate": false}

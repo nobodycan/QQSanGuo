@@ -64,6 +64,8 @@ WorldPickup removes a world drop only after its reward transaction succeeds, so 
 
 GameStateV2 now persists a versioned WorldState v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only world operations; older empty world sections migrate safely.
 
+WorldState commands apply flag, map-unlock, boss-defeat, and checkpoint changes through an idempotent operation ledger.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.
