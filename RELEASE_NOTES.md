@@ -11,6 +11,7 @@
 - Added canonical inventory export and idempotent v0-to-v1 migration using legacy item-name aliases.
 - Promoted the GameStateV2 inventory section to v1 with safe empty-v0 migration and explicit rejection of unknown or lossy sections.
 - Added a deterministic 1,000-command inventory regression that proves move/split quantity conservation and export/import canonical equivalence.
+- Added a legacy inventory bridge that imports explicit aliases, applies canonical move/split commands, and projects the state back to the existing UI dictionary format.
 
 ### Phase 21 - Combat Gate Audit
 

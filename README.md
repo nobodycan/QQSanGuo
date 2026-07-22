@@ -6,6 +6,8 @@ Phase 22 has begun with stable item template IDs, stack capacity, and explicit i
 
 The inventory foundation now includes a versioned 50-slot state with deterministic stack insertion, capacity-safe failure handling, slot movement, stack splitting, quest-safe consumption, canonical export, and v0-to-v1 migration. Its deterministic 1,000-command regression verifies quantity conservation and canonical round trips. `GameStateV2` now owns the inventory section at v1, upgrades only empty legacy v0 sections, and rejects unknown or lossy migrations.
 
+The migration boundary now includes a tested legacy inventory bridge: explicit item-name aliases import old slots into canonical state, command operations mutate that state, and a compatibility projection preserves the shape consumed by the existing UI.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
