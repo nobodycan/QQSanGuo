@@ -51,6 +51,13 @@
       "script": "tests/test_game_state_v2.gd"
     },
     {
+      "id": "v1_to_v2_migration",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_v1_to_v2_migration.gd"
+    },
+    {
       "id": "scene_transaction",
       "kind": "godot",
       "lane": "unit",

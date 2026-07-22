@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 11 - V1 to V2 Migration Aliases
+
+- Added versioned aliases for pilot V1 map paths, Chinese item names, and skill names.
+- Added migration regression coverage that rejects unresolved legacy values explicitly.
+
 ### Phase 10 - Dual-Generation Save Foundation
 
 - Added isolated V2 `save_a/save_b` generation selection and non-active generation writes.

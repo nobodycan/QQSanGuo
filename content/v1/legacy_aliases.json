@@ -1,0 +1,8 @@
+{
+  "maps": {
+    "res://Level1.tscn": {"map_id":"map.level_one","spawn_id":"spawn.start"},
+    "res://JiangLinXiJiao.tscn": {"map_id":"map.jianglin","spawn_id":"spawn.entry"}
+  },
+  "items": {"\u94c1\u5251":"item.iron_sword"},
+  "skills": {"\u6a2a\u51fb\u5251":"skill.basic_slash"}
+}
