@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 16 - Vitals Foundation
+
+- Added a versioned Vitals model for HP/MP clamp, recovery, idempotent death, and revival.
+- Added regression coverage for overkill, duplicate death prevention, dead recovery, and revival bounds.
+
 ### Phase 15 - PlayerStats Foundation
 
 - Added a versioned PlayerStats v1 model with explicit 1–30 XP progression, derived stats, and level-cap overflow XP.

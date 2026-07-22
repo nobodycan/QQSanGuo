@@ -86,6 +86,13 @@
       "script": "tests/test_player_stats.gd"
     },
     {
+      "id": "vitals",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_vitals.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
