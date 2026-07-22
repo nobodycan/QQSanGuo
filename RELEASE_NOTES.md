@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 20 - EnemyBrain Foundation
+
+- Added deterministic idle/chase/attack/return/dead enemy AI transitions with 10,000 tick regression coverage.
+
 ### Phase 19 - Skills Foundation
 
 - Added data-driven skill unlock, MP cost, and cooldown validation for basic and active pilot skills.
