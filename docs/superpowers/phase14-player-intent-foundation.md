@@ -5,7 +5,7 @@
 - Added a pure `PlayerIntent` command value for horizontal movement, vertical movement, and jump input.
 - Added `PlayerInputSampler`, which gives any non-idle manual intent priority over an automation intent.
 - Added a pure `PlayerMovementModel` for deterministic movement-lock and climbing/jump state decisions.
-- Updated the legacy `Steve.gd` adapter to consume the resolved intent rather than reading movement actions directly.
+- Updated the legacy `Steve.gd` adapter to consume resolved intents and `PlayerMovementModel` state rather than reading movement actions directly.
 
 ## Compatibility
 

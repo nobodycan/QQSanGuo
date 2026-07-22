@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
+const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
 
 export(NodePath)var route
 
@@ -41,6 +42,7 @@ var monirable = 0 ##物体进入藤子时 重复true和false来达到 实时检�
 
 var velocity = Vector2()
 var input_sampler = PlayerInputSampler.new()
+var movement_model = PlayerMovementModel.new()
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -233,6 +235,7 @@ func move_to_target(delta):
 #	yield(get_tree(), "idle_frame")
 
 func game_play(delta):
+	var movement = movement_model.next_state(active_intent, state == 1, cant_move)
 	velocity.x = 0
 	$CollisionShape2D.disabled = false
 	if not is_on_floor():
@@ -245,9 +248,9 @@ func game_play(delta):
 			state_machine.travel("jump")
 		else:
 			if attacking == 0:##不在攻击状态中 才可以上下
-				if active_intent.vertical < 0:
+				if movement.climb_direction < 0:
 					upOrDown = -1
-				elif active_intent.vertical > 0:
+				elif movement.climb_direction > 0:
 					upOrDown = 1
 				else:
 					state = 1
@@ -257,23 +260,23 @@ func game_play(delta):
 	else:
 		derection = 0
 		if state == 0 and attacking == 0:##不在攻击状态中 才可以
-			if active_intent.horizontal > 0:
+			if movement.direction > 0:
 				derection = 1
 				state_machine.travel("run")
 				$Control.rect_scale.x = 1
-				if active_intent.jump_pressed:
+				if movement.jump:
 					derection = 1
 					velocity.y = JUMP
 					state_machine.travel("jump")
-			elif active_intent.horizontal < 0:
+			elif movement.direction < 0:
 				derection = -1
 				state_machine.travel("run")
 				$Control.rect_scale.x = -1
-				if active_intent.jump_pressed:
+				if movement.jump:
 					derection = -1
 					velocity.y = JUMP
 					state_machine.travel("jump")
-			elif active_intent.jump_pressed:
+			elif movement.jump:
 				velocity.y = JUMP
 #			elif Input.is_action_pressed('attack'):
 #				key_state = 'D' ##这里先用技能
@@ -308,12 +311,12 @@ func game_play(delta):
 				state_machine.travel("idle")
 		else:
 			if attacking == 0:##不在攻击状态中 才可以上下
-				if active_intent.vertical < 0:
+				if movement.climb_direction < 0:
 					state = 1
 					velocity.x = 0
 					upOrDown = -1
 					state_machine.travel("clim")
-				elif active_intent.vertical > 0:
+				elif movement.climb_direction > 0:
 					$CollisionShape2D.disabled = true
 					state = 1
 					upOrDown = 1
@@ -328,17 +331,17 @@ func game_play(delta):
 		velocity.x = SPEED * derection
 	else:
 		velocity.y = 300 * upOrDown
-		if active_intent.horizontal < 0 and active_intent.jump_pressed:
+		if movement.direction < 0 and movement.jump:
 			$Control.rect_scale.x = -1
 			state = 0
 			derection = -1
 			velocity.y = JUMP
-		elif active_intent.horizontal > 0 and active_intent.jump_pressed:
+		elif movement.direction > 0 and movement.jump:
 			$Control.rect_scale.x = 1
 			state = 0
 			derection = 1
 			velocity.y = JUMP
-		elif active_intent.jump_pressed:
+		elif movement.jump:
 			derection = 0
 			state = 0
 	if cant_move:
