@@ -39,3 +39,23 @@ func add(state: Dictionary, template: Dictionary, quantity: int, instances) -> D
 		if remaining == 0:
 			return result
 	return {}
+
+func move(state: Dictionary, from_slot: int, to_slot: int) -> Dictionary:
+	var result = normalize(state)
+	if result.empty() or from_slot < 0 or from_slot >= SLOT_COUNT or to_slot < 0 or to_slot >= SLOT_COUNT or from_slot == to_slot or result.slots[from_slot].empty():
+		return {}
+	var moving = result.slots[from_slot]
+	result.slots[from_slot] = result.slots[to_slot]
+	result.slots[to_slot] = moving
+	return result
+
+func split(state: Dictionary, from_slot: int, to_slot: int, quantity: int) -> Dictionary:
+	var result = normalize(state)
+	if result.empty() or from_slot < 0 or from_slot >= SLOT_COUNT or to_slot < 0 or to_slot >= SLOT_COUNT or from_slot == to_slot or quantity < 1 or not result.slots[to_slot].empty():
+		return {}
+	var source = result.slots[from_slot]
+	if source.empty() or source.has("instance_id") or int(source.get("quantity", 0)) <= quantity:
+		return {}
+	source.quantity -= quantity
+	result.slots[to_slot] = {"template_id": source.template_id, "quantity": quantity}
+	return result
