@@ -7,6 +7,7 @@
 - Added a versioned WorldState and V2 world section v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only operations.
 - Added safe empty-v0 migration plus duplicate-ID and malformed-section rejection coverage.
 - Added idempotent world commands for flags, map unlocks, boss defeats, and checkpoints.
+- Added MapAccessPolicy to reject unknown, invalid-spawn, and locked map transitions before scene loading.
 
 ### Phase 26 - Loot Foundation
 

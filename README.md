@@ -66,6 +66,8 @@ GameStateV2 now persists a versioned WorldState v1 for flags, unlocked maps, def
 
 WorldState commands apply flag, map-unlock, boss-defeat, and checkpoint changes through an idempotent operation ledger.
 
+MapAccessPolicy checks registered map/spawn targets and WorldState unlocks before a scene transition is attempted.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.
