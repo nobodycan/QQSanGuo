@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 21 - Combat Gate Audit
+
+- Recorded the Combat Gate as pending and identified the missing two-skill by two-enemy deterministic scenario coverage.
+
 ### Phase 20 - EnemyBrain Foundation
 
 - Added deterministic idle/chase/attack/return/dead enemy AI transitions with 10,000 tick regression coverage.
