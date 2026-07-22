@@ -156,6 +156,13 @@
       "script": "tests/test_enemy_definition.gd"
     },
     {
+      "id": "combat_matrix",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 30,
+      "script": "tests/test_combat_matrix.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",

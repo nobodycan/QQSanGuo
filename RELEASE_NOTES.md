@@ -5,6 +5,7 @@
 ### Phase 21 - Combat Gate Audit
 
 - Recorded the Combat Gate as pending and identified the missing two-skill by two-enemy deterministic scenario coverage.
+- Added a passing deterministic two-skill by two-enemy CombatAction integration matrix.
 
 ### Phase 20 - EnemyBrain Foundation
 
