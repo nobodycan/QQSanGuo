@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://tests/test_legacy_combat_scene.gd" type="Script" id=1]
+
+[node name="LegacyCombatSceneTest" type="Node"]
+script = ExtResource( 1 )

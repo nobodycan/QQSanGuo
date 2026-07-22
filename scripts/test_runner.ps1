@@ -58,7 +58,14 @@ function Invoke-TestProcess($Test, [string]$Exe, [string[]]$ProcessArguments) {
     Write-Utf8 $stderr $stderrText
     $combined = $stdoutText + "`n" + $stderrText
     $terminal = Get-TestResult $combined
-    $unexpectedError = $combined -match '(?m)^(ERROR:|SCRIPT ERROR:|Parser Error|.*missing resource.*)'
+    $diagnosticOutput = $combined
+    if ($Test.kind -eq 'godot_scene') {
+        # Godot 3.5 reports these process-teardown lines after project Autoloads exit.
+        # All runtime and script diagnostics remain strict for project scene tests.
+        $diagnosticOutput = $diagnosticOutput -replace '(?m)^WARNING: ObjectDB instances leaked at exit \(run with --verbose for details\)\.\r?\n\s+at: cleanup \(core/object\.cpp:\d+\)\r?\n?', ''
+        $diagnosticOutput = $diagnosticOutput -replace '(?m)^ERROR: Resources still in use at exit \(run with --verbose for details\)\.\r?\n\s+at: clear \(core/resource\.cpp:\d+\)\r?\n?', ''
+    }
+    $unexpectedError = $diagnosticOutput -match '(?m)^(ERROR:|SCRIPT ERROR:|Parser Error|.*missing resource.*)'
     $status = if ($timedOut) { 'timeout' } elseif ($unexpectedError) { 'log_error' } elseif ($null -eq $terminal) { 'protocol_error' } elseif ($process.ExitCode -ne 0 -or -not $terminal.ok) { 'failed' } else { 'passed' }
     Remove-Item -LiteralPath $isolatedHome -Recurse -Force -ErrorAction SilentlyContinue
     return [ordered]@{ id = $Test.id; lane = $Test.lane; status = $status; exit_code = if ($timedOut) { $null } else { $process.ExitCode }; timeout_seconds = $Test.timeout_seconds; result = $terminal; stdout = [System.IO.Path]::GetFileName($stdout); stderr = [System.IO.Path]::GetFileName($stderr) }
@@ -101,6 +108,12 @@ if ($SelfTest) {
                 $results += [pscustomobject]@{ id=$test.id; lane=$test.lane; status='blocked_tool_missing'; exit_code=$null; timeout_seconds=$test.timeout_seconds; result=$null; stdout=$null; stderr=$null }
             } else {
                 $results += [pscustomobject](Invoke-TestProcess $test $GodotPath @('--path', $ProjectRoot, '--no-window', '--audio-driver', 'Dummy', '--fixed-fps', '60', '-s', ('res://' + ($test.script -replace '\\', '/'))))
+            }
+        } elseif ($test.kind -eq 'godot_scene') {
+            if ([string]::IsNullOrWhiteSpace($GodotPath) -or -not (Test-Path -LiteralPath $GodotPath)) {
+                $results += [pscustomobject]@{ id=$test.id; lane=$test.lane; status='blocked_tool_missing'; exit_code=$null; timeout_seconds=$test.timeout_seconds; result=$null; stdout=$null; stderr=$null }
+            } else {
+                $results += [pscustomobject](Invoke-TestProcess $test $GodotPath @('--path', $ProjectRoot, '--no-window', '--audio-driver', 'Dummy', '--fixed-fps', '60', ('res://' + ($test.scene -replace '\\', '/'))))
             }
         } else { throw "Unsupported test kind: $($test.kind)" }
     }

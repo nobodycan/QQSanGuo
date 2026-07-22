@@ -177,6 +177,13 @@
       "script": "tests/test_combat_soak.gd"
     },
     {
+      "id": "legacy_combat_scene",
+      "kind": "godot_scene",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "scene": "tests/fixtures/legacy_combat_scene.tscn"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
