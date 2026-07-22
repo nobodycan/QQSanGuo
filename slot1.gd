@@ -48,7 +48,7 @@ func drop_data(position, data):
 	self.texture_normal = data["origin_texture"]
 	self.item_name = data["origin_item_name"]
 	#删掉包里的
-	PlayerInventory.inventory.erase(data["slot_index"])
+	PlayerInventory.remove_item(data["slot_index"])
 	print(data["origin_path"])
 	get_tree().get_root().get_node(data["origin_path"]).get_parent().item = null
 	get_tree().get_root().get_node(data["origin_path"]).queue_free()

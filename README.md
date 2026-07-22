@@ -12,6 +12,8 @@ The migration boundary now includes a tested legacy inventory bridge: explicit i
 
 The inventory and hotbar presenters retain their existing interaction flow, while inventory take, place, and quantity-adjust methods now also use the bridge where item metadata is available. The hotbar remains a separate legacy collection until its dedicated migration phase.
 
+Remaining inventory UI callers now invoke `PlayerInventory` commands instead of editing its dictionary directly, including item consumption and legacy slot widgets.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.

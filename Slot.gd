@@ -48,15 +48,15 @@ func _ready():
 func delete_item():
 	item = null
 	get_node("Item").queue_free()
-	PlayerInventory.inventory.remove_item(slot_index)
+	PlayerInventory.remove_item(self)
 
 func sub_item(amount):
 	
 	get_node("Item").sub_item_quantity(amount)
-	if PlayerInventory.inventory[slot_index][1] - amount <= 0:
+	PlayerInventory.add_item_quantity(self, -amount)
+	if not PlayerInventory.inventory.has(slot_index):
 		print("YES")
 		item = null
-	PlayerInventory.add_item_quantity(self, -amount)
 	
 
 func gui(event):

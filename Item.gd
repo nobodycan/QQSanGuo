@@ -141,13 +141,8 @@ func use_item():
 		or
 		jsonData.item_data[item_name].ItemCategory == "Translation"):
 			
-		PlayerInventory.inventory[index][1] -= 1
-		
-		PlayerInventory.update_slot_visual(index, 
-										PlayerInventory.inventory[index][0], 
-										PlayerInventory.inventory[index][1]
-		)
-		if item_quantity == 0:
+		PlayerInventory.add_item_quantity(index, -1)
+		if not PlayerInventory.inventory.has(index):
 			remove_inventory_item()
 
 func remove_inventory_item():
