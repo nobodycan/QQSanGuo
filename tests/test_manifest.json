@@ -121,6 +121,13 @@
       "script": "tests/test_effect_state.gd"
     },
     {
+      "id": "combat_action",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_combat_action.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
