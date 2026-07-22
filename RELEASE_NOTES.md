@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 26 - Loot Foundation
+
+- Added a seed-deterministic LootTable with guaranteed, probabilistic, quantity-ranged, and condition-gated drops.
+
 ### Phase 25 - Deterministic Enhancement Foundation
 
 - Added persisted per-instance enhancement levels from `+0` through `+10`, with safe equipment v1-to-v2 migration.
