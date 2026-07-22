@@ -44,6 +44,46 @@ func add_legacy(legacy_name: String, quantity: int, stack_limit: int) -> bool:
 	state = next
 	return true
 
+func take(slot_index: int) -> Dictionary:
+	var normalized = InventoryState.new().normalize(state)
+	if normalized.empty() or slot_index < 0 or slot_index >= InventoryState.SLOT_COUNT or normalized.slots[slot_index].empty():
+		return {}
+	var taken = normalized.slots[slot_index].duplicate(true)
+	normalized.slots[slot_index] = {}
+	state = normalized
+	return taken
+
+func place(slot_index: int, legacy_name: String, quantity: int, stack_limit: int) -> bool:
+	var template = register_template(legacy_name, stack_limit)
+	var normalized = InventoryState.new().normalize(state)
+	if template.empty() or normalized.empty() or slot_index < 0 or slot_index >= InventoryState.SLOT_COUNT or quantity < 1 or quantity > int(template.stack_limit) or not normalized.slots[slot_index].empty():
+		return false
+	normalized.slots[slot_index] = instances.new_stack(template, quantity) if template.stackable else instances.new_instance(template)
+	if normalized.slots[slot_index].empty():
+		return false
+	state = normalized
+	return true
+
+func adjust(slot_index: int, quantity_delta: int) -> bool:
+	var normalized = InventoryState.new().normalize(state)
+	if normalized.empty() or slot_index < 0 or slot_index >= InventoryState.SLOT_COUNT or quantity_delta == 0:
+		return false
+	var slot = normalized.slots[slot_index]
+	if slot.empty():
+		return false
+	var template_id = str(slot.get("template_id", ""))
+	var legacy_name = str(names_by_template.get(template_id, ""))
+	var template = templates_by_name.get(legacy_name, {})
+	var next_quantity = int(slot.get("quantity", 0)) + quantity_delta
+	if template.empty() or next_quantity < 0 or next_quantity > int(template.stack_limit):
+		return false
+	if next_quantity == 0:
+		normalized.slots[slot_index] = {}
+	else:
+		slot.quantity = next_quantity
+	state = normalized
+	return true
+
 func move(from_slot: int, to_slot: int) -> bool:
 	var next = InventoryState.new().move(state, from_slot, to_slot)
 	if next.empty():

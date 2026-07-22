@@ -13,6 +13,7 @@
 - Added a deterministic 1,000-command inventory regression that proves move/split quantity conservation and export/import canonical equivalence.
 - Added a legacy inventory bridge that imports explicit aliases, applies canonical move/split commands, and projects the state back to the existing UI dictionary format.
 - Routed PlayerInventory pickup insertion through the legacy bridge when metadata is available, preserving the existing UI projection while enforcing canonical capacity rules.
+- Routed legacy inventory take, place, and quantity adjustments through the command bridge; hotbar behavior remains unchanged pending its separate migration.
 
 ### Phase 21 - Combat Gate Audit
 

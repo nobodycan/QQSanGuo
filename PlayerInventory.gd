@@ -100,23 +100,50 @@ func _add_item_with_bridge(item_name, item_quantity) -> bool:
 func add_item_to_empty_slot(item, slot, is_hotbar: bool = false):
 	if is_hotbar:
 		hotbar[slot.slot_index] = [item.item_name, item.item_quantity]
+	elif _place_item_with_bridge(item, slot):
+		return
 	else:
 		inventory[slot.slot_index] = [item.item_name, item.item_quantity]
 	
 func remove_item(slot, is_hotbar: bool = false):
 	if is_hotbar:
 		hotbar.erase(slot.slot_index)
+	elif _take_item_with_bridge(slot):
+		return
 	else:
 		inventory.erase(slot.slot_index)
 	
 func add_item_quantity(slot, quantity_to_add, is_hotbar: bool = false):
 	if is_hotbar:
 		hotbar[slot.slot_index][1] += quantity_to_add
+	elif _adjust_item_with_bridge(slot, quantity_to_add):
+		return
 	else:
 		inventory[slot.slot_index][1] += quantity_to_add
 		if inventory[slot.slot_index][1] <= 0:
 			print("从inventory删除次物品")
 			inventory.erase(slot.slot_index)
+
+func _place_item_with_bridge(item, slot) -> bool:
+	if not has_node("/root/jsonData"):
+		return false
+	var item_data = _item_data().get(item.item_name, {})
+	if not inventory_bridge.place(slot.slot_index, str(item.item_name), int(item.item_quantity), int(item_data.get("StackSize", 1))):
+		return false
+	inventory = inventory_bridge.project_legacy()
+	return true
+
+func _take_item_with_bridge(slot) -> bool:
+	if inventory_bridge.take(slot.slot_index).empty():
+		return false
+	inventory = inventory_bridge.project_legacy()
+	return true
+
+func _adjust_item_with_bridge(slot, quantity_to_add) -> bool:
+	if not inventory_bridge.adjust(slot.slot_index, int(quantity_to_add)):
+		return false
+	inventory = inventory_bridge.project_legacy()
+	return true
 
 func update_slot_visual(slot_index, item_name, new_quantity):
 	var slot
