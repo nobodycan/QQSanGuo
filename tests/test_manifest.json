@@ -261,6 +261,13 @@
       "script": "tests/test_wallet_state.gd"
     },
     {
+      "id": "legacy_wallet_bridge",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_legacy_wallet_bridge.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

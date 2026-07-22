@@ -30,6 +30,8 @@ The legacy equipment bridge now converts existing item JSON fields into canonica
 
 Phase 24 has begun with WalletState: versioned money and juntuan balances, non-negative preflight, and an operation ledger that makes rewards and transactions idempotent. `GameStateV2` now persists wallet section v1 and safely initializes older envelopes that lack the section.
 
+The legacy wallet bridge imports current balances, applies explicit operation IDs through the ledger, and projects the result back to the existing UI fields.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
