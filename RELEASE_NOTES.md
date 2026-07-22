@@ -14,6 +14,7 @@
 - Added CombatDriver so manual and automation PlayerIntent sources share SkillBook and CombatAction resolution for the two-skill by two-enemy matrix.
 - Routed Steve's auto-chase and hit callbacks through CombatDriver, with real-scene coverage for manual/basic and automation/active skills against two Snake instances.
 - Removed Steve's legacy magic-to-health setter and routed self-heal HP/MP recovery through Vitals.
+- Added the Phase 21 Combat Gate acceptance report, documenting verified evidence and the remaining real-scene soak requirement.
 
 ### Phase 20 - EnemyBrain Foundation
 

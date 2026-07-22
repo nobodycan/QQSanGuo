@@ -19,5 +19,5 @@
 
 ## Next Vertical Slice
 
-1. Re-run the soak against the migrated scene adapters and publish the Combat Acceptance Report.
-2. Publish the Combat Acceptance Report after the migrated-adapter soak evidence is recorded.
+1. Run a long-duration soak against the migrated Steve/Snake scene adapters.
+2. Close the report and create the `combat-vertical-slice` tag after that scene-adapter soak passes.
