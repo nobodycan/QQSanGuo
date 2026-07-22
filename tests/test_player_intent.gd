@@ -3,12 +3,14 @@ extends SceneTree
 const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
 const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
+const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
 	var test = TestProtocol.new()
 	var sampler = PlayerInputSampler.new()
 	var model = PlayerMovementModel.new()
+	var animations = PlayerAnimationAdapter.new()
 	var manual = PlayerIntent.new()
 	var automation = PlayerIntent.new()
 	automation.horizontal = 1
@@ -22,4 +24,7 @@ func _init():
 	test.expect(climbing.jump and not climbing.climbing, "jump exits climbing state")
 	var locked = model.next_state(automation, false, true)
 	test.expect(locked.direction == 0 and not locked.jump, "movement lock suppresses intent")
+	test.expect(animations.movement_animation(walking, true) == "run", "walking selects run animation")
+	test.expect(animations.movement_animation(climbing, true) == "jump", "climb jump selects jump animation")
+	test.expect(animations.movement_animation(locked, true) == "idle", "locked idle state selects idle animation")
 	test.finish(self, "player_intent")

@@ -6,6 +6,7 @@
 
 - Added `PlayerIntent`, `PlayerInputSampler`, and a deterministic `PlayerMovementModel` for future shared manual and automation control.
 - Updated the legacy Steve adapter to consume resolved movement intents; non-idle manual input interrupts automation in the same physics frame.
+- Added a movement animation adapter for the legacy idle, run, jump, and climb animation-tree states.
 - Added regression coverage for intent arbitration, climbing jumps, and movement locking.
 
 ### Phase 13 - Foundation Gate Audit

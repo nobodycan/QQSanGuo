@@ -3,6 +3,7 @@ extends KinematicBody2D
 const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
 const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
+const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
 
 export(NodePath)var route
 
@@ -43,6 +44,7 @@ var monirable = 0 ##物体进入藤子时 重复true和false来达到 实时检�
 var velocity = Vector2()
 var input_sampler = PlayerInputSampler.new()
 var movement_model = PlayerMovementModel.new()
+var animation_adapter = PlayerAnimationAdapter.new()
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -346,6 +348,8 @@ func game_play(delta):
 			state = 0
 	if cant_move:
 		velocity = Vector2(0, 0)
+	if attacking == 0:
+		state_machine.travel(animation_adapter.movement_animation(movement, is_on_floor()))
 	velocity = move_and_slide(velocity, Vector2.UP)
 	#velocity.x = lerp(velocity.x, 0, 0.1)
 
