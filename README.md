@@ -4,6 +4,8 @@
 
 Phase 22 has begun with stable item template IDs, stack capacity, and explicit identities for non-stack instances. The legacy UI-backed inventory remains in place while the 50-slot command model and migration are built.
 
+The inventory foundation now includes a versioned 50-slot state with deterministic stack insertion and capacity-safe failure handling.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.

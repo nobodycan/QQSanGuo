@@ -226,6 +226,13 @@
       "script": "tests/test_item_identity.gd"
     },
     {
+      "id": "inventory_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_inventory_state.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

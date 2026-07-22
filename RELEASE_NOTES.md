@@ -5,6 +5,7 @@
 ### Phase 22 - Inventory Identity Foundation
 
 - Added stable ItemTemplate IDs plus explicit stack and non-stack ItemInstance identities as the basis for command-driven inventory state.
+- Added a versioned 50-slot InventoryState with deterministic stack insertion and full-capacity rejection without partial mutation.
 
 ### Phase 21 - Combat Gate Audit
 
