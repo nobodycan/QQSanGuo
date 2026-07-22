@@ -65,6 +65,13 @@
       "script": "tests/test_save_manager.gd"
     },
     {
+      "id": "save_manager_v2",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "script": "tests/test_save_manager_v2.gd"
+    },
+    {
       "id": "scene_restore",
       "kind": "godot",
       "lane": "integration",

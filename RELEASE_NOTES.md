@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 10 - Dual-Generation Save Foundation
+
+- Added isolated V2 `save_a/save_b` generation selection and non-active generation writes.
+- Added regression coverage for alternating generations and recovery from an invalid higher generation.
+
 ### Phase 09 - V2 State Envelope Foundation
 
 - Added an isolated V2 JSON-safe state envelope with section versions and stable map/spawn location fields.
