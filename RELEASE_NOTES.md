@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 28 - Dialogue Foundation
+
+- Added stable NPC registration and flag-gated dialogue definition normalization without scene-path coupling.
+
 ### Phase 27 - World State Foundation
 
 - Added a versioned WorldState and V2 world section v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only operations.

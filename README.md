@@ -70,6 +70,10 @@ MapAccessPolicy checks registered map/spawn targets and WorldState unlocks befor
 
 SceneManager now exposes an access-gated world replacement path that preserves the active world when a transition is locked.
 
+## Dialogue Foundation
+
+Phase 28 begins with stable NPC and dialogue definitions, including flag-gated dialogue nodes that do not depend on scene node paths.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

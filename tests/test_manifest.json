@@ -261,6 +261,7 @@
     {"id":"defeat_reward_gate","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_defeat_reward_gate.gd"},
     {"id":"world_state","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_world_state.gd"},
     {"id":"map_access_policy","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_map_access_policy.gd"},
+    {"id":"dialogue_definition","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_dialogue_definition.gd"},
     {
       "id": "legacy_equipment_bridge",
       "kind": "godot",
