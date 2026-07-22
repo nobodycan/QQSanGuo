@@ -13,8 +13,10 @@
 - Steve and Snake now route their legacy `injury` entry points through CombatAction and Vitals while preserving existing animation and UI callbacks. The two remaining cross-object calls retain the `injury` name as compatibility adapters rather than writing HP directly.
 - A project-started scene fixture now instances the real Steve and Snake scenes with the required UI contract, verifies both adapter directions, HP/UI synchronization, Vitals-backed death, and one reward signal.
 - The scene-test runner keeps script and runtime diagnostics strict, while classifying only Godot 3.5's two known project-Autoload process-teardown resource lines separately.
+- CombatDriver now sends manual and automation PlayerIntent sources through one SkillBook and CombatAction path; both produce the same two-skill by two-enemy matrix.
+- Steve's live skill input and automation routes have not yet been bound to CombatDriver.
 
 ## Next Vertical Slice
 
-1. Extend the real-scene fixture to drive manual and automation intents through the two-skill by two-enemy matrix.
+1. Bind Steve's live skill input and automation routes to CombatDriver, then extend the real-scene fixture with the two-skill by two-enemy matrix.
 2. Re-run the soak against the migrated scene adapters and publish the Combat Acceptance Report.

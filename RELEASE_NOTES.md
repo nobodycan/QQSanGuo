@@ -11,6 +11,7 @@
 - Routed the legacy Steve and Snake `injury` entry points through CombatAction and Vitals while retaining animation and UI compatibility callbacks.
 - Added project-started scene coverage for real Steve/Snake adapter damage, health-bar synchronization, death signaling, and reward presentation.
 - Extended the test runner with a project-scene mode so Autoload-backed scenes can be tested while retaining strict runtime and script diagnostics.
+- Added CombatDriver so manual and automation PlayerIntent sources share SkillBook and CombatAction resolution for the two-skill by two-enemy matrix.
 
 ### Phase 20 - EnemyBrain Foundation
 
