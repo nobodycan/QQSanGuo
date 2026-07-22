@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 18 - Damage Foundation
+
+- Added deterministic damage resolution with multiplier, critical, defense, finite-number validation, and a non-negative floor.
+
 ### Phase 17 - Targeting Foundation
 
 - Added faction-aware target registration with stable nearest-target selection and release handling.
