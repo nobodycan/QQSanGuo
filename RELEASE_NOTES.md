@@ -5,6 +5,7 @@
 ### Phase 17 - Targeting Foundation
 
 - Added faction-aware target registration with stable nearest-target selection and release handling.
+- Added hit resolution that rejects friendly/self targets and deduplicates stable hit IDs.
 
 ### Phase 16 - Vitals Foundation
 
