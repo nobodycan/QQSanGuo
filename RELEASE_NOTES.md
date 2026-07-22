@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 19 - Skills Foundation
+
+- Added data-driven skill unlock, MP cost, and cooldown validation for basic and active pilot skills.
+
 ### Phase 18 - Damage Foundation
 
 - Added deterministic damage resolution with multiplier, critical, defense, finite-number validation, and a non-negative floor.

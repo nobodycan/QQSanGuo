@@ -128,6 +128,13 @@
       "script": "tests/test_combat_action.gd"
     },
     {
+      "id": "skill_book",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_skill_book.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",

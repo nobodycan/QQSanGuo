@@ -1,0 +1,21 @@
+extends SceneTree
+
+const SkillBook = preload("res://actors/SkillBook.gd")
+const TestProtocol = preload("res://tests/TestProtocol.gd")
+
+func _init():
+	var test = TestProtocol.new()
+	var book = SkillBook.new()
+	book.add_definition({"id": "skill.basic_attack", "unlock_level": 1, "magic_cost": 0, "cooldown_ticks": 0, "damage": 10})
+	book.add_definition({"id": "skill.active_strike", "unlock_level": 3, "magic_cost": 5, "cooldown_ticks": 2, "damage": 30})
+	test.expect(book.unlock("skill.basic_attack", 1), "level one unlocks basic attack")
+	test.expect(not book.unlock("skill.active_strike", 2), "level two cannot unlock active skill")
+	test.expect(book.unlock("skill.active_strike", 3), "level three unlocks active skill")
+	test.expect(book.cast("skill.active_strike", 4).error == "insufficient_magic", "insufficient magic rejects cast")
+	var cast = book.cast("skill.active_strike", 5)
+	test.expect(cast.ok and cast.magic == 0, "cast consumes magic")
+	test.expect(book.cast("skill.active_strike", 5).error == "cooldown", "cooldown rejects repeat cast")
+	book.tick()
+	book.tick()
+	test.expect(book.cast("skill.active_strike", 5).ok, "cast succeeds after cooldown")
+	test.finish(self, "skill_book")
