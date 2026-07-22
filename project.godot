@@ -37,7 +37,10 @@ FreeNodes="*res://free_nodes.gd"
 PlayerStorage="*res://player_storage.gd"
 GameState="*res://autoload/GameState.gd"
 SaveManager="*res://autoload/SaveManager.gd"
-SceneManager="*res://autoload/SceneManager.gd"
+  SceneManager="*res://autoload/SceneManager.gd"
+  ContentRegistry="*res://autoload/ContentRegistry.gd"
+  EventBus="*res://autoload/EventBus.gd"
+  AudioManager="*res://autoload/AudioManager.gd"
 
 [display]
 

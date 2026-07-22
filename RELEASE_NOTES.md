@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 03 - Global Boundary Foundation
+
+- Added `ContentRegistry`, `EventBus`, and `AudioManager` as the remaining target Autoloads.
+- Added a versioned legacy-reference baseline and resource-lane static gate that rejects new legacy global references, direct scene switches, and unsafe runtime APIs.
+
 ### Phase 01 Follow-up - Cold Import and Icon Fallback Safety
 
 - Replaced the `SkillsFactory.gd` fallback texture `preload()` with runtime `load()` so the script can parse before a project's first Godot import.
