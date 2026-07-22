@@ -19,6 +19,7 @@
 - Made real Snake death idempotent and added scene coverage proving repeated death grants the money reward once.
 - Expanded the real Steve/Snake fixture to cover the complete manual and automation two-skill by two-enemy matrix.
 - Routed Steve's remaining injury signal through the CombatAction/Vitals compatibility adapter.
+- Routed dengmao Boss incoming damage through CombatAction and Vitals while preserving legacy presentation.
 
 ### Phase 20 - EnemyBrain Foundation
 

@@ -19,9 +19,9 @@
 - The real-scene fixture now simulates 54,000 ticks with 60 encounters and 120 migrated adapter dispatches without Vitals or health-bar divergence.
 - Real Snake death now owns its idempotency guard; repeated death presentation grants money once in the project-scene fixture.
 - Steve's remaining injury signal now delegates to the CombatAction/Vitals adapter rather than directly mutating HP.
-- `Character/dengmao.gd` still owns a separate direct HP/damage model, so the all-enemy CombatAction/Vitals hard requirement is not yet evidenced.
+- `Character/dengmao.gd` now routes its injury HP model through CombatAction and Vitals while preserving its animation and reward presentation; a Boss-specific project-scene regression remains to be added.
 
 ## Next Vertical Slice
 
-1. Migrate the dengmao boss HP and damage paths through CombatAction and Vitals.
+1. Add a dengmao project-scene regression for incoming damage, player damage, and one-time reward behavior.
 2. Re-run the hard-gate audit and create the `combat-vertical-slice` tag only if every requirement has evidence.

@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const CombatAction = preload("res://actors/CombatAction.gd")
+const Vitals = preload("res://actors/Vitals.gd")
 
 export var damage = 20
 export var hp = 100
@@ -16,6 +18,10 @@ var combat = false
 var itemDrop = preload("res://ItemDrop.tscn")
 var state = ""
 var boss_behavior
+var vitals_model = Vitals.new()
+var vitals_state = {}
+var combat_action = CombatAction.new()
+var combat_hit_sequence = 0
 
 
 func _ready():
@@ -25,6 +31,9 @@ func _ready():
 func init():
 	print("进入初始状态")
 	$HealthBar/HealthBar.value = hp
+	vitals_state = vitals_model.new_state(hp, 0)
+	vitals_state.health = clamp(now_hp, 0, vitals_state.max_health)
+	now_hp = vitals_state.health
 	state_machine.travel("idle")
 	be_attack = false
 	combat = false
@@ -87,14 +96,21 @@ func move_to_player(delta):
 
 func injury(num, crit=false):
 	be_attack = true
-	now_hp += num
+	combat_hit_sequence += 1
+	var action = {"id": "legacy.player_to_boss." + str(combat_hit_sequence), "attacker": {"id": "player", "faction": "player"}, "defender": {"id": "boss.dengmao", "faction": "boss"}, "damage": {"base_damage": abs(int(num)), "defense": 0, "critical": crit, "critical_multiplier": 1.5}}
+	var result = combat_action.resolve(action, vitals_state)
+	if not result.ok:
+		return result
+	vitals_state = result.vitals
+	now_hp = vitals_state.health
 	if num < 0:
 		$HealthBar/HealthBar.value = int((now_hp*1.0/hp)*100)
 		$FCTmgr.show_value(num, crit)
 		state_machine.travel("injury")
 		state = "combat"
-	if now_hp <= 0:
+	if not vitals_state.alive:
 		die()
+	return result
 
 func die():
 	var num = int(rand_range(2, 7))
