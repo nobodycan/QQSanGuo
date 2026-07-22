@@ -1,5 +1,9 @@
 # QQSanGuo
 
+## Combat Gate Status
+
+Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix and a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership. The remaining Gate work is the 15-minute soak and migration of legacy Steve/Snake combat calls.
+
 QQ三国 Godot 3.x 本地单人原型。素材源自《QQ三国》，仅供个人学习与研究；请勿用于二次销售、商业发布或分发原始素材。
 
 ## 开发状态

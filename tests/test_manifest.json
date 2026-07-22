@@ -163,6 +163,13 @@
       "script": "tests/test_combat_matrix.gd"
     },
     {
+      "id": "combat_trace",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 30,
+      "script": "tests/test_combat_trace.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
