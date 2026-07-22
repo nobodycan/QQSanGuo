@@ -10,6 +10,7 @@ func _init():
 	envelope.location = {"map_id": "map.level_one", "spawn_id": "spawn.start"}
 	var normalized = state.normalize(envelope)
 	test.expect(normalized != null, "normalizes valid v2 envelope")
+	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	var parsed = JSON.parse(to_json(normalized))
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "v2 envelope round trips through JSON")
 	var legacy_player = state.new_envelope()
@@ -18,6 +19,24 @@ func _init():
 	var remigrated_player = state.normalize(migrated_player)
 	test.expect(migrated_player.player.version == 1 and migrated_player.player.level == 2 and migrated_player.player.experience == 3, "upgrades player v0 within v2 envelope")
 	test.expect(remigrated_player.player.base.max_health == migrated_player.player.base.max_health and remigrated_player.player.derived.max_health == migrated_player.player.derived.max_health, "player migration remains idempotent in v2 envelope")
+	var legacy_inventory = state.new_envelope()
+	var legacy_versions = legacy_inventory.section_versions.duplicate()
+	legacy_versions["inventory"] = 0
+	legacy_inventory["section_versions"] = legacy_versions
+	legacy_inventory["inventory"] = {}
+	var migrated_inventory = state.normalize(legacy_inventory)
+	test.expect(migrated_inventory != null and migrated_inventory.section_versions.inventory == 1 and migrated_inventory.inventory.slots.size() == 50, "upgrades empty inventory v0 to v1")
+	var unsupported_inventory = state.new_envelope()
+	var unsupported_versions = unsupported_inventory.section_versions.duplicate()
+	unsupported_versions["inventory"] = 2
+	unsupported_inventory["section_versions"] = unsupported_versions
+	test.expect(state.normalize(unsupported_inventory) == null, "rejects unsupported inventory section version")
+	var unsafe_inventory = state.new_envelope()
+	var unsafe_versions = unsafe_inventory.section_versions.duplicate()
+	unsafe_versions["inventory"] = 0
+	unsafe_inventory["section_versions"] = unsafe_versions
+	unsafe_inventory["inventory"] = {"0": ["legacy herb", 1]}
+	test.expect(state.normalize(unsafe_inventory) == null, "rejects inventory v0 that lacks a lossless alias migration")
 	envelope.erase("location")
 	test.expect(state.normalize(envelope) == null, "rejects missing location")
 	envelope = state.new_envelope()

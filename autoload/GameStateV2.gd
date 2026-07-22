@@ -1,14 +1,15 @@
 extends Reference
 
 const SCHEMA_VERSION = 2
+const InventoryState = preload("res://actors/InventoryState.gd")
 
 func new_envelope() -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
-		"section_versions": {"metadata": 1, "location": 1, "player": 1, "inventory": 0, "equipment": 0, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
+		"section_versions": {"metadata": 1, "location": 1, "player": 1, "inventory": InventoryState.VERSION, "equipment": 0, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
 		"metadata": {"content_revision": "v1-pilot"},
 		"location": {"map_id": "", "spawn_id": ""},
-		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "inventory": {}, "equipment": {}, "skills": {}, "quests": {}, "world": {}, "legacy": {}
+		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": {}, "skills": {}, "quests": {}, "world": {}, "legacy": {}
 	}
 
 func normalize(raw):
@@ -24,4 +25,17 @@ func normalize(raw):
 	var player_stats = preload("res://actors/PlayerStats.gd").new()
 	result.player = player_stats.migrate_v0(result.player)
 	result.section_versions.player = player_stats.SECTION_VERSION
+	var inventory_version = int(raw.section_versions.get("inventory", -1))
+	if inventory_version > InventoryState.VERSION:
+		return null
+	var inventory_state = InventoryState.new()
+	if inventory_version == 0:
+		if typeof(result.inventory) != TYPE_DICTIONARY or not result.inventory.empty():
+			return null
+		result.inventory = inventory_state.normalize(inventory_state.new_state())
+	else:
+		result.inventory = inventory_state.normalize(result.inventory)
+		if result.inventory.empty():
+			return null
+	result.section_versions.inventory = InventoryState.VERSION
 	return result
