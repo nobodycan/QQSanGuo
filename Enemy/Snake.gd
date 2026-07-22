@@ -168,8 +168,7 @@ func injury(damage, crit = false):
 	var result = combat_action.resolve(action, vitals_state)
 	if not result.ok:
 		return result
-	vitals_state = result.vitals
-	health = vitals_state.health
+	apply_combat_result(result)
 	damage = -int(result.damage)
 	if $deathAndInjury.playing == false:
 		$deathAndInjury.play()
@@ -177,11 +176,6 @@ func injury(damage, crit = false):
 	#$Tween.start()
 	
 	state_machine.travel("injury")
-	if not vitals_state.alive:
-		state = DIE
-	else:
-		state = COMBAT
-	$HealthBar/HealthBar.value = health
 #	userInterface.get_node("Character").get_node("Target").visible = true
 #	userInterface.get_node("Character").get_node("Target").get_node("profile").texture = load("res://Monster_ui/profile/"+Name+".png")
 #	userInterface.get_node("Character").get_node("Target").get_node("name").text = Name
@@ -211,6 +205,15 @@ func injury(damage, crit = false):
 	else:
 		$FCTmgr.show_value(damage, false)
 	return result
+
+func apply_combat_result(result):
+	if typeof(result) != TYPE_DICTIONARY or not result.get("ok", false):
+		return false
+	vitals_state = result.vitals
+	health = vitals_state.health
+	$HealthBar/HealthBar.value = health
+	state = DIE if not vitals_state.alive else COMBAT
+	return true
 	
 	
 	

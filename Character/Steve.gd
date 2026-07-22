@@ -7,6 +7,8 @@ const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
 const PlayerStats = preload("res://actors/PlayerStats.gd")
 const Vitals = preload("res://actors/Vitals.gd")
 const CombatAction = preload("res://actors/CombatAction.gd")
+const SkillBook = preload("res://actors/SkillBook.gd")
+const CombatDriver = preload("res://actors/CombatDriver.gd")
 
 export(NodePath)var route
 
@@ -54,6 +56,8 @@ var vitals_model = Vitals.new()
 var vitals_state = {}
 var combat_action = CombatAction.new()
 var combat_hit_sequence = 0
+var combat_skill_book = SkillBook.new()
+var combat_driver = CombatDriver.new()
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -80,6 +84,7 @@ func _ready():
 	vitals_state = vitals_model.new_state(PlayerInventory.max_health, PlayerInventory.max_magic)
 	vitals_state.health = clamp(health, 0, vitals_state.max_health)
 	vitals_state.magic = clamp(magic, 0, vitals_state.max_magic)
+	_register_combat_skills()
 	experience = player_stats_state.experience
 	experience_required = player_stats_model.required_experience(player_stats_state.level)
 	init()
@@ -239,7 +244,7 @@ func move_to_target(delta):
 		return
 	if target <= 175: #skill_dist 100
 		chase_target_state = 0
-		enemy_id.injury(basic_damage) ##指定敌人收到伤害 +skill_damage
+		execute_combat_skill(enemy_id, _selected_combat_skill())
 #		state_machine.travel("idle")
 		attack()
 		return
@@ -369,6 +374,25 @@ func game_play(delta):
 
 func set_automation_intent(intent):
 	automation_intent = intent.copy() if intent != null else null
+
+func execute_combat_skill(target_node, skill_id, intent = active_intent):
+	if target_node == null or not target_node.has_method("apply_combat_result"):
+		return {"ok": false, "error": "invalid_target"}
+	var result = combat_driver.execute(intent, combat_skill_book, skill_id, {"id": "player", "faction": "player", "magic": magic}, {"id": "enemy." + str(target_node.get_instance_id()), "faction": "enemy"}, target_node.vitals_state, int(target_node.defend))
+	if result.ok:
+		magic = result.magic
+		vitals_state.magic = magic
+		target_node.apply_combat_result(result)
+	return result
+
+func _register_combat_skills():
+	combat_skill_book.add_definition({"id": "legacy.basic", "unlock_level": 1, "magic_cost": 0, "cooldown_ticks": 0, "damage": basic_damage})
+	combat_skill_book.add_definition({"id": "legacy.active", "unlock_level": 1, "magic_cost": 5, "cooldown_ticks": 0, "damage": basic_damage * 2})
+	combat_skill_book.unlock("legacy.basic", max(1, level))
+	combat_skill_book.unlock("legacy.active", max(1, level))
+
+func _selected_combat_skill():
+	return "legacy.active" if key_state == "D" else "legacy.basic"
 
 func injury(damage, crit = false):
 	combat_hit_sequence += 1

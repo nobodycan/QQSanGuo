@@ -2,7 +2,7 @@
 
 ## Combat Gate Status
 
-Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) combat soak, and a project-started real Steve/Snake adapter fixture. Manual and automation intents now share CombatDriver, SkillBook, and CombatAction resolution; the remaining Gate work is binding that shared driver to Steve's live scene routes.
+Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) combat soak, and a project-started real Steve/Snake adapter fixture. Steve auto-chase and hit callbacks now use the shared manual/automation CombatDriver path; the remaining Gate work is running the soak against those migrated adapters and publishing the acceptance report.
 
 QQ三国 Godot 3.x 本地单人原型。素材源自《QQ三国》，仅供个人学习与研究；请勿用于二次销售、商业发布或分发原始素材。
 

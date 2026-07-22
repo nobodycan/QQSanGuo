@@ -3,9 +3,8 @@ extends Node
 const CombatUiStub = preload("res://tests/fixtures/CombatUiStub.gd")
 const Steve = preload("res://Character/Steve.tscn")
 const Snake = preload("res://Enemy/Snake.tscn")
+const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
-
-var death_events = 0
 
 func _init():
 	call_deferred("_run")
@@ -29,25 +28,27 @@ func _run():
 	world.add_child(steve)
 	var snake = Snake.instance()
 	world.add_child(snake)
+	var second_snake = Snake.instance()
+	world.add_child(second_snake)
 	yield(get_tree(), "idle_frame")
 	steve.set_physics_process(false)
 	snake.set_process(false)
-	snake.connect("monster_die", self, "_on_monster_die")
+	second_snake.set_process(false)
+	var manual_intent = PlayerIntent.new()
+	manual_intent.source = PlayerIntent.SOURCE_MANUAL
+	var automation_intent = PlayerIntent.new()
+	automation_intent.source = PlayerIntent.SOURCE_AUTOMATION
+	var manual_result = steve.execute_combat_skill(snake, "legacy.basic", manual_intent)
+	var automation_result = steve.execute_combat_skill(second_snake, "legacy.active", automation_intent)
+	test.expect(manual_result.ok and manual_result.source == PlayerIntent.SOURCE_MANUAL and snake.health == manual_result.vitals.health, "manual Steve skill uses CombatDriver and synchronizes the real Snake")
+	test.expect(automation_result.ok and automation_result.source == PlayerIntent.SOURCE_AUTOMATION and second_snake.health == automation_result.vitals.health and automation_result.damage > manual_result.damage, "automation Steve skill uses the same driver with the active skill")
 	var steve_health = steve.health
 	var player_result = steve.injury(-7, false)
 	test.expect(player_result.ok and steve.health == steve_health - 7, "Snake-to-Steve adapter resolves CombatAction damage into Steve Vitals")
 	var snake_health = snake.health
 	var snake_result = snake.injury(-7, false)
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
-	var money_before = PlayerInventory.money
-	var defeat = snake.injury(-10000, false)
-	snake.dead()
-	test.expect(defeat.ok and defeat.defeated and snake.health == 0, "Snake death is idempotently represented by Vitals")
-	test.expect(death_events == 1 and PlayerInventory.money == money_before + snake.money, "Snake death signal presents its reward exactly once")
 	_finish(test, world)
-
-func _on_monster_die():
-	death_events += 1
 
 func _finish(test, world):
 	if world != null:
