@@ -23,4 +23,8 @@ func _init():
 	test.expect(capped.level == PlayerStats.MAX_LEVEL and capped.experience == 0 and capped.overflow_experience > 0, "level cap never creates level 31")
 	var normalized = stats.normalize(capped)
 	test.expect(normalized.level == capped.level and normalized.experience == capped.experience and normalized.overflow_experience == capped.overflow_experience, "normalized player v1 state round trips")
+	var migrated = stats.migrate_v0({"level": 3, "exprience": 4, "max_health": 1200})
+	test.expect(migrated.level == 3 and migrated.experience == 4 and migrated.base.max_health == 1200, "migrates player v0 fields")
+	var repeated = stats.migrate_v0(migrated)
+	test.expect(repeated.level == migrated.level and repeated.experience == migrated.experience and repeated.base.max_health == migrated.base.max_health and repeated.derived.max_health == migrated.derived.max_health, "player migration is idempotent")
 	test.finish(self, "player_stats")

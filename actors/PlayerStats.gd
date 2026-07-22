@@ -39,6 +39,26 @@ func normalize(raw) -> Dictionary:
 	result.derived = _derived(result.base, result.level)
 	return result
 
+func migrate_v0(raw) -> Dictionary:
+	if typeof(raw) != TYPE_DICTIONARY:
+		return new_state()
+	if int(raw.get("version", 0)) == SECTION_VERSION:
+		var normalized = normalize(raw)
+		return normalized.duplicate(true) if not normalized.empty() else {}
+	var result = new_state()
+	result.level = clamp(int(raw.get("level", 1)), 1, MAX_LEVEL)
+	result.experience = max(0, int(raw.get("experience", raw.get("exprience", 0))))
+	for key in BASE:
+		if raw.has(key) and typeof(raw[key]) == TYPE_INT:
+			result.base[key] = int(raw[key])
+	if result.level == MAX_LEVEL:
+		result.overflow_experience = result.experience
+		result.experience = 0
+	elif result.experience >= required_experience(result.level):
+		result = grant_experience(result, 0)
+	result.derived = _derived(result.base, result.level)
+	return result
+
 func grant_experience(raw, amount: int) -> Dictionary:
 	var result = normalize(raw)
 	if result.empty() or amount < 0:

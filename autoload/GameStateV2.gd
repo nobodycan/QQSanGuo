@@ -21,4 +21,7 @@ func normalize(raw):
 	var result = new_envelope()
 	for key in result:
 		if raw.has(key): result[key] = raw[key]
+	var player_stats = preload("res://actors/PlayerStats.gd").new()
+	result.player = player_stats.migrate_v0(result.player)
+	result.section_versions.player = player_stats.SECTION_VERSION
 	return result
