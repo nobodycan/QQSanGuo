@@ -8,6 +8,7 @@
 - Added a compatibility adapter that mirrors derived values into legacy `PlayerInventory`.
 - Updated V2 envelopes to declare player section version 1 and provide a normalized default player state.
 - Added idempotent player section v0-to-v1 migration, including the legacy `exprience` spelling.
+- Routed Steve experience grants through PlayerStats and mirrored resulting derived stats into legacy PlayerInventory for compatibility.
 
 ## Verification
 

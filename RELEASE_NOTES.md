@@ -8,6 +8,7 @@
 - Added a PlayerInventory compatibility adapter and upgraded the V2 player section default to version 1.
 - Added per-level N-1/N/N+1 regression coverage, multi-level progression, and level-30 cap validation.
 - Added idempotent player v0-to-v1 migration for legacy experience and attribute fields.
+- Routed Steve experience rewards through PlayerStats instead of directly incrementing legacy level and attributes.
 
 ### Phase 14 - Player Intent Foundation
 

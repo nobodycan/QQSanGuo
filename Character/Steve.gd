@@ -4,6 +4,7 @@ const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
 const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
 const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
+const PlayerStats = preload("res://actors/PlayerStats.gd")
 
 export(NodePath)var route
 
@@ -45,6 +46,8 @@ var velocity = Vector2()
 var input_sampler = PlayerInputSampler.new()
 var movement_model = PlayerMovementModel.new()
 var animation_adapter = PlayerAnimationAdapter.new()
+var player_stats_model = PlayerStats.new()
+var player_stats_state = {}
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -66,6 +69,10 @@ export var cant_move = false
 func _ready():
 #	print(position)
 	randomize()
+	player_stats_state = player_stats_model.migrate_v0(_legacy_player_stats())
+	player_stats_model.apply_legacy(player_stats_state, PlayerInventory)
+	experience = player_stats_state.experience
+	experience_required = player_stats_model.required_experience(player_stats_state.level)
 	init()
 	state_machine = $AnimationTree.get("parameters/playback")
 	$HBoxContainer.visible = false
@@ -102,9 +109,12 @@ func gain_experience(amount):
 		get_node("HBoxContainer/"+str(i+1)).visible = true
 	$AnimationPlayer.play("experience")
 	experience_pool += amount
-	experience += amount
-	while experience >= experience_required:
-		experience -= experience_required
+	var previous_level = player_stats_state.level
+	player_stats_state = player_stats_model.grant_experience(player_stats_state, amount)
+	player_stats_model.apply_legacy(player_stats_state, PlayerInventory)
+	experience = player_stats_state.experience
+	experience_required = player_stats_model.required_experience(player_stats_state.level)
+	if player_stats_state.level > previous_level:
 		level_up()
 	userInterface.update_exp(experience, experience_required)
 	yield($AnimationPlayer, "animation_finished")
@@ -114,15 +124,6 @@ func gain_experience(amount):
 
 
 func level_up():
-	PlayerInventory.level += 1
-	experience_required = get_required_experience(PlayerInventory.level + 1)
-	PlayerInventory.max_health += PlayerInventory.level * 10
-	PlayerInventory.max_magic += PlayerInventory.level * 5
-	PlayerInventory.basic_damage += PlayerInventory.level * 2
-	PlayerInventory.basic_defende += PlayerInventory.level * 1
-	PlayerInventory.basic_shugong += PlayerInventory.level
-	PlayerInventory.basic_shufang += PlayerInventory.level
-	
 	$level_up.play()
 	$Control/AnimatedSprite3.visible = true
 	$Control/AnimatedSprite3.play("default")
@@ -136,6 +137,12 @@ func level_up():
 							PlayerInventory.wisdom, PlayerInventory.strong,
 							PlayerInventory.aim
 							)
+
+func _legacy_player_stats() -> Dictionary:
+	var result = {"level": PlayerInventory.level, "experience": experience}
+	for key in PlayerStats.BASE:
+		result[key] = PlayerInventory.get(key)
+	return result
 	
 func gain_money(amount_m, amount_j):
 	PlayerInventory.money += amount_m
