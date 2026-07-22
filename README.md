@@ -38,6 +38,12 @@ EconomyTransaction now atomically preflights a wallet debit and inventory grant:
 
 RewardService uses the same ledger to atomically grant money, juntuan, and optional item stacks; a full inventory prevents all reward components from committing.
 
+## Enhancement Foundation
+
+Equipment instances now persist an independent `enhancement_level` from `+0` through `+10`; existing equipment v1 saves migrate losslessly to `+0`.
+
+Enhancement uses explicit `10000` to `14000` basis-point multipliers in 4% steps and deterministic nearest-integer rounding for every modifier. Enhanced modifiers and `power_score` are derived from immutable base modifiers, so repeated presentation cannot drift stats.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.

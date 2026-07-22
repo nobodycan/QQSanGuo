@@ -1,7 +1,8 @@
 extends Reference
 
-const VERSION = 1
+const VERSION = 2
 const SLOTS = ["Head", "Up_Body", "Necklace", "Hand", "Sword", "Boot", "Down_Body", "Wing", "Mask", "Ring"]
+const EnhancementState = preload("res://actors/EnhancementState.gd")
 
 func new_state() -> Dictionary:
 	var slots = {}
@@ -19,14 +20,14 @@ func normalize(raw) -> Dictionary:
 			continue
 		if not _valid_item(item, slot_name):
 			return {}
-		result.slots[slot_name] = item.duplicate(true)
+		result.slots[slot_name] = _canonical_item(item)
 	return result
 
 func equip(raw: Dictionary, item: Dictionary, player_job: String, player_level: int) -> Dictionary:
 	var result = normalize(raw)
 	if result.empty() or not _valid_item(item, str(item.get("slot", ""))) or not _eligible(item, player_job, player_level):
 		return {}
-	result.slots[item.slot] = item.duplicate(true)
+	result.slots[item.slot] = _canonical_item(item)
 	return result
 
 func unequip(raw: Dictionary, slot_name: String) -> Dictionary:
@@ -45,8 +46,9 @@ func derived(base: Dictionary, raw) -> Dictionary:
 		var item = state.slots[slot_name]
 		if item.empty():
 			continue
-		for key in item.modifiers:
-			result[key] = int(result.get(key, 0)) + int(item.modifiers[key])
+		var modifiers = EnhancementState.new().modifiers(item.modifiers, int(item.get("enhancement_level", 0)))
+		for key in modifiers:
+			result[key] = int(result.get(key, 0)) + int(modifiers[key])
 	return result
 
 func migrate_v0(raw: Dictionary, aliases: Dictionary) -> Dictionary:
@@ -70,13 +72,35 @@ func migrate_v0(raw: Dictionary, aliases: Dictionary) -> Dictionary:
 		result.slots[slot_name] = item
 	return normalize(result)
 
+func migrate_v1(raw: Dictionary) -> Dictionary:
+	if typeof(raw) != TYPE_DICTIONARY:
+		return {}
+	if int(raw.get("version", 0)) == VERSION:
+		return normalize(raw)
+	if int(raw.get("version", -1)) != 1 or typeof(raw.get("slots", null)) != TYPE_DICTIONARY:
+		return {}
+	var result = new_state()
+	for slot_name in SLOTS:
+		var item = raw.slots.get(slot_name, {})
+		if item.empty():
+			continue
+		if not _valid_item(item, slot_name):
+			return {}
+		result.slots[slot_name] = _canonical_item(item)
+	return normalize(result)
+
 func _eligible(item: Dictionary, player_job: String, player_level: int) -> bool:
 	return (str(item.get("job", "")) == "" or str(item.job) == player_job) and player_level >= int(item.get("level", 1))
 
 func _valid_item(item, slot_name: String) -> bool:
-	if typeof(item) != TYPE_DICTIONARY or not SLOTS.has(slot_name) or str(item.get("instance_id", "")).empty() or str(item.get("slot", "")) != slot_name or typeof(item.get("modifiers", null)) != TYPE_DICTIONARY:
+	if typeof(item) != TYPE_DICTIONARY or not SLOTS.has(slot_name) or str(item.get("instance_id", "")).empty() or str(item.get("slot", "")) != slot_name or typeof(item.get("modifiers", null)) != TYPE_DICTIONARY or (item.has("enhancement_level") and typeof(item.enhancement_level) != TYPE_INT) or not EnhancementState.new().valid_level(int(item.get("enhancement_level", 0))):
 		return false
 	for key in item.modifiers:
 		if typeof(key) != TYPE_STRING or typeof(item.modifiers[key]) != TYPE_INT:
 			return false
 	return true
+
+func _canonical_item(item: Dictionary) -> Dictionary:
+	var result = item.duplicate(true)
+	result.enhancement_level = int(item.get("enhancement_level", 0))
+	return result

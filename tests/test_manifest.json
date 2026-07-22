@@ -247,6 +247,13 @@
       "script": "tests/test_equipment_state.gd"
     },
     {
+      "id": "enhancement_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_enhancement_state.gd"
+    },
+    {
       "id": "legacy_equipment_bridge",
       "kind": "godot",
       "lane": "unit",

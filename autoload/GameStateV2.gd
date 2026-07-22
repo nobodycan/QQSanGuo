@@ -61,6 +61,8 @@ func normalize(raw):
 		if typeof(result.equipment) != TYPE_DICTIONARY or not result.equipment.empty():
 			return null
 		result.equipment = equipment_state.new_state()
+	elif equipment_version == 1:
+		result.equipment = equipment_state.migrate_v1(result.equipment)
 	else:
 		result.equipment = equipment_state.normalize(result.equipment)
 		if result.equipment.empty():

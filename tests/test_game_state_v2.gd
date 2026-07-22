@@ -11,7 +11,7 @@ func _init():
 	var normalized = state.normalize(envelope)
 	test.expect(normalized != null, "normalizes valid v2 envelope")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
-	test.expect(normalized.section_versions.equipment == 1 and normalized.equipment.version == 1 and normalized.equipment.slots.size() == 10, "creates equipment section v1")
+	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
 	test.expect(normalized.section_versions.wallet == 1 and normalized.wallet.version == 1 and normalized.wallet.money == 0, "creates wallet section v1")
 	var parsed = JSON.parse(to_json(normalized))
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "v2 envelope round trips through JSON")
@@ -45,12 +45,24 @@ func _init():
 	legacy_equipment["section_versions"] = legacy_equipment_versions
 	legacy_equipment["equipment"] = {}
 	var migrated_equipment = state.normalize(legacy_equipment)
-	test.expect(migrated_equipment != null and migrated_equipment.section_versions.equipment == 1 and migrated_equipment.equipment.slots.size() == 10, "upgrades empty equipment v0 to v1")
+	test.expect(migrated_equipment != null and migrated_equipment.section_versions.equipment == 2 and migrated_equipment.equipment.slots.size() == 10, "upgrades empty equipment v0 to v2")
+	var v1_equipment = state.new_envelope()
+	var v1_equipment_versions = v1_equipment.section_versions.duplicate()
+	v1_equipment_versions["equipment"] = 1
+	v1_equipment["section_versions"] = v1_equipment_versions
+	v1_equipment["equipment"] = {"version": 1, "slots": {"Sword": {"instance_id": "item.sword.1", "slot": "Sword", "job": "js", "level": 1, "modifiers": {"basic_damage": 25}}}}
+	var migrated_v1_equipment = state.normalize(v1_equipment)
+	test.expect(migrated_v1_equipment != null and migrated_v1_equipment.equipment.slots.Sword.enhancement_level == 0, "migrates v1 equipment to a persisted enhancement level")
 	var unsupported_equipment = state.new_envelope()
 	var unsupported_equipment_versions = unsupported_equipment.section_versions.duplicate()
-	unsupported_equipment_versions["equipment"] = 2
+	unsupported_equipment_versions["equipment"] = 3
 	unsupported_equipment["section_versions"] = unsupported_equipment_versions
 	test.expect(state.normalize(unsupported_equipment) == null, "rejects unsupported equipment section version")
+	var invalid_enhancement = state.new_envelope()
+	invalid_enhancement.equipment.slots.Sword = {"instance_id": "item.sword.11", "slot": "Sword", "job": "js", "level": 1, "modifiers": {"basic_damage": 25}, "enhancement_level": 11}
+	test.expect(state.normalize(invalid_enhancement) == null, "rejects persisted enhancement beyond plus ten")
+	invalid_enhancement.equipment.slots.Sword.enhancement_level = "five"
+	test.expect(state.normalize(invalid_enhancement) == null, "rejects non-integer persisted enhancement levels")
 	var unsafe_equipment = state.new_envelope()
 	var unsafe_equipment_versions = unsafe_equipment.section_versions.duplicate()
 	unsafe_equipment_versions["equipment"] = 0

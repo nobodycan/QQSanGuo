@@ -6,8 +6,8 @@ const TestProtocol = preload("res://tests/TestProtocol.gd")
 func _init():
 	var test = TestProtocol.new()
 	var equipment = EquipmentState.new()
-	var sword = {"instance_id": "item.sword.1", "slot": "Sword", "job": "js", "level": 2, "modifiers": {"basic_damage": 4, "max_health": 20}}
-	var better_sword = {"instance_id": "item.sword.2", "slot": "Sword", "job": "js", "level": 2, "modifiers": {"basic_damage": 9}}
+	var sword = {"instance_id": "item.sword.1", "slot": "Sword", "job": "js", "level": 2, "modifiers": {"basic_damage": 4, "max_health": 20}, "enhancement_level": 0}
+	var better_sword = {"instance_id": "item.sword.2", "slot": "Sword", "job": "js", "level": 2, "modifiers": {"basic_damage": 9}, "enhancement_level": 0}
 	var base = {"basic_damage": 20, "max_health": 1000}
 	var state = equipment.equip(equipment.new_state(), sword, "js", 2)
 	test.expect(state.slots.Sword.instance_id == "item.sword.1", "equips an eligible instance into its fixed slot")
@@ -24,4 +24,8 @@ func _init():
 	var remigrated = equipment.migrate_v0(migrated, {})
 	test.expect(migrated.slots.Sword.instance_id != migrated.slots.Ring.instance_id and remigrated.slots.Sword.instance_id == migrated.slots.Sword.instance_id and remigrated.slots.Ring.instance_id == migrated.slots.Ring.instance_id, "v0 migration creates stable distinct equipment identities")
 	test.expect(equipment.migrate_v0({"Sword": "unknown"}, {}).empty(), "rejects legacy equipment without an explicit alias")
+	var v1 = {"version": 1, "slots": equipment.new_state().slots}
+	v1.slots.Sword = sword.duplicate(true)
+	var migrated_v1 = equipment.migrate_v1(v1)
+	test.expect(migrated_v1.version == 2 and migrated_v1.slots.Sword.enhancement_level == 0, "migrates v1 equipment with a default enhancement level")
 	test.finish(self, "equipment_state")
