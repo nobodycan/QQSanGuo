@@ -17,6 +17,7 @@
 - Added the Phase 21 Combat Gate acceptance report, documenting verified evidence and the remaining real-scene soak requirement.
 - Added a 54,000-tick real Steve/Snake adapter-scene soak covering 60 encounters and 120 shared-driver dispatches.
 - Made real Snake death idempotent and added scene coverage proving repeated death grants the money reward once.
+- Expanded the real Steve/Snake fixture to cover the complete manual and automation two-skill by two-enemy matrix.
 
 ### Phase 20 - EnemyBrain Foundation
 

@@ -41,10 +41,17 @@ func _run():
 	manual_intent.source = PlayerIntent.SOURCE_MANUAL
 	var automation_intent = PlayerIntent.new()
 	automation_intent.source = PlayerIntent.SOURCE_AUTOMATION
-	var manual_result = steve.execute_combat_skill(snake, "legacy.basic", manual_intent)
-	var automation_result = steve.execute_combat_skill(second_snake, "legacy.active", automation_intent)
-	test.expect(manual_result.ok and manual_result.source == PlayerIntent.SOURCE_MANUAL and snake.health == manual_result.vitals.health, "manual Steve skill uses CombatDriver and synchronizes the real Snake")
-	test.expect(automation_result.ok and automation_result.source == PlayerIntent.SOURCE_AUTOMATION and second_snake.health == automation_result.vitals.health and automation_result.damage > manual_result.damage, "automation Steve skill uses the same driver with the active skill")
+	var matrix_failures = 0
+	for intent in [manual_intent, automation_intent]:
+		for skill_id in ["legacy.basic", "legacy.active"]:
+			for enemy in [snake, second_snake]:
+				_reset_snake(enemy)
+				steve.vitals_state.magic = steve.vitals_state.max_magic
+				steve.magic = steve.vitals_state.magic
+				var matrix_result = steve.execute_combat_skill(enemy, skill_id, intent)
+				if not matrix_result.ok or matrix_result.source != intent.source or enemy.health != matrix_result.vitals.health:
+					matrix_failures += 1
+	test.expect(matrix_failures == 0, "real Steve scene completes the two-skill by two-enemy matrix for manual and automation intents")
 	var scene_soak_failures = 0
 	var scene_soak_actions = 0
 	for tick in range(SOAK_TICKS):
