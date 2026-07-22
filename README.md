@@ -60,6 +60,10 @@ LootRewardService resolves stable loot IDs to item templates and commits the who
 
 WorldPickup removes a world drop only after its reward transaction succeeds, so full inventories preserve the pickup.
 
+## World State Foundation
+
+GameStateV2 now persists a versioned WorldState v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only world operations; older empty world sections migrate safely.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

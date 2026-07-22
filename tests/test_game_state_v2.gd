@@ -13,6 +13,7 @@ func _init():
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
 	test.expect(normalized.section_versions.wallet == 1 and normalized.wallet.version == 1 and normalized.wallet.money == 0, "creates wallet section v1")
+	test.expect(normalized.section_versions.world == 1 and normalized.world.version == 1, "creates world section v1")
 	var parsed = JSON.parse(to_json(normalized))
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "v2 envelope round trips through JSON")
 	var legacy_player = state.new_envelope()
@@ -87,6 +88,15 @@ func _init():
 	unsafe_wallet["section_versions"] = unsafe_wallet_versions
 	unsafe_wallet["wallet"] = {"money": 5}
 	test.expect(state.normalize(unsafe_wallet) == null, "rejects wallet v0 that lacks a lossless migration")
+	var legacy_world = state.new_envelope()
+	legacy_world.section_versions.world = 0
+	legacy_world.world = {}
+	var migrated_world = state.normalize(legacy_world)
+	test.expect(migrated_world != null and migrated_world.world.version == 1, "upgrades empty world v0 to v1")
+	var unsafe_world = state.new_envelope()
+	unsafe_world.section_versions.world = 0
+	unsafe_world.world = {"flags": ["flag.bad"]}
+	test.expect(state.normalize(unsafe_world) == null, "rejects non-empty world v0 without lossless migration")
 	envelope.erase("location")
 	test.expect(state.normalize(envelope) == null, "rejects missing location")
 	envelope = state.new_envelope()

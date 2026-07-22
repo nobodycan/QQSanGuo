@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 27 - World State Foundation
+
+- Added a versioned WorldState and V2 world section v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only operations.
+- Added safe empty-v0 migration plus duplicate-ID and malformed-section rejection coverage.
+
 ### Phase 26 - Loot Foundation
 
 - Added a seed-deterministic LootTable with guaranteed, probabilistic, quantity-ranged, and condition-gated drops.
