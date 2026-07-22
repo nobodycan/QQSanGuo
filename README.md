@@ -58,6 +58,8 @@ RewardService now preflights and commits multiple item drops with wallet rewards
 
 LootRewardService resolves stable loot IDs to item templates and commits the whole result through that same ledger-backed transaction.
 
+WorldPickup removes a world drop only after its reward transaction succeeds, so full inventories preserve the pickup.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
