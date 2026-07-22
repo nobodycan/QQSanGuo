@@ -21,7 +21,7 @@ func _init():
 	test.expect(manager.save_data(second)["ok"] == true, "saves second generation")
 	var corrupt = File.new()
 	test.expect(corrupt.open(manager.save_path, File.WRITE) == OK, "opens save for corruption fixture")
-	corrupt.store_string("not json")
+	corrupt.store_string("{\"version\":999}")
 	corrupt.close()
 	result = manager.load_data()
 	test.expect(result["ok"] == true, "loads backup after corrupted save")

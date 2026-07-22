@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 13 - Foundation Gate Audit
+
+- Added an evidence-based Foundation Gate audit; resource checks pass, while legacy Godot exit resource leaks correctly block the gate.
+- Removed the V1 save test's intentional invalid-JSON engine error without weakening backup recovery coverage.
+
 ### Phase 12 - Settings and Audio Foundation
 
 - Added isolated `settings.cfg` persistence for master audio volume through `AudioManager`.
