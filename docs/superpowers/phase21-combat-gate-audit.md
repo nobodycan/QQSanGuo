@@ -5,7 +5,7 @@
 - PlayerIntent, PlayerStats, Vitals, targeting, hit deduplication, damage, effects, CombatAction, SkillBook, EnemyBrain, and SpawnerScope each have focused regression coverage.
 - Unit lane coverage currently validates their contracts independently.
 
-## Gate Status: Not Yet Passed
+## Gate Status: Passed
 
 - A deterministic two-skill by two-enemy CombatAction matrix now passes in the integration lane.
 - A fixed-seed 12-tick encounter trace now exercises TargetRegistry selection, EnemyBrain transitions, and SpawnerScope ownership; it reproduces for the same seed and differs for the two pilot AI roles.
@@ -23,5 +23,4 @@
 
 ## Next Vertical Slice
 
-1. Re-run the hard-gate audit and document any remaining direct enemy damage path.
-2. Create the `combat-vertical-slice` tag only if every requirement has evidence.
+Phase 21 passed the final hard-gate audit and is tagged `combat-vertical-slice`.

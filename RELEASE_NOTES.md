@@ -21,6 +21,7 @@
 - Routed Steve's remaining injury signal through the CombatAction/Vitals compatibility adapter.
 - Routed dengmao Boss incoming damage through CombatAction and Vitals while preserving legacy presentation.
 - Added project-scene coverage for dengmao resolved damage and Vitals-backed HP synchronization.
+- Recorded Phase 21 Combat Gate acceptance after the final 33-test Godot Gate and 75-scene smoke check passed.
 
 ### Phase 20 - EnemyBrain Foundation
 
