@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 09 - V2 State Envelope Foundation
+
+- Added an isolated V2 JSON-safe state envelope with section versions and stable map/spawn location fields.
+- Added a Godot regression test for schema rejection and V2 JSON round-trip normalization.
+
 ### Phase 08 - Map Migration Inventory
 
 - Added a machine-readable inventory of five candidate maps, their embedded Player/UI nodes, and direct scene-change usage.
