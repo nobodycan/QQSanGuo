@@ -48,5 +48,6 @@ func _run_smoke():
 		"loaded_count": loaded_count,
 		"failures": failures
 	}
-	print("RESOURCE_SCENE_SMOKE_RESULT " + to_json(result))
+	result["test_id"] = "resource_scene_smoke"
+	print("TEST_RESULT " + to_json(result))
 	quit(0 if failures.empty() else 1)

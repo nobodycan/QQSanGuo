@@ -1,10 +1,40 @@
 # QQSanGuo
- QQ三国Godot复刻版本,素材源自《QQ三国》，本项目仅供个人学习研究使用。
 
-1.本作品完全开源，严禁拿去做二次买卖！
+QQ三国 Godot 3.x 本地单人原型。素材源自《QQ三国》，仅供个人学习与研究；请勿用于二次销售、商业发布或分发原始素材。
 
-2.玩家的脚本是Steve.gd
+## 开发状态
 
-3.怪物的脚本是Snake.gd
+项目按 [V1 路线图](docs/superpowers/plans/2026-07-20-qqsanguo-v1-roadmap.md) 分阶段推进。Phase 00（工具链基线）与 Phase 01（资源闭包）已记录验收证据；当前完成 Phase 02 的测试编排基础设施。
 
-4.boss的脚本是dengmao.gd
+## 运行与测试
+
+项目目标引擎为 Godot `3.5.3`。将可执行文件路径传给 runner，或设置 `GODOT_BIN`：
+
+```powershell
+$env:GODOT_BIN = 'C:\path\to\Godot_v3.5.3-stable_win64.exe'
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test_runner.ps1
+```
+
+测试报告会写入 `artifacts/test-reports/`：
+
+- `test-report.json`：机器可读的测试状态、终态和日志文件名。
+- `junit.xml`：CI 可消费的 JUnit 报告。
+- `*.stdout.log` / `*.stderr.log`：UTF-8 原始诊断输出。
+
+常用命令：
+
+```powershell
+# 验证 runner 本身能识别通过、失败、超时和 ERROR 假绿。
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test_runner.ps1 -SelfTest
+
+# 只运行资源审计。
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test_runner.ps1 -Lane resource
+```
+
+没有 Godot 时，GDScript 测试会标记为 `blocked_tool_missing` 并使全量运行失败，避免误判通过。
+
+## 旧代码入口
+
+- 玩家脚本：`Character/Steve.gd`
+- 怪物脚本：`Enemy/Snake.gd`
+- Boss 脚本：`Character/dengmao.gd`

@@ -26,7 +26,7 @@ function New-Fixture([string]$Name, [string]$PluginLine, [string]$Reference, [st
 }
 
 function Invoke-Audit([string]$Root) {
-    $output = & powershell -NoProfile -ExecutionPolicy Bypass -File $auditScript -ProjectRoot $Root 2>&1
+    $output = & $auditScript -ProjectRoot $Root 2>&1
     return [pscustomobject]@{ ExitCode = $LASTEXITCODE; Output = @($output) }
 }
 
@@ -84,8 +84,11 @@ try {
 
 if ($script:Failures.Count -gt 0) {
     $script:Failures | ForEach-Object { "TEST_RESOURCE_AUDIT_FAIL $_" }
+    $result = [ordered]@{ ok = $false; test_id = 'resource_audit'; failures = @($script:Failures) }
+    'TEST_RESULT ' + ($result | ConvertTo-Json -Compress)
     exit 1
 }
 
-'TEST_RESOURCE_AUDIT_PASS'
+$result = [ordered]@{ ok = $true; test_id = 'resource_audit'; failures = @() }
+'TEST_RESULT ' + ($result | ConvertTo-Json -Compress)
 exit 0

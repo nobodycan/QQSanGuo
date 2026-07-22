@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "tests": [
+    {
+      "id": "resource_audit",
+      "kind": "powershell",
+      "lane": "resource",
+      "timeout_seconds": 120,
+      "script": "tests/test_resource_audit.ps1"
+    },
+    {
+      "id": "game_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_game_state.gd"
+    },
+    {
+      "id": "save_manager",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "script": "tests/test_save_manager.gd"
+    },
+    {
+      "id": "scene_restore",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "script": "tests/test_scene_restore.gd"
+    },
+    {
+      "id": "item_icon_resolver",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_item_icon_resolver.gd"
+    },
+    {
+      "id": "item_drop_resources",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "script": "tests/test_item_drop_resources.gd"
+    },
+    {
+      "id": "resource_scene_smoke",
+      "kind": "godot",
+      "lane": "scene",
+      "timeout_seconds": 120,
+      "script": "tests/resource_scene_smoke.gd"
+    }
+  ]
+}

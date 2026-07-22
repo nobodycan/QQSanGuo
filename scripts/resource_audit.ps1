@@ -27,6 +27,8 @@ function Test-ResPath([string]$Path, [string]$Owner) {
         Add-Issue $invalidManifest 'invalid_manifest' $Owner $Path
         return
     }
+    # Godot generates this cache during import; it is not a tracked runtime source.
+    if ($Path.StartsWith('res://.import/', [System.StringComparison]::Ordinal)) { return }
     $relative = $Path.Substring(6)
     if ($relative.Contains('..') -or $relative.Contains(':') -or $relative.StartsWith('/')) {
         Add-Issue $invalidManifest 'invalid_manifest' $Owner $Path
@@ -104,9 +106,9 @@ if (-not (Test-Path -LiteralPath $ManifestPath)) {
 
 $sourceFiles = Get-ChildItem -LiteralPath $root -Recurse -File -ErrorAction SilentlyContinue |
     Where-Object {
+        $relative = $_.FullName.Substring($root.Length).TrimStart([char[]]@('\', '/'))
         $_.Extension -in @('.gd', '.tscn', '.tres') -and
-        $_.FullName -notmatch '\\.git\\' -and
-        -not $_.FullName.StartsWith((Join-Path $root 'tests'), [System.StringComparison]::OrdinalIgnoreCase)
+        $relative -notmatch '^(\.git|\.worktrees|\.import|tests|artifacts)(\\|/)'
     }
 foreach ($file in $sourceFiles) {
     $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)

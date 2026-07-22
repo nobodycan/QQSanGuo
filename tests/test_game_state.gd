@@ -1,22 +1,24 @@
 extends SceneTree
 
+const TestProtocol = preload("res://tests/TestProtocol.gd")
+
 func _init():
 	var state = preload("res://autoload/GameState.gd").new()
 	var data = state.new_save_data()
-	assert(data["equipment"].has("Sword"))
-	assert(data["equipment"]["Sword"] == "")
-	assert(data["skills"]["known"] == [])
-	assert(data["skills"]["equipped"] == [])
+	var test = TestProtocol.new()
+	test.expect(data["equipment"].has("Sword"), "default equipment includes Sword")
+	test.expect(data["equipment"]["Sword"] == "", "default Sword slot is empty")
+	test.expect(data["skills"]["known"] == [], "known skills default to empty")
+	test.expect(data["skills"]["equipped"] == [], "equipped skills default to empty")
 	data["map_path"] = "res://Level1.tscn"
 	data["inventory"] = {"0": ["Iron Sword", 1], "bad": ["", 0]}
 	var normalized = state.normalize(data)
-	assert(normalized != null)
-	assert(normalized["inventory"].has("0"))
-	assert(!normalized["inventory"].has("bad"))
+	test.expect(normalized != null, "normalizes valid state")
+	test.expect(normalized != null and normalized["inventory"].has("0"), "keeps valid inventory entry")
+	test.expect(normalized != null and !normalized["inventory"].has("bad"), "drops invalid inventory entry")
 	var parsed = JSON.parse(to_json(normalized))
-	assert(parsed.error == OK)
-	assert(state.normalize(parsed.result) != null)
+	test.expect(parsed.error == OK, "normalized state serializes as JSON")
+	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "serialized state normalizes again")
 	data.erase("player")
-	assert(state.normalize(data) == null)
-	print("TEST_GAME_STATE_PASS")
-	quit()
+	test.expect(state.normalize(data) == null, "rejects missing player section")
+	test.finish(self, "game_state")

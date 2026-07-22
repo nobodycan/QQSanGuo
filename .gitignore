@@ -15,3 +15,6 @@ data_*/
 
 # Local engine binaries, export templates, and test logs.
 .tools/
+
+# Generated test reports.
+artifacts/test-reports/
