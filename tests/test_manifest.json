@@ -258,6 +258,7 @@
     {"id":"loot_table","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_loot_table.gd"},
     {"id":"loot_reward_service","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_loot_reward_service.gd"},
     {"id":"world_pickup","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_world_pickup.gd"},
+    {"id":"defeat_reward_gate","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_defeat_reward_gate.gd"},
     {
       "id": "legacy_equipment_bridge",
       "kind": "godot",
