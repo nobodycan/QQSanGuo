@@ -5,6 +5,7 @@ const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
 const PlayerMovementModel = preload("res://actors/PlayerMovementModel.gd")
 const PlayerAnimationAdapter = preload("res://actors/PlayerAnimationAdapter.gd")
 const PlayerStats = preload("res://actors/PlayerStats.gd")
+const Vitals = preload("res://actors/Vitals.gd")
 
 export(NodePath)var route
 
@@ -48,6 +49,8 @@ var movement_model = PlayerMovementModel.new()
 var animation_adapter = PlayerAnimationAdapter.new()
 var player_stats_model = PlayerStats.new()
 var player_stats_state = {}
+var vitals_model = Vitals.new()
+var vitals_state = {}
 var automation_intent = null
 var active_intent = PlayerIntent.new()
 var cnt = 0
@@ -71,6 +74,9 @@ func _ready():
 	randomize()
 	player_stats_state = player_stats_model.migrate_v0(_legacy_player_stats())
 	player_stats_model.apply_legacy(player_stats_state, PlayerInventory)
+	vitals_state = vitals_model.new_state(PlayerInventory.max_health, PlayerInventory.max_magic)
+	vitals_state.health = clamp(health, 0, vitals_state.max_health)
+	vitals_state.magic = clamp(magic, 0, vitals_state.max_magic)
 	experience = player_stats_state.experience
 	experience_required = player_stats_model.required_experience(player_stats_state.level)
 	init()
@@ -184,14 +190,12 @@ func gain_recover(duration_time, amount):
 	str_amount = str(amount)
 
 func gain_health(value):
-	health += value
-	if health > PlayerInventory.max_health:
-		health = PlayerInventory.max_health
+	vitals_state = vitals_model.recover(vitals_state, value, 0)
+	_sync_vitals()
 
 func gain_magic(value):
-	magic += value
-	if magic > PlayerInventory.max_magic:
-		magic = PlayerInventory.max_magic
+	vitals_state = vitals_model.recover(vitals_state, 0, value)
+	_sync_vitals()
 
 func _input(event):
 	if event.is_action_pressed("pickUp"):
@@ -459,14 +463,20 @@ func dead():
 	get_tree().change_scene("res://Level1.tscn")
 	
 func _on_Steve_health_updated(value, crit = false):
-	health += value
-	if health <= 0:
+	var was_alive = vitals_state.alive
+	vitals_state = vitals_model.apply_legacy_health_delta(vitals_state, value)
+	_sync_vitals()
+	if was_alive and not vitals_state.alive:
 		velocity = Vector2.ZERO
 		dead()
 	state_machine.travel("injury")
 	$FCTmgr.show_value(value, crit)
 	get_parent().get_node("UserInterFace").emit_signal("health_updated",health, magic)
 	pass # Replace with function body.
+
+func _sync_vitals():
+	health = vitals_state.health
+	magic = vitals_state.magic
 
 
 func _on_BattleTime_timeout():
