@@ -18,7 +18,7 @@ Legacy import now reconstructs a distinct `instance_id` for every non-stack item
 
 ## Equipment Foundation
 
-Phase 23 has begun with a versioned 10-slot equipment model. It validates item slot, job, and level eligibility, supports equip/swap/unequip, and recomputes derived modifiers from base stats rather than incrementally mutating attributes.
+Phase 23 has begun with a versioned 10-slot equipment model. It validates item slot, job, and level eligibility, supports equip/swap/unequip, and recomputes derived modifiers from base stats rather than incrementally mutating attributes. `GameStateV2` now owns equipment section v1, upgrades only empty v0 sections, and rejects lossy or future formats.
 
 ## Combat Gate Status
 

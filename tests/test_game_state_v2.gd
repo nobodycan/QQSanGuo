@@ -11,6 +11,7 @@ func _init():
 	var normalized = state.normalize(envelope)
 	test.expect(normalized != null, "normalizes valid v2 envelope")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
+	test.expect(normalized.section_versions.equipment == 1 and normalized.equipment.version == 1 and normalized.equipment.slots.size() == 10, "creates equipment section v1")
 	var parsed = JSON.parse(to_json(normalized))
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "v2 envelope round trips through JSON")
 	var legacy_player = state.new_envelope()
@@ -37,6 +38,24 @@ func _init():
 	unsafe_inventory["section_versions"] = unsafe_versions
 	unsafe_inventory["inventory"] = {"0": ["legacy herb", 1]}
 	test.expect(state.normalize(unsafe_inventory) == null, "rejects inventory v0 that lacks a lossless alias migration")
+	var legacy_equipment = state.new_envelope()
+	var legacy_equipment_versions = legacy_equipment.section_versions.duplicate()
+	legacy_equipment_versions["equipment"] = 0
+	legacy_equipment["section_versions"] = legacy_equipment_versions
+	legacy_equipment["equipment"] = {}
+	var migrated_equipment = state.normalize(legacy_equipment)
+	test.expect(migrated_equipment != null and migrated_equipment.section_versions.equipment == 1 and migrated_equipment.equipment.slots.size() == 10, "upgrades empty equipment v0 to v1")
+	var unsupported_equipment = state.new_envelope()
+	var unsupported_equipment_versions = unsupported_equipment.section_versions.duplicate()
+	unsupported_equipment_versions["equipment"] = 2
+	unsupported_equipment["section_versions"] = unsupported_equipment_versions
+	test.expect(state.normalize(unsupported_equipment) == null, "rejects unsupported equipment section version")
+	var unsafe_equipment = state.new_envelope()
+	var unsafe_equipment_versions = unsafe_equipment.section_versions.duplicate()
+	unsafe_equipment_versions["equipment"] = 0
+	unsafe_equipment["section_versions"] = unsafe_equipment_versions
+	unsafe_equipment["equipment"] = {"Sword": "legacy sword"}
+	test.expect(state.normalize(unsafe_equipment) == null, "rejects equipment v0 that lacks a lossless instance migration")
 	envelope.erase("location")
 	test.expect(state.normalize(envelope) == null, "rejects missing location")
 	envelope = state.new_envelope()
