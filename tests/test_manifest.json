@@ -253,6 +253,7 @@
       "timeout_seconds": 30,
       "script": "tests/test_enhancement_state.gd"
     },
+    {"id":"enhancement_transaction","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_enhancement_transaction.gd"},
     {
       "id": "legacy_equipment_bridge",
       "kind": "godot",

@@ -72,6 +72,30 @@ func consume(state: Dictionary, slot_index: int, quantity: int, template: Dictio
 		result.slots[slot_index] = {}
 	return result
 
+func consume_template(state: Dictionary, template_id: String, quantity: int) -> Dictionary:
+	var result = normalize(state)
+	if result.empty() or template_id.empty() or quantity < 1:
+		return {}
+	var available = 0
+	for slot in result.slots:
+		if slot.get("template_id", "") == template_id and not slot.has("instance_id"):
+			available += int(slot.get("quantity", 0))
+	if available < quantity:
+		return {}
+	var remaining = quantity
+	for index in range(SLOT_COUNT):
+		var slot = result.slots[index]
+		if slot.get("template_id", "") != template_id or slot.has("instance_id"):
+			continue
+		var removed = min(remaining, int(slot.quantity))
+		slot.quantity -= removed
+		remaining -= removed
+		if slot.quantity == 0:
+			result.slots[index] = {}
+		if remaining == 0:
+			return result
+	return {}
+
 func export_state(state: Dictionary) -> Dictionary:
 	var normalized = normalize(state)
 	return normalized.duplicate(true) if not normalized.empty() else {}
