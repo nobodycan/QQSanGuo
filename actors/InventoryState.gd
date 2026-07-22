@@ -71,3 +71,27 @@ func consume(state: Dictionary, slot_index: int, quantity: int, template: Dictio
 	if slot.quantity == 0:
 		result.slots[slot_index] = {}
 	return result
+
+func export_state(state: Dictionary) -> Dictionary:
+	var normalized = normalize(state)
+	return normalized.duplicate(true) if not normalized.empty() else {}
+
+func migrate_v0(raw: Dictionary, aliases: Dictionary) -> Dictionary:
+	if typeof(raw) != TYPE_DICTIONARY:
+		return {}
+	if int(raw.get("version", 0)) == VERSION:
+		return normalize(raw)
+	var result = new_state()
+	for key in raw.keys():
+		var slot_index = int(key)
+		var legacy = raw[key]
+		if slot_index < 0 or slot_index >= SLOT_COUNT or typeof(legacy) != TYPE_ARRAY or legacy.size() != 2:
+			return {}
+		var item_id = str(aliases.get(str(legacy[0]), ""))
+		var quantity = int(legacy[1])
+		if item_id.empty() or quantity < 1:
+			return {}
+		while result.slots.size() <= slot_index:
+			result.slots.append({})
+		result.slots[slot_index] = {"template_id": item_id, "quantity": quantity}
+	return normalize(result)

@@ -26,4 +26,7 @@ func _init():
 	var quest = ItemTemplate.new().normalize({"id": "item.quest", "stack_limit": 1, "quest": true})
 	var quest_state = inventory.add(inventory.new_state(), quest, 1, instances)
 	test.expect(inventory.consume(quest_state, 0, 1, quest).empty(), "quest items cannot be consumed")
+	var migrated = inventory.migrate_v0({"0": ["草药", 2]}, {"草药": "item.herb"})
+	var remigrated = inventory.migrate_v0(migrated, {})
+	test.expect(migrated.slots[0].template_id == "item.herb" and remigrated.version == InventoryState.VERSION and remigrated.slots.size() == InventoryState.SLOT_COUNT and remigrated.slots[0].template_id == migrated.slots[0].template_id and remigrated.slots[0].quantity == migrated.slots[0].quantity, "v0 migration is idempotent and canonical")
 	test.finish(self, "inventory_state")

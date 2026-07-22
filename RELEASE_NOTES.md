@@ -8,6 +8,7 @@
 - Added a versioned 50-slot InventoryState with deterministic stack insertion and full-capacity rejection without partial mutation.
 - Added command-model slot movement and stack splitting with quantity-conservation regression coverage.
 - Added inventory consumption with final-stack cleanup and quest-item consumption protection.
+- Added canonical inventory export and idempotent v0-to-v1 migration using legacy item-name aliases.
 
 ### Phase 21 - Combat Gate Audit
 
