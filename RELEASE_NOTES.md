@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Phase 14 - Player Intent Foundation
+
+- Added `PlayerIntent`, `PlayerInputSampler`, and a deterministic `PlayerMovementModel` for future shared manual and automation control.
+- Updated the legacy Steve adapter to consume resolved movement intents; non-idle manual input interrupts automation in the same physics frame.
+- Added regression coverage for intent arbitration, climbing jumps, and movement locking.
+
 ### Phase 13 - Foundation Gate Audit
 
 - Foundation Gate now passes all 16 manifest tests on Godot `3.5.3`, including 75 `PackedScene` resource smoke checks.

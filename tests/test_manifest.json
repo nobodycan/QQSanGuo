@@ -72,6 +72,13 @@
       "script": "tests/test_scene_transaction.gd"
     },
     {
+      "id": "player_intent",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_player_intent.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",

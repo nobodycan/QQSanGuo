@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+const PlayerIntent = preload("res://actors/PlayerIntent.gd")
+const PlayerInputSampler = preload("res://actors/PlayerInputSampler.gd")
+
 export(NodePath)var route
 
 var max_health = PlayerInventory.max_health
@@ -37,6 +40,9 @@ signal health_updated(health, magic)
 var monirable = 0 ##物体进入藤子时 重复true和false来达到 实时检测的目的
 
 var velocity = Vector2()
+var input_sampler = PlayerInputSampler.new()
+var automation_intent = null
+var active_intent = PlayerIntent.new()
 var cnt = 0
 var derection = 0
 export var JUMP = -800  #800合适
@@ -186,6 +192,7 @@ func _input(event):
 
 
 func _physics_process(delta):
+	active_intent = input_sampler.resolve(input_sampler.sample_manual(), automation_intent)
 	if chase_target_state == 1:##释放技能 跑到能达到怪物的地方
 		move_to_target(delta)
 	else:
@@ -238,9 +245,9 @@ func game_play(delta):
 			state_machine.travel("jump")
 		else:
 			if attacking == 0:##不在攻击状态中 才可以上下
-				if Input.is_action_pressed("up"):
+				if active_intent.vertical < 0:
 					upOrDown = -1
-				elif Input.is_action_pressed("down"):
+				elif active_intent.vertical > 0:
 					upOrDown = 1
 				else:
 					state = 1
@@ -250,23 +257,23 @@ func game_play(delta):
 	else:
 		derection = 0
 		if state == 0 and attacking == 0:##不在攻击状态中 才可以
-			if Input.is_action_pressed("right"):
+			if active_intent.horizontal > 0:
 				derection = 1
 				state_machine.travel("run")
 				$Control.rect_scale.x = 1
-				if Input.is_action_just_pressed("jump"):
+				if active_intent.jump_pressed:
 					derection = 1
 					velocity.y = JUMP
 					state_machine.travel("jump")
-			elif Input.is_action_pressed("left"):
+			elif active_intent.horizontal < 0:
 				derection = -1
 				state_machine.travel("run")
 				$Control.rect_scale.x = -1
-				if Input.is_action_just_pressed("jump"):
+				if active_intent.jump_pressed:
 					derection = -1
 					velocity.y = JUMP
 					state_machine.travel("jump")
-			elif Input.is_action_just_pressed("jump"):
+			elif active_intent.jump_pressed:
 				velocity.y = JUMP
 #			elif Input.is_action_pressed('attack'):
 #				key_state = 'D' ##这里先用技能
@@ -301,12 +308,12 @@ func game_play(delta):
 				state_machine.travel("idle")
 		else:
 			if attacking == 0:##不在攻击状态中 才可以上下
-				if Input.is_action_pressed("up"):
+				if active_intent.vertical < 0:
 					state = 1
 					velocity.x = 0
 					upOrDown = -1
 					state_machine.travel("clim")
-				elif Input.is_action_pressed("down"):
+				elif active_intent.vertical > 0:
 					$CollisionShape2D.disabled = true
 					state = 1
 					upOrDown = 1
@@ -321,23 +328,26 @@ func game_play(delta):
 		velocity.x = SPEED * derection
 	else:
 		velocity.y = 300 * upOrDown
-		if Input.is_action_pressed("left") and Input.is_action_just_pressed("jump"):
+		if active_intent.horizontal < 0 and active_intent.jump_pressed:
 			$Control.rect_scale.x = -1
 			state = 0
 			derection = -1
 			velocity.y = JUMP
-		elif Input.is_action_pressed("right") and Input.is_action_just_pressed("jump"):
+		elif active_intent.horizontal > 0 and active_intent.jump_pressed:
 			$Control.rect_scale.x = 1
 			state = 0
 			derection = 1
 			velocity.y = JUMP
-		elif Input.is_action_just_pressed("jump"):
+		elif active_intent.jump_pressed:
 			derection = 0
 			state = 0
 	if cant_move:
 		velocity = Vector2(0, 0)
 	velocity = move_and_slide(velocity, Vector2.UP)
 	#velocity.x = lerp(velocity.x, 0, 0.1)
+
+func set_automation_intent(intent):
+	automation_intent = intent.copy() if intent != null else null
 
 func injury(damage, crit = false):
 	_on_Steve_health_updated(damage, crit)
