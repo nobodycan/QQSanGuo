@@ -1,0 +1,32 @@
+﻿[
+    {
+        "scene":  "Level1.tscn",
+        "has_steve":  true,
+        "has_ui":  true,
+        "direct_change_scene":  true
+    },
+    {
+        "scene":  "JiangLinXiJiao.tscn",
+        "has_steve":  true,
+        "has_ui":  true,
+        "direct_change_scene":  true
+    },
+    {
+        "scene":  "assets\\map\\guyidaoguanai.tscn",
+        "has_steve":  true,
+        "has_ui":  true,
+        "direct_change_scene":  true
+    },
+    {
+        "scene":  "Scene\\bajun.tscn",
+        "has_steve":  true,
+        "has_ui":  true,
+        "direct_change_scene":  true
+    },
+    {
+        "scene":  "Scene\\YingZhaiQianMen.tscn",
+        "has_steve":  true,
+        "has_ui":  true,
+        "direct_change_scene":  false
+    }
+]

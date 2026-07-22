@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 08 - Map Migration Inventory
+
+- Added a machine-readable inventory of five candidate maps, their embedded Player/UI nodes, and direct scene-change usage.
+
 ### Phase 07 - Map Definition Pilot
 
 - Added stable map, spawn, and portal definitions for the Level1 and JiangLin pilot maps.
