@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 04 - ContentRegistry Pilot
+
+- Added versioned pilot packs for one item, skill, and map using stable ASCII IDs with legacy-name aliases.
+- Added `content_registry_audit` to validate pack presence, ID format/uniqueness, and referenced scene or icon paths.
+
 ### Phase 03 - Global Boundary Foundation
 
 - Added `ContentRegistry`, `EventBus`, and `AudioManager` as the remaining target Autoloads.

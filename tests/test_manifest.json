@@ -23,6 +23,13 @@
       "script": "scripts/phase03_static_gate.ps1"
     },
     {
+      "id": "content_registry_audit",
+      "kind": "powershell",
+      "lane": "resource",
+      "timeout_seconds": 30,
+      "script": "scripts/content_registry_audit.ps1"
+    },
+    {
       "id": "game_state",
       "kind": "godot",
       "lane": "unit",
