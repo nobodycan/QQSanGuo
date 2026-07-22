@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 05 - Persistent Runtime Root Foundation
+
+- Added the compatibility-first `GameRoot` scene with stable service, world, player, runtime actor, UI, and transition containers.
+- Added a Godot lifecycle regression test for the root session ID and empty compatibility container invariants.
+
 ### Phase 04 - ContentRegistry Pilot
 
 - Added versioned pilot packs for one item, skill, and map using stable ASCII IDs with legacy-name aliases.

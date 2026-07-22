@@ -37,6 +37,13 @@
       "script": "tests/test_game_state.gd"
     },
     {
+      "id": "game_root",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_game_root.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
