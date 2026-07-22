@@ -6,6 +6,7 @@
 
 - Added a versioned Vitals model for HP/MP clamp, recovery, idempotent death, and revival.
 - Added regression coverage for overkill, duplicate death prevention, dead recovery, and revival bounds.
+- Added an explicit adapter for legacy negative-damage and positive-recovery health deltas.
 
 ### Phase 15 - PlayerStats Foundation
 

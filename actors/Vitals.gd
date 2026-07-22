@@ -33,6 +33,9 @@ func recover(raw, health_amount: int, magic_amount: int) -> Dictionary:
 	result.magic = clamp(result.magic + max(0, magic_amount), 0, result.max_magic)
 	return result
 
+func apply_legacy_health_delta(raw, delta: int) -> Dictionary:
+	return damage(raw, -delta) if delta < 0 else recover(raw, delta, 0)
+
 func revive(raw, health: int, magic: int) -> Dictionary:
 	var result = normalize(raw)
 	if result.empty():

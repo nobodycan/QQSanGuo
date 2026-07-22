@@ -17,4 +17,8 @@ func _init():
 	test.expect(state.alive and state.health == 100 and state.magic == 50, "revive clamps vitals")
 	state = vitals.recover(state, -1, -1)
 	test.expect(state.health == 100 and state.magic == 50, "negative recovery is ignored")
+	state = vitals.apply_legacy_health_delta(state, -25)
+	test.expect(state.health == 75, "legacy negative delta maps to damage")
+	state = vitals.apply_legacy_health_delta(state, 10)
+	test.expect(state.health == 85, "legacy positive delta maps to recovery")
 	test.finish(self, "vitals")
