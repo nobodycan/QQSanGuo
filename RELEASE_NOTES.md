@@ -13,6 +13,7 @@
 - Extended the test runner with a project-scene mode so Autoload-backed scenes can be tested while retaining strict runtime and script diagnostics.
 - Added CombatDriver so manual and automation PlayerIntent sources share SkillBook and CombatAction resolution for the two-skill by two-enemy matrix.
 - Routed Steve's auto-chase and hit callbacks through CombatDriver, with real-scene coverage for manual/basic and automation/active skills against two Snake instances.
+- Removed Steve's legacy magic-to-health setter and routed self-heal HP/MP recovery through Vitals.
 
 ### Phase 20 - EnemyBrain Foundation
 

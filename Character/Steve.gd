@@ -40,7 +40,7 @@ var experience_pool = 0 #经验池
 var experience_required = get_required_experience(level+1)
 
 onready var health = PlayerInventory.max_health
-onready var magic = max_health setget _set_health
+onready var magic = PlayerInventory.max_magic
 
 signal health_updated(health, magic)
 
@@ -494,14 +494,6 @@ func _on_Steve_injury():
 	health -= 10
 	pass # Replace with function body.
 
-func _set_health(value):
-	var prev_health = health
-	health = clamp(value, 0, max_health)
-	if health != prev_health:
-		emit_signal("health_updated", health, magic)
-		if health <= 0:
-			dead()
-
 func dead():
 	state_machine.travel("die")
 	yield($Control/Sprite,"animation_finished")
@@ -595,15 +587,9 @@ func attack():
 	$Timer.start(skill_time)
 
 func _on_self_heal_timeout():
-	health += 4 ##每秒回复4点生命
-	
-	if health > PlayerInventory.max_health:
-		health = PlayerInventory.max_health
-	magic += 2 ##2点魔法
-	if magic > PlayerInventory.max_magic:
-		magic = PlayerInventory.max_magic
+	vitals_state = vitals_model.recover(vitals_state, 4, 2)
+	_sync_vitals()
 	get_parent().get_node("UserInterFace").emit_signal("health_updated",health, magic)
-	pass # Replace with function body.
 
 func get_save_stats():
 	return {

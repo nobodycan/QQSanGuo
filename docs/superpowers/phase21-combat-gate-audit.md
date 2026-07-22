@@ -15,9 +15,9 @@
 - The scene-test runner keeps script and runtime diagnostics strict, while classifying only Godot 3.5's two known project-Autoload process-teardown resource lines separately.
 - CombatDriver now sends manual and automation PlayerIntent sources through one SkillBook and CombatAction path; both produce the same two-skill by two-enemy matrix.
 - Steve's auto-chase entry and hit callback now call CombatDriver. The project-started scene fixture verifies manual basic and automation active skills against two real Snake instances.
-- The legacy `magic` setter remains outside the combat adapter path because it emits a health signal; CombatDriver uses the Vitals-backed magic state without invoking that setter.
+- Steve's legacy `magic` health setter has been removed and the self-heal timer now uses Vitals.recover; the real-scene fixture verifies simultaneous HP/MP recovery.
 
 ## Next Vertical Slice
 
 1. Re-run the soak against the migrated scene adapters and publish the Combat Acceptance Report.
-2. Replace the legacy `magic` setter and direct self-heal mutation with a Vitals-compatible adapter.
+2. Publish the Combat Acceptance Report after the migrated-adapter soak evidence is recorded.

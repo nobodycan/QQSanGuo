@@ -45,6 +45,9 @@ func _run():
 	var steve_health = steve.health
 	var player_result = steve.injury(-7, false)
 	test.expect(player_result.ok and steve.health == steve_health - 7, "Snake-to-Steve adapter resolves CombatAction damage into Steve Vitals")
+	var magic_before_heal = steve.magic
+	steve._on_self_heal_timeout()
+	test.expect(steve.health == steve_health - 3 and steve.magic == magic_before_heal + 2, "Steve self-heal restores Vitals health and magic without the legacy setter")
 	var snake_health = snake.health
 	var snake_result = snake.injury(-7, false)
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
