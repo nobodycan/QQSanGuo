@@ -51,6 +51,7 @@ var combat_hit_sequence = 0
 func init():
 	first_attack = true
 	attacking = 0
+	exprience = max(0, int(exprience))
 	state = IDLE
 	state_machine = $AnimationTree.get("parameters/playback")
 	$HealthBar.visible = true
@@ -80,9 +81,7 @@ func _process(delta):
 		MOVE:
 			move(delta)
 		DIE:
-			print("死了")
 			if die_state == false:
-				die_state = true
 				dead()
 		INJURY:
 			injurying = 1
@@ -229,6 +228,9 @@ func Drop():
 	get_parent().add_child(item)
 	
 func dead():
+	if die_state:
+		return
+	die_state = true
 	print("死前状态", state)
 	state = DIE
 	if player:

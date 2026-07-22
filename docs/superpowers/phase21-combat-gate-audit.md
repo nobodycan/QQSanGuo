@@ -17,8 +17,9 @@
 - Steve's auto-chase entry and hit callback now call CombatDriver. The project-started scene fixture verifies manual basic and automation active skills against two real Snake instances.
 - Steve's legacy `magic` health setter has been removed and the self-heal timer now uses Vitals.recover; the real-scene fixture verifies simultaneous HP/MP recovery.
 - The real-scene fixture now simulates 54,000 ticks with 60 encounters and 120 migrated adapter dispatches without Vitals or health-bar divergence.
+- Real Snake death now owns its idempotency guard; repeated death presentation grants money once in the project-scene fixture.
 
 ## Next Vertical Slice
 
-1. Extend the migrated-adapter scene soak with repeated scene death and reward presentation.
-2. Close the report and create the `combat-vertical-slice` tag after that scene-adapter soak passes.
+1. Perform the final hard-gate audit and document any unmet roadmap requirement.
+2. Create the `combat-vertical-slice` tag only if every hard requirement has evidence.

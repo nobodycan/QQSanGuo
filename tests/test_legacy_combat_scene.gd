@@ -68,6 +68,13 @@ func _run():
 	var snake_health = snake.health
 	var snake_result = snake.injury(-7, false)
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
+	snake.money = 7
+	snake.exprience = 0
+	var money_before_reward = PlayerInventory.money
+	var defeat = snake.injury(-10000, false)
+	snake.dead()
+	snake.dead()
+	test.expect(defeat.ok and defeat.defeated and snake.health == 0 and PlayerInventory.money == money_before_reward + snake.money, "repeated real Snake death presents its reward exactly once after Vitals defeat")
 	_finish(test, world)
 
 func _reset_snake(snake):
