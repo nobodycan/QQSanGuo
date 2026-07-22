@@ -8,6 +8,7 @@
 - Promoted GameStateV2 equipment to section v1 with safe empty-v0 migration and explicit rejection of lossy or unsupported versions.
 - Added deterministic PlayerStats and EquipmentState composition so equipment modifiers apply after level-derived base stats without drift.
 - Added idempotent EquipmentState v0 migration with explicit aliases and stable slot-distinct identities for repeated legacy equipment names.
+- Added a legacy equipment bridge that converts existing item JSON fields into canonical modifiers, validates eligibility, and projects equipped names to the current UI shape.
 
 ### Phase 22 - Inventory Identity Foundation
 

@@ -24,6 +24,8 @@ PlayerStats now exposes the same composition path used by equipment: level-deriv
 
 EquipmentState now provides an idempotent v0 migration using explicit legacy-name definitions; repeated legacy names receive stable, slot-distinct instance identities.
 
+The legacy equipment bridge now converts existing item JSON fields into canonical modifiers, validates job and level gates, and projects equipped names back to the current UI dictionary.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
