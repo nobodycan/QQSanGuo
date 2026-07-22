@@ -9,6 +9,7 @@
 - Added regression coverage for every enhancement level, cap rejection, independent same-name instances, and V2 JSON round-trip migration.
 - Added a three-tier enhancement quote and atomic wallet, material, and equipment transaction with idempotent operation handling.
 - Extended the legacy equipment bridge with per-slot enhancement and presenter-safe name, level, and power-score projection.
+- Added EquipmentPresenter for deterministic UI-ready slot titles and metadata derived from canonical equipment instances.
 
 ### Phase 24 - Economy Foundation
 

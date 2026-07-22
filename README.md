@@ -48,6 +48,8 @@ The enhancement transaction atomically debits a tiered money quote and one match
 
 The legacy equipment bridge now also exposes a presenter-safe name, enhancement-level, and power-score projection for each fixed slot.
 
+`EquipmentPresenter` turns canonical slots into UI-safe empty states, titles, enhancement levels, and power scores without mutating gameplay state.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
