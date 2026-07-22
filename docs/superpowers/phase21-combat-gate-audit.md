@@ -16,8 +16,9 @@
 - CombatDriver now sends manual and automation PlayerIntent sources through one SkillBook and CombatAction path; both produce the same two-skill by two-enemy matrix.
 - Steve's auto-chase entry and hit callback now call CombatDriver. The project-started scene fixture verifies manual basic and automation active skills against two real Snake instances.
 - Steve's legacy `magic` health setter has been removed and the self-heal timer now uses Vitals.recover; the real-scene fixture verifies simultaneous HP/MP recovery.
+- The real-scene fixture now simulates 54,000 ticks with 60 encounters and 120 migrated adapter dispatches without Vitals or health-bar divergence.
 
 ## Next Vertical Slice
 
-1. Run a long-duration soak against the migrated Steve/Snake scene adapters.
+1. Extend the migrated-adapter scene soak with repeated scene death and reward presentation.
 2. Close the report and create the `combat-vertical-slice` tag after that scene-adapter soak passes.

@@ -6,6 +6,9 @@ const Snake = preload("res://Enemy/Snake.tscn")
 const PlayerIntent = preload("res://actors/PlayerIntent.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
+const SOAK_TICKS = 15 * 60 * 60
+const ENCOUNTER_TICKS = 900
+
 func _init():
 	call_deferred("_run")
 
@@ -42,6 +45,20 @@ func _run():
 	var automation_result = steve.execute_combat_skill(second_snake, "legacy.active", automation_intent)
 	test.expect(manual_result.ok and manual_result.source == PlayerIntent.SOURCE_MANUAL and snake.health == manual_result.vitals.health, "manual Steve skill uses CombatDriver and synchronizes the real Snake")
 	test.expect(automation_result.ok and automation_result.source == PlayerIntent.SOURCE_AUTOMATION and second_snake.health == automation_result.vitals.health and automation_result.damage > manual_result.damage, "automation Steve skill uses the same driver with the active skill")
+	var scene_soak_failures = 0
+	var scene_soak_actions = 0
+	for tick in range(SOAK_TICKS):
+		if tick % ENCOUNTER_TICKS == 0:
+			_reset_snake(snake)
+			_reset_snake(second_snake)
+			steve.vitals_state.magic = steve.vitals_state.max_magic
+			steve.magic = steve.vitals_state.magic
+			var soak_manual = steve.execute_combat_skill(snake, "legacy.basic", manual_intent)
+			var soak_automation = steve.execute_combat_skill(second_snake, "legacy.active", automation_intent)
+			scene_soak_actions += 2
+			if not soak_manual.ok or not soak_automation.ok or snake.health != soak_manual.vitals.health or second_snake.health != soak_automation.vitals.health:
+				scene_soak_failures += 1
+	test.expect(scene_soak_actions == 120 and scene_soak_failures == 0, "15-minute simulated scene soak keeps both migrated combat adapters synchronized")
 	var steve_health = steve.health
 	var player_result = steve.injury(-7, false)
 	test.expect(player_result.ok and steve.health == steve_health - 7, "Snake-to-Steve adapter resolves CombatAction damage into Steve Vitals")
@@ -52,6 +69,11 @@ func _run():
 	var snake_result = snake.injury(-7, false)
 	test.expect(snake_result.ok and snake.health == snake_health - 6 and snake.get_node("HealthBar/HealthBar").value == snake.health, "Steve-to-Snake adapter resolves defense and synchronizes the health bar")
 	_finish(test, world)
+
+func _reset_snake(snake):
+	snake.vitals_state = snake.vitals_model.new_state(snake.max_health, 0)
+	snake.health = snake.vitals_state.health
+	snake.get_node("HealthBar/HealthBar").value = snake.health
 
 func _finish(test, world):
 	if world != null:

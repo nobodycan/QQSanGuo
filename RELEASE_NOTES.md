@@ -15,6 +15,7 @@
 - Routed Steve's auto-chase and hit callbacks through CombatDriver, with real-scene coverage for manual/basic and automation/active skills against two Snake instances.
 - Removed Steve's legacy magic-to-health setter and routed self-heal HP/MP recovery through Vitals.
 - Added the Phase 21 Combat Gate acceptance report, documenting verified evidence and the remaining real-scene soak requirement.
+- Added a 54,000-tick real Steve/Snake adapter-scene soak covering 60 encounters and 120 shared-driver dispatches.
 
 ### Phase 20 - EnemyBrain Foundation
 

@@ -2,7 +2,7 @@
 
 ## Combat Gate Status
 
-Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) combat soak, and a project-started real Steve/Snake adapter fixture. Steve auto-chase, hit callbacks, and self-heal now use the shared CombatDriver/Vitals paths; the remaining Gate work is migrated-adapter scene-soak evidence.
+Phase 21 remains in progress. The integration lane now includes a deterministic two-skill by two-enemy CombatAction matrix, a fixed-seed encounter trace spanning target selection, enemy AI transitions, and spawn ownership, a 54,000-tick (15-minute at 60 Hz) component soak, and a 54,000-tick real Steve/Snake adapter-scene soak. Steve auto-chase, hit callbacks, and self-heal now use the shared CombatDriver/Vitals paths; the remaining Gate work is repeated real-scene death and reward presentation.
 
 The current [Phase 21 Combat Gate acceptance report](docs/superpowers/reports/2026-07-23-phase-21-combat-gate-acceptance.md) records verified evidence and the remaining real-scene soak requirement.
 
