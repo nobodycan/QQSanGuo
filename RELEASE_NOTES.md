@@ -10,6 +10,7 @@
 - Added idempotent player v0-to-v1 migration for legacy experience and attribute fields.
 - Routed Steve experience rewards through PlayerStats instead of directly incrementing legacy level and attributes.
 - Added V2 envelope coverage for player v0 migration and repeat-normalization equivalence.
+- Recorded the Phase 15 authority boundary; legacy equipment attribute mutation remains explicitly deferred to Phase 23.
 
 ### Phase 14 - Player Intent Foundation
 
