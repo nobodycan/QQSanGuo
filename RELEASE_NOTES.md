@@ -5,6 +5,7 @@
 ### Phase 18 - Damage Foundation
 
 - Added deterministic damage resolution with multiplier, critical, defense, finite-number validation, and a non-negative floor.
+- Added deterministic stackable effect state with refresh and expiry behavior.
 
 ### Phase 17 - Targeting Foundation
 

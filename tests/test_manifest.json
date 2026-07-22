@@ -114,6 +114,13 @@
       "script": "tests/test_damage_pipeline.gd"
     },
     {
+      "id": "effect_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_effect_state.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
