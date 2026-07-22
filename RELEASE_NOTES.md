@@ -9,6 +9,7 @@
 - Added a legacy wallet bridge that projects idempotent wallet operations back to the existing money and juntuan UI fields.
 - Routed Steve reward updates through PlayerInventory wallet operations, preserving legacy calls while supporting explicit idempotent reward IDs.
 - Added EconomyTransaction preflight for atomic wallet debit plus inventory credit; duplicate, overdraft, and full-inventory paths leave both states unchanged.
+- Added RewardService for idempotent atomic wallet and optional item rewards; full inventory prevents partial reward grants.
 
 ### Phase 23 - Equipment Foundation
 

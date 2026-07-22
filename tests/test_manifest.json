@@ -275,6 +275,13 @@
       "script": "tests/test_economy_transaction.gd"
     },
     {
+      "id": "reward_service",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_reward_service.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
