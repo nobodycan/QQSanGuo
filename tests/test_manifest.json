@@ -240,6 +240,13 @@
       "script": "tests/test_legacy_inventory_bridge.gd"
     },
     {
+      "id": "equipment_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_equipment_state.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

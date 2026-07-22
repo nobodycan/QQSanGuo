@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 23 - Equipment Foundation
+
+- Added a versioned 10-slot EquipmentState with job/level validation, equip/swap/unequip commands, and base-derived modifier aggregation without stat drift.
+
 ### Phase 22 - Inventory Identity Foundation
 
 - Added stable ItemTemplate IDs plus explicit stack and non-stack ItemInstance identities as the basis for command-driven inventory state.

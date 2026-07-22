@@ -16,6 +16,10 @@ Remaining inventory UI callers now invoke `PlayerInventory` commands instead of 
 
 Legacy import now reconstructs a distinct `instance_id` for every non-stack item, so duplicate equipment names remain distinguishable after migration.
 
+## Equipment Foundation
+
+Phase 23 has begun with a versioned 10-slot equipment model. It validates item slot, job, and level eligibility, supports equip/swap/unequip, and recomputes derived modifiers from base stats rather than incrementally mutating attributes.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.
