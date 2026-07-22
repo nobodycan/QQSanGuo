@@ -5,10 +5,10 @@ const SCHEMA_VERSION = 2
 func new_envelope() -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
-		"section_versions": {"metadata": 1, "location": 1, "player": 0, "inventory": 0, "equipment": 0, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
+		"section_versions": {"metadata": 1, "location": 1, "player": 1, "inventory": 0, "equipment": 0, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
 		"metadata": {"content_revision": "v1-pilot"},
 		"location": {"map_id": "", "spawn_id": ""},
-		"player": {}, "inventory": {}, "equipment": {}, "skills": {}, "quests": {}, "world": {}, "legacy": {}
+		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "inventory": {}, "equipment": {}, "skills": {}, "quests": {}, "world": {}, "legacy": {}
 	}
 
 func normalize(raw):
