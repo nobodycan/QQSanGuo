@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 12 - Settings and Audio Foundation
+
+- Added isolated `settings.cfg` persistence for master audio volume through `AudioManager`.
+- Added an audio settings round-trip test; existing Godot exit resource-leak logs remain visible to the strict runner.
+
 ### Phase 11 - V1 to V2 Migration Aliases
 
 - Added versioned aliases for pilot V1 map paths, Chinese item names, and skill names.

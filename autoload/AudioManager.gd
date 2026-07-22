@@ -3,6 +3,19 @@ extends Node
 var settings_path = "user://settings.cfg"
 var current_bgm = ""
 
+func load_settings() -> Dictionary:
+	var config = ConfigFile.new()
+	if config.load(settings_path) != OK:
+		return {"ok": true, "volume_db": 0.0}
+	return {"ok": true, "volume_db": float(config.get_value("audio", "master_volume_db", 0.0))}
+
+func save_settings(volume_db: float) -> Dictionary:
+	var config = ConfigFile.new()
+	config.set_value("audio", "master_volume_db", volume_db)
+	if config.save(settings_path) != OK:
+		return _failure("settings_write_failed")
+	return {"ok": true, "error_code": "", "operation_id": "audio.settings", "data": volume_db}
+
 func set_bus_volume(bus_name: String, volume_db: float) -> Dictionary:
 	if bus_name.empty():
 		return _failure("invalid_bus")

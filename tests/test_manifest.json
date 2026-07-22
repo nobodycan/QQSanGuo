@@ -58,6 +58,13 @@
       "script": "tests/test_v1_to_v2_migration.gd"
     },
     {
+      "id": "audio_settings",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_audio_settings.gd"
+    },
+    {
       "id": "scene_transaction",
       "kind": "godot",
       "lane": "unit",
