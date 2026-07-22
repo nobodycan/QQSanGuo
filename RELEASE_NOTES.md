@@ -10,6 +10,7 @@
 - Added inventory consumption with final-stack cleanup and quest-item consumption protection.
 - Added canonical inventory export and idempotent v0-to-v1 migration using legacy item-name aliases.
 - Promoted the GameStateV2 inventory section to v1 with safe empty-v0 migration and explicit rejection of unknown or lossy sections.
+- Added a deterministic 1,000-command inventory regression that proves move/split quantity conservation and export/import canonical equivalence.
 
 ### Phase 21 - Combat Gate Audit
 

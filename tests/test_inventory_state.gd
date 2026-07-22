@@ -26,7 +26,45 @@ func _init():
 	var quest = ItemTemplate.new().normalize({"id": "item.quest", "stack_limit": 1, "quest": true})
 	var quest_state = inventory.add(inventory.new_state(), quest, 1, instances)
 	test.expect(inventory.consume(quest_state, 0, 1, quest).empty(), "quest items cannot be consumed")
+	var random_state = inventory.add(inventory.new_state(), template, 300, instances)
+	var random = RandomNumberGenerator.new()
+	random.seed = 2201
+	for command_index in range(1000):
+		var before = inventory.export_state(random_state)
+		var next = {}
+		if command_index % 2 == 0:
+			next = inventory.move(random_state, random.randi_range(0, InventoryState.SLOT_COUNT - 1), random.randi_range(0, InventoryState.SLOT_COUNT - 1))
+		else:
+			var source_slot = _slot_with_quantity(random_state, 2)
+			var target_slot = _empty_slot(random_state)
+			if source_slot >= 0 and target_slot >= 0:
+				next = inventory.split(random_state, source_slot, target_slot, random.randi_range(1, int(random_state.slots[source_slot].quantity) - 1))
+		if not next.empty():
+			random_state = next
+		else:
+			test.expect(to_json(inventory.export_state(random_state)) == to_json(before), "rejected random command preserves state " + str(command_index))
+		test.expect(_quantity(random_state, "item.herb") == 300, "random command preserves herb quantity " + str(command_index))
+	test.expect(to_json(inventory.normalize(inventory.export_state(random_state))) == to_json(inventory.export_state(random_state)), "random inventory export round trips canonically")
 	var migrated = inventory.migrate_v0({"0": ["草药", 2]}, {"草药": "item.herb"})
 	var remigrated = inventory.migrate_v0(migrated, {})
 	test.expect(migrated.slots[0].template_id == "item.herb" and remigrated.version == InventoryState.VERSION and remigrated.slots.size() == InventoryState.SLOT_COUNT and remigrated.slots[0].template_id == migrated.slots[0].template_id and remigrated.slots[0].quantity == migrated.slots[0].quantity, "v0 migration is idempotent and canonical")
 	test.finish(self, "inventory_state")
+
+func _quantity(state: Dictionary, template_id: String) -> int:
+	var total = 0
+	for slot in state.slots:
+		if slot.get("template_id", "") == template_id:
+			total += int(slot.get("quantity", 0))
+	return total
+
+func _slot_with_quantity(state: Dictionary, minimum: int) -> int:
+	for index in range(InventoryState.SLOT_COUNT):
+		if int(state.slots[index].get("quantity", 0)) >= minimum:
+			return index
+	return -1
+
+func _empty_slot(state: Dictionary) -> int:
+	for index in range(InventoryState.SLOT_COUNT):
+		if state.slots[index].empty():
+			return index
+	return -1
