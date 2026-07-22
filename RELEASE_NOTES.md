@@ -5,6 +5,7 @@
 ### Phase 26 - Loot Foundation
 
 - Added a seed-deterministic LootTable with guaranteed, probabilistic, quantity-ranged, and condition-gated drops.
+- Added atomic multi-item reward commits; a full inventory rolls back every item and currency component.
 
 ### Phase 25 - Deterministic Enhancement Foundation
 
