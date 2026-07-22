@@ -18,8 +18,10 @@
 - Steve's legacy `magic` health setter has been removed and the self-heal timer now uses Vitals.recover; the real-scene fixture verifies simultaneous HP/MP recovery.
 - The real-scene fixture now simulates 54,000 ticks with 60 encounters and 120 migrated adapter dispatches without Vitals or health-bar divergence.
 - Real Snake death now owns its idempotency guard; repeated death presentation grants money once in the project-scene fixture.
+- Steve's remaining injury signal now delegates to the CombatAction/Vitals adapter rather than directly mutating HP.
+- `Character/dengmao.gd` still owns a separate direct HP/damage model, so the all-enemy CombatAction/Vitals hard requirement is not yet evidenced.
 
 ## Next Vertical Slice
 
-1. Perform the final hard-gate audit and document any unmet roadmap requirement.
-2. Create the `combat-vertical-slice` tag only if every hard requirement has evidence.
+1. Migrate the dengmao boss HP and damage paths through CombatAction and Vitals.
+2. Re-run the hard-gate audit and create the `combat-vertical-slice` tag only if every requirement has evidence.

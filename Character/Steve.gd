@@ -491,8 +491,7 @@ func _on_climb_body_entered(body):
 		cnt = 2
 
 func _on_Steve_injury():
-	health -= 10
-	pass # Replace with function body.
+	injury(-10)
 
 func dead():
 	state_machine.travel("die")
