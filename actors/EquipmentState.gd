@@ -49,6 +49,27 @@ func derived(base: Dictionary, raw) -> Dictionary:
 			result[key] = int(result.get(key, 0)) + int(item.modifiers[key])
 	return result
 
+func migrate_v0(raw: Dictionary, aliases: Dictionary) -> Dictionary:
+	if typeof(raw) != TYPE_DICTIONARY:
+		return {}
+	if int(raw.get("version", 0)) == VERSION:
+		return normalize(raw)
+	var result = new_state()
+	for slot_name in SLOTS:
+		var legacy_name = str(raw.get(slot_name, ""))
+		if legacy_name.empty():
+			continue
+		var definition = aliases.get(legacy_name, {})
+		if typeof(definition) != TYPE_DICTIONARY:
+			return {}
+		var item = definition.duplicate(true)
+		item.slot = slot_name
+		item.instance_id = "legacy." + (slot_name + "." + legacy_name).md5_text()
+		if not _valid_item(item, slot_name):
+			return {}
+		result.slots[slot_name] = item
+	return normalize(result)
+
 func _eligible(item: Dictionary, player_job: String, player_level: int) -> bool:
 	return (str(item.get("job", "")) == "" or str(item.job) == player_job) and player_level >= int(item.get("level", 1))
 

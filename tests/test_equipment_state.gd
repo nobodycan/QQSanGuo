@@ -20,4 +20,8 @@ func _init():
 	test.expect(equipment.equip(equipment.new_state(), sword, "fs", 2).empty() and equipment.equip(equipment.new_state(), sword, "js", 1).empty(), "rejects job and level ineligible equipment")
 	var unequipped = equipment.unequip(state, "Sword")
 	test.expect(unequipped.slots.Sword.empty() and equipment.derived(base, unequipped).basic_damage == 20, "unequip restores base-derived value")
+	var migrated = equipment.migrate_v0({"Sword": "legacy sword", "Ring": "legacy sword"}, {"legacy sword": {"job": "js", "level": 1, "modifiers": {"basic_damage": 4}}})
+	var remigrated = equipment.migrate_v0(migrated, {})
+	test.expect(migrated.slots.Sword.instance_id != migrated.slots.Ring.instance_id and remigrated.slots.Sword.instance_id == migrated.slots.Sword.instance_id and remigrated.slots.Ring.instance_id == migrated.slots.Ring.instance_id, "v0 migration creates stable distinct equipment identities")
+	test.expect(equipment.migrate_v0({"Sword": "unknown"}, {}).empty(), "rejects legacy equipment without an explicit alias")
 	test.finish(self, "equipment_state")
