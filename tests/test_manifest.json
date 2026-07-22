@@ -93,6 +93,13 @@
       "script": "tests/test_vitals.gd"
     },
     {
+      "id": "target_registry",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_target_registry.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 17 - Targeting Foundation
+
+- Added faction-aware target registration with stable nearest-target selection and release handling.
+
 ### Phase 16 - Vitals Foundation
 
 - Added a versioned Vitals model for HP/MP clamp, recovery, idempotent death, and revival.
