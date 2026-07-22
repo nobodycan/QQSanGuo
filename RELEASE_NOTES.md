@@ -8,6 +8,7 @@
 - Added regression coverage for overkill, duplicate death prevention, dead recovery, and revival bounds.
 - Added an explicit adapter for legacy negative-damage and positive-recovery health deltas.
 - Routed Steve healing and injury signals through Vitals while preserving legacy death presentation.
+- Recorded Phase 16 acceptance after the full 19-test Godot Gate passed.
 
 ### Phase 15 - PlayerStats Foundation
 
