@@ -4,6 +4,7 @@ const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
 	var manager = preload("res://autoload/SaveManager.gd").new()
+	get_root().add_child(manager)
 	var test = TestProtocol.new()
 	manager.save_path = "user://test_game_state.json"
 	manager.backup_path = "user://test_game_state.backup.json"
@@ -27,6 +28,9 @@ func _init():
 	test.expect(result["ok"] == true, "loads backup after corrupted save")
 	test.expect(result["ok"] and result["data"]["player"]["money"] == 0, "backup preserves first generation")
 	_cleanup(manager)
+	state.free()
+	manager.get_parent().remove_child(manager)
+	manager.free()
 	test.finish(self, "save_manager")
 
 func _cleanup(manager):

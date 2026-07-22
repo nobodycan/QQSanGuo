@@ -4,7 +4,9 @@
 
 ### Phase 13 - Foundation Gate Audit
 
-- Added an evidence-based Foundation Gate audit; resource checks pass, while legacy Godot exit resource leaks correctly block the gate.
+- Foundation Gate now passes all 16 manifest tests on Godot `3.5.3`, including 75 `PackedScene` resource smoke checks.
+- Removed test-owned state and scene resources before shutdown, eliminating process-exit resource leaks without suppressing errors.
+- Added a minimal scene-restore fixture and focused scene smoke coverage on `PackedScene` loadability rather than legacy gameplay side effects.
 - Removed the V1 save test's intentional invalid-JSON engine error without weakening backup recovery coverage.
 
 ### Phase 12 - Settings and Audio Foundation

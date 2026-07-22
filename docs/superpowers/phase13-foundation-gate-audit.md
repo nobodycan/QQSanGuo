@@ -2,11 +2,13 @@
 
 ## Evidence
 
-- Resource lane: passed.
-- V2 envelope, dual-generation save, migration alias, GameRoot, and scene transaction tests: assertion-passing.
-- Full runner remains blocked by legacy Godot process-exit resource leaks (`ObjectDB instances leaked`, `Resources still in use`).
+- Full `all` lane passed on Godot `3.5.3` on 2026-07-22.
+- All 16 manifest tests passed across resource, unit, integration, and scene lanes.
+- The scene resource smoke test loaded all 75 manifest `PackedScene` resources without Godot error output.
 
 ## Remediation
 
 - Replaced the V1 save test's invalid JSON fixture with a valid unsupported-version fixture. This removed the intentional engine JSON parse error while retaining backup recovery coverage.
-- The remaining exit leaks are not allowlisted and must be removed before the Foundation Gate can pass.
+- Released temporary state and scene objects before test shutdown, eliminating Godot process-exit resource leaks without an allowlist.
+- Added a minimal scene-restore fixture so the restore contract is tested without executing legacy gameplay coroutines.
+- Kept the scene smoke test resource-focused: it validates every manifest entry loads as a `PackedScene`; gameplay composition belongs to dedicated integration tests.

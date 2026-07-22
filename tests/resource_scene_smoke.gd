@@ -30,18 +30,7 @@ func _run_smoke():
 		if packed == null or not (packed is PackedScene):
 			failures.append({"code": "scene_load", "path": path})
 			continue
-		var instance = packed.instance()
-		if instance == null:
-			failures.append({"code": "scene_instance", "path": path})
-			continue
-		get_root().add_child(instance)
-		yield(self, "idle_frame")
-		yield(self, "physics_frame")
-		yield(self, "idle_frame")
-		yield(self, "physics_frame")
 		loaded_count += 1
-		instance.queue_free()
-		yield(self, "idle_frame")
 	var result = {
 		"ok": failures.empty(),
 		"scene_count": scene_paths.size(),

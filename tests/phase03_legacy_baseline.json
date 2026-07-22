@@ -2,7 +2,7 @@
     "assets\\map\\guyidaoguanai.gd:20:\tget_tree().change_scene(\"res://Level1.tscn\")",
     "assets\\map\\guyidaoguanai.gd:24:\tget_tree().change_scene(\"res://JiangLinXiJiao.tscn\")",
     "autoload\\GameState.gd:165:\treturn get_node_or_null(\"/root/PlayerInventory\")",
-    "autoload\\SceneManager.gd:23:\tif get_tree().change_scene(map_path) != OK:",
+    "autoload\\SceneManager.gd:25:\tif get_tree().change_scene(map_path) != OK:",
     "Character\\Steve.gd:10:var basic_shufang = PlayerInventory.basic_shufang",
     "Character\\Steve.gd:107:\tPlayerInventory.level += 1",
     "Character\\Steve.gd:108:\texperience_required = get_required_experience(PlayerInventory.level + 1)",

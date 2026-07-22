@@ -20,6 +20,8 @@ func restore_snapshot(snapshot):
 func change_to_map(map_path):
 	if typeof(map_path) != TYPE_STRING or not map_path.begins_with("res://") or not map_path.ends_with(".tscn"):
 		return _failure("invalid_map_path")
+	if not ResourceLoader.exists(map_path):
+		return _failure("scene_change_failed")
 	if get_tree().change_scene(map_path) != OK:
 		return _failure("scene_change_failed")
 	yield(get_tree(), "idle_frame")

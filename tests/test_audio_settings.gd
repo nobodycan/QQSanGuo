@@ -13,4 +13,5 @@ func _init():
 	test.expect(manager.save_settings(-8.5).ok, "writes audio settings")
 	test.expect(manager.load_settings().volume_db == -8.5, "reloads saved volume")
 	if directory.file_exists(manager.settings_path): directory.remove(manager.settings_path)
+	manager.free()
 	test.finish(self, "audio_settings")

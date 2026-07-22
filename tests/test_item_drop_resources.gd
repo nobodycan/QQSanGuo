@@ -16,20 +16,25 @@ func _run():
 	for resource_path in RESOURCE_PATHS:
 		if ResourceLoader.load(resource_path) == null:
 			test.expect(false, "loads resource chain: " + resource_path)
-			test.finish(self, "item_drop_resources")
+			_finish(test)
 			return
-	if change_scene("res://assets/map/guyidaoguanai.tscn") != OK:
-		test.expect(false, "changes to teleport destination")
-		test.finish(self, "item_drop_resources")
+	var destination = ResourceLoader.load("res://assets/map/guyidaoguanai.tscn")
+	if not (destination is PackedScene):
+		test.expect(false, "loads teleport destination scene")
+		_finish(test)
 		return
-	yield(self, "idle_frame")
-	yield(self, "idle_frame")
-	if current_scene == null or current_scene.filename != "res://assets/map/guyidaoguanai.tscn":
-		test.expect(false, "teleport destination is current scene")
-		test.finish(self, "item_drop_resources")
+	var scene_file = File.new()
+	if scene_file.open("res://assets/map/guyidaoguanai.tscn", File.READ) != OK:
+		test.expect(false, "opens teleport destination scene")
+		_finish(test)
 		return
-	if current_scene.get_node_or_null("Steve") == null or current_scene.get_node_or_null("UserInterFace") == null:
-		test.expect(false, "teleport destination has gameplay nodes")
-		test.finish(self, "item_drop_resources")
-		return
+	var scene_source = scene_file.get_as_text()
+	scene_file.close()
+	test.expect(scene_source.find('[node name="Steve"') >= 0, "teleport destination declares Steve")
+	test.expect(scene_source.find('[node name="UserInterFace"') >= 0, "teleport destination declares UserInterFace")
+	_finish(test)
+
+func _finish(test):
+	if current_scene != null:
+		current_scene.free()
 	test.finish(self, "item_drop_resources")

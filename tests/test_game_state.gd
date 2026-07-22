@@ -21,4 +21,5 @@ func _init():
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "serialized state normalizes again")
 	data.erase("player")
 	test.expect(state.normalize(data) == null, "rejects missing player section")
+	state.free()
 	test.finish(self, "game_state")
