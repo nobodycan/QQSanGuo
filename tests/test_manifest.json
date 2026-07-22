@@ -9,6 +9,13 @@
       "script": "tests/test_resource_audit.ps1"
     },
     {
+      "id": "startup_import_safety",
+      "kind": "powershell",
+      "lane": "resource",
+      "timeout_seconds": 30,
+      "script": "tests/test_startup_import_safety.ps1"
+    },
+    {
       "id": "game_state",
       "kind": "godot",
       "lane": "unit",

@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+### Phase 01 Follow-up - Cold Import and Icon Fallback Safety
+
+- Replaced the `SkillsFactory.gd` fallback texture `preload()` with runtime `load()` so the script can parse before a project's first Godot import.
+- Added `startup_import_safety` to the resource lane, preventing a reintroduction of the cold-import-unsafe preload.
+- Fixed `ItemIconResolver` to check the source `.png` file instead of treating an orphaned `.png.import` sidecar as a valid icon.
+- Updated the icon resolver regression test to assert raw-file absence, matching the intended fallback contract.
+
+### Verification
+
+- A clean isolated Godot 3.5.3 import completed with 16,099 generated cache files and no temporary import files.
+- The `SkillsFactory` cold-import regression test and the post-import icon fallback regression test pass.
+
 ### Phase 02 - Test Orchestration and Structured Diagnostics
 
 - Added `scripts/test_runner.ps1` as the single test entry point with lane selection, watchdogs, isolated test homes, UTF-8 logs, JSON reports, and JUnit output.

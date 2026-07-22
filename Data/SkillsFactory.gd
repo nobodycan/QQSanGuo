@@ -88,5 +88,5 @@ func get_goods_texture(picture_name: String) -> Texture:
 		return load(path) as Texture
 	# 如果不存在，则返回默认的 icon 图片
 	else:
-		return preload("res://69896-1.png")
+		return load("res://69896-1.png") as Texture
 
