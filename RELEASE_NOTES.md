@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 06 - Transactional World Replacement Foundation
+
+- Added `SceneManager.replace_world`, which validates and instances a candidate before replacing the existing `WorldRoot` child.
+- Added a regression test proving missing candidates preserve the current world without emitting an engine error.
+
 ### Phase 05 - Persistent Runtime Root Foundation
 
 - Added the compatibility-first `GameRoot` scene with stable service, world, player, runtime actor, UI, and transition containers.
