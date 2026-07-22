@@ -59,3 +59,15 @@ func split(state: Dictionary, from_slot: int, to_slot: int, quantity: int) -> Di
 	source.quantity -= quantity
 	result.slots[to_slot] = {"template_id": source.template_id, "quantity": quantity}
 	return result
+
+func consume(state: Dictionary, slot_index: int, quantity: int, template: Dictionary) -> Dictionary:
+	var result = normalize(state)
+	if result.empty() or slot_index < 0 or slot_index >= SLOT_COUNT or quantity < 1 or bool(template.get("quest", false)):
+		return {}
+	var slot = result.slots[slot_index]
+	if slot.empty() or slot.get("template_id", "") != template.get("id", "") or int(slot.get("quantity", 0)) < quantity:
+		return {}
+	slot.quantity -= quantity
+	if slot.quantity == 0:
+		result.slots[slot_index] = {}
+	return result
