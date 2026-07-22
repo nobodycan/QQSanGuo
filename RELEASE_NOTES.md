@@ -5,6 +5,7 @@
 ### Phase 20 - EnemyBrain Foundation
 
 - Added deterministic idle/chase/attack/return/dead enemy AI transitions with 10,000 tick regression coverage.
+- Added scoped spawn ownership and one-time defeat reward protection.
 
 ### Phase 19 - Skills Foundation
 

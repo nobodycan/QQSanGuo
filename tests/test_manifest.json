@@ -142,6 +142,13 @@
       "script": "tests/test_enemy_brain.gd"
     },
     {
+      "id": "spawner_scope",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_spawner_scope.gd"
+    },
+    {
       "id": "save_manager",
       "kind": "godot",
       "lane": "integration",
