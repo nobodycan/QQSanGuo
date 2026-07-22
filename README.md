@@ -20,6 +20,8 @@ Legacy import now reconstructs a distinct `instance_id` for every non-stack item
 
 Phase 23 has begun with a versioned 10-slot equipment model. It validates item slot, job, and level eligibility, supports equip/swap/unequip, and recomputes derived modifiers from base stats rather than incrementally mutating attributes. `GameStateV2` now owns equipment section v1, upgrades only empty v0 sections, and rejects lossy or future formats.
 
+PlayerStats now exposes the same composition path used by equipment: level-derived base values are calculated first, then equipment modifiers are aggregated, so repeated recalculation is deterministic.
+
 ## Combat Gate Status
 
 Phase 21 Combat Gate has passed. The integration lane includes a deterministic two-skill by two-enemy CombatAction matrix, fixed-seed targeting/AI/spawn trace, 54,000-tick component and real-adapter scene soaks, full manual/automation real-scene matrix coverage, and idempotent enemy rewards. The accepted Gate tag is `combat-vertical-slice`.

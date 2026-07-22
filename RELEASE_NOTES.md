@@ -6,6 +6,7 @@
 
 - Added a versioned 10-slot EquipmentState with job/level validation, equip/swap/unequip commands, and base-derived modifier aggregation without stat drift.
 - Promoted GameStateV2 equipment to section v1 with safe empty-v0 migration and explicit rejection of lossy or unsupported versions.
+- Added deterministic PlayerStats and EquipmentState composition so equipment modifiers apply after level-derived base stats without drift.
 
 ### Phase 22 - Inventory Identity Foundation
 

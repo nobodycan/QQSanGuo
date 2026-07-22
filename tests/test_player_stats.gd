@@ -1,6 +1,7 @@
 extends SceneTree
 
 const PlayerStats = preload("res://actors/PlayerStats.gd")
+const EquipmentState = preload("res://actors/EquipmentState.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
@@ -27,4 +28,11 @@ func _init():
 	test.expect(migrated.level == 3 and migrated.experience == 4 and migrated.base.max_health == 1200, "migrates player v0 fields")
 	var repeated = stats.migrate_v0(migrated)
 	test.expect(repeated.level == migrated.level and repeated.experience == migrated.experience and repeated.base.max_health == migrated.base.max_health and repeated.derived.max_health == migrated.derived.max_health, "player migration is idempotent")
+	var equipment = EquipmentState.new()
+	var equipped = equipment.equip(equipment.new_state(), {"instance_id": "item.sword.1", "slot": "Sword", "job": "js", "level": 1, "modifiers": {"basic_damage": 4, "max_health": 20}}, "js", 1)
+	var equipped_derived = stats.derive_with_equipment(stats.new_state(), equipped)
+	test.expect(equipped_derived.basic_damage == 24 and equipped_derived.max_health == 1020, "equipment modifiers compose with level-derived player stats")
+	for _repeat in range(10):
+		var recalculated = stats.derive_with_equipment(stats.new_state(), equipped)
+		test.expect(recalculated.basic_damage == equipped_derived.basic_damage and recalculated.max_health == equipped_derived.max_health, "equipment recomputation remains stable")
 	test.finish(self, "player_stats")

@@ -8,6 +8,7 @@ const XP_TO_NEXT = [
 	500, 520, 540, 560, 580, 600, 620, 640, 660
 ]
 const BASE = {"max_health": 1000, "max_magic": 1000, "basic_damage": 20, "basic_defende": 10, "basic_shugong": 0, "basic_shufang": 0, "force": 0, "agility": 0, "strong": 0, "wisdom": 0, "aim": 0}
+const EquipmentState = preload("res://actors/EquipmentState.gd")
 
 func new_state() -> Dictionary:
 	return {"version": SECTION_VERSION, "level": 1, "experience": 0, "overflow_experience": 0, "base": BASE.duplicate(true), "derived": BASE.duplicate(true)}
@@ -84,6 +85,12 @@ func apply_legacy(stats: Dictionary, inventory) -> bool:
 	for key in normalized.derived:
 		inventory.set(key, normalized.derived[key])
 	return true
+
+func derive_with_equipment(stats: Dictionary, equipment: Dictionary) -> Dictionary:
+	var normalized = normalize(stats)
+	if normalized.empty():
+		return {}
+	return EquipmentState.new().derived(normalized.derived, equipment)
 
 func _derived(base: Dictionary, level: int) -> Dictionary:
 	var result = base.duplicate(true)
