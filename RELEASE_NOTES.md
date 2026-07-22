@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 22 - Inventory Identity Foundation
+
+- Added stable ItemTemplate IDs plus explicit stack and non-stack ItemInstance identities as the basis for command-driven inventory state.
+
 ### Phase 21 - Combat Gate Audit
 
 - Recorded the Combat Gate as pending and identified the missing two-skill by two-enemy deterministic scenario coverage.

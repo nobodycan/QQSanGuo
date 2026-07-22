@@ -219,6 +219,13 @@
       "script": "tests/test_item_icon_resolver.gd"
     },
     {
+      "id": "item_identity",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_item_identity.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
