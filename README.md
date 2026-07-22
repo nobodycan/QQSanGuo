@@ -28,7 +28,7 @@ The legacy equipment bridge now converts existing item JSON fields into canonica
 
 ## Economy Foundation
 
-Phase 24 has begun with WalletState: versioned money and juntuan balances, non-negative preflight, and an operation ledger that makes rewards and transactions idempotent.
+Phase 24 has begun with WalletState: versioned money and juntuan balances, non-negative preflight, and an operation ledger that makes rewards and transactions idempotent. `GameStateV2` now persists wallet section v1 and safely initializes older envelopes that lack the section.
 
 ## Combat Gate Status
 

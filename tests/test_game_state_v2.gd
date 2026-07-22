@@ -12,6 +12,7 @@ func _init():
 	test.expect(normalized != null, "normalizes valid v2 envelope")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 1 and normalized.equipment.version == 1 and normalized.equipment.slots.size() == 10, "creates equipment section v1")
+	test.expect(normalized.section_versions.wallet == 1 and normalized.wallet.version == 1 and normalized.wallet.money == 0, "creates wallet section v1")
 	var parsed = JSON.parse(to_json(normalized))
 	test.expect(parsed.error == OK and state.normalize(parsed.result) != null, "v2 envelope round trips through JSON")
 	var legacy_player = state.new_envelope()
@@ -56,6 +57,24 @@ func _init():
 	unsafe_equipment["section_versions"] = unsafe_equipment_versions
 	unsafe_equipment["equipment"] = {"Sword": "legacy sword"}
 	test.expect(state.normalize(unsafe_equipment) == null, "rejects equipment v0 that lacks a lossless instance migration")
+	var legacy_wallet = state.new_envelope()
+	var legacy_wallet_versions = legacy_wallet.section_versions.duplicate()
+	legacy_wallet_versions.erase("wallet")
+	legacy_wallet["section_versions"] = legacy_wallet_versions
+	legacy_wallet.erase("wallet")
+	var migrated_wallet = state.normalize(legacy_wallet)
+	test.expect(migrated_wallet != null and migrated_wallet.section_versions.wallet == 1 and migrated_wallet.wallet.money == 0, "upgrades missing wallet v0 to v1")
+	var unsupported_wallet = state.new_envelope()
+	var unsupported_wallet_versions = unsupported_wallet.section_versions.duplicate()
+	unsupported_wallet_versions["wallet"] = 2
+	unsupported_wallet["section_versions"] = unsupported_wallet_versions
+	test.expect(state.normalize(unsupported_wallet) == null, "rejects unsupported wallet section version")
+	var unsafe_wallet = state.new_envelope()
+	var unsafe_wallet_versions = unsafe_wallet.section_versions.duplicate()
+	unsafe_wallet_versions["wallet"] = 0
+	unsafe_wallet["section_versions"] = unsafe_wallet_versions
+	unsafe_wallet["wallet"] = {"money": 5}
+	test.expect(state.normalize(unsafe_wallet) == null, "rejects wallet v0 that lacks a lossless migration")
 	envelope.erase("location")
 	test.expect(state.normalize(envelope) == null, "rejects missing location")
 	envelope = state.new_envelope()

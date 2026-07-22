@@ -3,14 +3,15 @@ extends Reference
 const SCHEMA_VERSION = 2
 const InventoryState = preload("res://actors/InventoryState.gd")
 const EquipmentState = preload("res://actors/EquipmentState.gd")
+const WalletState = preload("res://actors/WalletState.gd")
 
 func new_envelope() -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
-		"section_versions": {"metadata": 1, "location": 1, "player": 1, "inventory": InventoryState.VERSION, "equipment": EquipmentState.VERSION, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
+		"section_versions": {"metadata": 1, "location": 1, "player": 1, "wallet": WalletState.VERSION, "inventory": InventoryState.VERSION, "equipment": EquipmentState.VERSION, "skills": 0, "quests": 0, "world": 0, "legacy": 0},
 		"metadata": {"content_revision": "v1-pilot"},
 		"location": {"map_id": "", "spawn_id": ""},
-		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": EquipmentState.new().new_state(), "skills": {}, "quests": {}, "world": {}, "legacy": {}
+		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "wallet": WalletState.new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": EquipmentState.new().new_state(), "skills": {}, "quests": {}, "world": {}, "legacy": {}
 	}
 
 func normalize(raw):
@@ -26,6 +27,19 @@ func normalize(raw):
 	var player_stats = preload("res://actors/PlayerStats.gd").new()
 	result.player = player_stats.migrate_v0(result.player)
 	result.section_versions.player = player_stats.SECTION_VERSION
+	var wallet_version = int(raw.section_versions.get("wallet", 0))
+	if wallet_version > WalletState.VERSION:
+		return null
+	var wallet_state = WalletState.new()
+	if wallet_version == 0:
+		if raw.has("wallet") and (typeof(result.wallet) != TYPE_DICTIONARY or not result.wallet.empty()):
+			return null
+		result.wallet = wallet_state.new_state()
+	else:
+		result.wallet = wallet_state.normalize(result.wallet)
+		if result.wallet.empty():
+			return null
+	result.section_versions.wallet = WalletState.VERSION
 	var inventory_version = int(raw.section_versions.get("inventory", -1))
 	if inventory_version > InventoryState.VERSION:
 		return null
