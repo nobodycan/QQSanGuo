@@ -1,5 +1,20 @@
 {
   "entries": [
-    {"id":"map.level_one","scene":"res://Level1.tscn","kind":"map"}
+    {
+      "id":"map.level_one",
+      "scene":"res://Level1.tscn",
+      "kind":"map",
+      "default_spawn_id":"spawn.start",
+      "spawns":[{"id":"spawn.start","x":0,"y":0}],
+      "portals":[{"id":"portal.to_jianglin","target_map_id":"map.jianglin","target_spawn_id":"spawn.entry"}]
+    },
+    {
+      "id":"map.jianglin",
+      "scene":"res://JiangLinXiJiao.tscn",
+      "kind":"map",
+      "default_spawn_id":"spawn.entry",
+      "spawns":[{"id":"spawn.entry","x":0,"y":0}],
+      "portals":[{"id":"portal.to_level_one","target_map_id":"map.level_one","target_spawn_id":"spawn.start"}]
+    }
   ]
 }

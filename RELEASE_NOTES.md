@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Phase 07 - Map Definition Pilot
+
+- Added stable map, spawn, and portal definitions for the Level1 and JiangLin pilot maps.
+- Extended content auditing to reject missing default spawns, portal target maps, and portal target spawns.
+
 ### Phase 06 - Transactional World Replacement Foundation
 
 - Added `SceneManager.replace_world`, which validates and instances a candidate before replacing the existing `WorldRoot` child.
