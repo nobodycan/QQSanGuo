@@ -7,7 +7,9 @@ func _init():
 	var test = TestProtocol.new()
 	var registry = ContentRegistry.new()
 	var loaded = registry.load_content()
-	test.expect(loaded.ok and loaded.data.entry_count == 4 and registry.content_revision() == "v1-pilot" and registry.has_entry("map.level_one"), "loads every manifest content pack into one stable registry revision")
+	test.expect(loaded.ok and loaded.data.entry_count == 6 and registry.content_revision() == "v1-pilot-phase76" and registry.has_entry("map.level_one"), "loads every manifest content pack into one stable registry revision")
+	var skills = registry.entries_of_kind("skill")
+	test.expect(skills.size() == 3 and registry.resolve_legacy("skills", "饮血剑舞").data == "skill.blood_sword_dance", "registers every legacy skill under a stable content ID")
 	var map = registry.get_entry("map.jianglin")
 	test.expect(map.ok and map.data.scene == "res://JiangLinXiJiao.tscn", "returns trusted map definitions by stable ID")
 	map.data.scene = "res://mutated.tscn"

@@ -15,7 +15,7 @@ func _init():
 	test.expect(saved_first.ok and saved_first.generation == 0, "writes initial generation")
 	var stale = manager.state.new_envelope()
 	stale.metadata.content_revision = "v2-next"
-	var rejected = manager.save_data_compatible(stale, "v1-pilot")
+	var rejected = manager.save_data_compatible(stale, "v1-pilot-phase76")
 	test.expect(not rejected.ok and rejected.error == "content_revision_mismatch" and manager.load_latest().generation == 0, "rejects incompatible writes before changing save generations")
 	var second = manager.state.new_envelope()
 	second.location = {"map_id":"map.jianglin","spawn_id":"spawn.entry"}
@@ -29,7 +29,7 @@ func _init():
 	incompatible.open(saved_second.path, File.WRITE)
 	incompatible.store_string(to_json(incompatible_data))
 	incompatible.close()
-	var compatible = manager.load_latest_compatible("v1-pilot")
+	var compatible = manager.load_latest_compatible("v1-pilot-phase76")
 	test.expect(compatible.ok and compatible.generation == 0, "falls back to the newest content-compatible generation")
 	var corrupt = File.new()
 	corrupt.open(saved_second.path, File.WRITE)

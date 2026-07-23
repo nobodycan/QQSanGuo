@@ -233,6 +233,13 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 76 - 注册表驱动的旧技能兼容
+
+- `SkillsFactory` 现在会在 Autoload 完成初始化后，从已验证的 `ContentRegistry` 读取技能定义，并投影回旧场景继续使用的中文技能名及字段结构。
+- 三项既有技能均补入稳定内容 ID、别名和旧字段兼容元数据；当注册表不可用时仍安全回退到历史 JSON，避免冷导入或异常启动阻断游戏。
+- 内容修订号提升至 `v1-pilot-phase76`，使既有 V2 存档在内容不匹配时受到兼容性检查保护。
+- `ContentRegistry` 回归测试覆盖三项技能内容和旧名称别名，资源审计与完整 unit 通道均已通过。
+
 ### Phase 75 - 副本重试会话
 
 - 新增 `DungeonRetrySession`，仅在前一副本运行已清理后，才允许以保留检查点重试并启动新的 Director 运行。

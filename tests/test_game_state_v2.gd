@@ -10,7 +10,7 @@ func _init():
 	envelope.location = {"map_id": "map.level_one", "spawn_id": "spawn.start"}
 	var normalized = state.normalize(envelope)
 	test.expect(normalized != null, "normalizes valid v2 envelope")
-	test.expect(state.validate_content_compatibility(envelope, "v1-pilot").ok and state.validate_content_compatibility(envelope, "v2-next").reason == "content_revision_mismatch", "accepts only saves matching the loaded content revision")
+	test.expect(state.validate_content_compatibility(envelope, "v1-pilot-phase76").ok and state.validate_content_compatibility(envelope, "v2-next").reason == "content_revision_mismatch", "accepts only saves matching the loaded content revision")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
 	test.expect(normalized.section_versions.wallet == 1 and normalized.wallet.version == 1 and normalized.wallet.money == 0, "creates wallet section v1")

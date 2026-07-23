@@ -4,5 +4,9 @@
     "res://JiangLinXiJiao.tscn": {"map_id":"map.jianglin","spawn_id":"spawn.entry"}
   },
   "items": {"\u94c1\u5251":"item.iron_sword"},
-  "skills": {"\u6a2a\u51fb\u5251":"skill.basic_slash"}
+  "skills": {
+    "\u6a2a\u51fb\u5251":"skill.basic_slash",
+    "\u996e\u8840\u5251\u821e":"skill.blood_sword_dance",
+    "\u56de\u98ce\u62c2\u67f3":"skill.willow_return"
+  }
 }

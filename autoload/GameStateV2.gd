@@ -10,7 +10,7 @@ func new_envelope() -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
 		"section_versions": {"metadata": 1, "location": 1, "player": 1, "wallet": WalletState.VERSION, "inventory": InventoryState.VERSION, "equipment": EquipmentState.VERSION, "skills": 0, "quests": 0, "world": WorldState.VERSION, "legacy": 0},
-		"metadata": {"content_revision": "v1-pilot"},
+		"metadata": {"content_revision": "v1-pilot-phase76"},
 		"location": {"map_id": "", "spawn_id": ""},
 		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "wallet": WalletState.new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": EquipmentState.new().new_state(), "skills": {}, "quests": {}, "world": WorldState.new().new_state(), "legacy": {}
 	}

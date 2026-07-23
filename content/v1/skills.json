@@ -1,5 +1,7 @@
 {
   "entries": [
-    {"id":"skill.basic_slash","legacy_name":"\u6a2a\u51fb\u5251","kind":"skill","unlock_level":1,"magic_cost":0,"cooldown_ticks":0,"damage":10}
+    {"id":"skill.basic_slash","legacy_name":"\u6a2a\u51fb\u5251","kind":"skill","unlock_level":1,"magic_cost":0,"cooldown_ticks":0,"damage":10,"legacy_need_level":0,"attack_range":75,"description":"\u666e\u901a\u653b\u51fb","legacy_consume":0,"legacy_state":null,"legacy_duration":null},
+    {"id":"skill.blood_sword_dance","legacy_name":"\u996e\u8840\u5251\u821e","kind":"skill","unlock_level":1,"magic_cost":10,"cooldown_ticks":0,"damage":12,"attack_range":75,"description":"","legacy_consume":10,"legacy_state":"\u8ffd\u9b42","legacy_duration":25},
+    {"id":"skill.willow_return","legacy_name":"\u56de\u98ce\u62c2\u67f3","kind":"skill","unlock_level":1,"magic_cost":12,"cooldown_ticks":0,"damage":20,"attack_range":75,"description":"\u6708\u591c\u7a7a\u5bc2\u665a\u56de\u98ce\uff0c\u6768\u67f3\u8f7b\u62c2\u5251\u5f71\u73af","legacy_consume":12,"legacy_state":null,"legacy_duration":null}
   ]
 }
