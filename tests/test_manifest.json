@@ -32,6 +32,13 @@
       "script": "scripts/content_registry_audit.ps1"
     },
     {
+      "id": "content_registry",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_content_registry.gd"
+    },
+    {
       "id": "game_state",
       "kind": "godot",
       "lane": "unit",

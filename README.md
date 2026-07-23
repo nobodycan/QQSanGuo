@@ -132,6 +132,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 55 | Auto-combat encounter guard | Stops automation during active Boss or dungeon runs. |
 | 56 | Auto-combat UI guard | Stops automation for scene transitions and blocking UI. |
 | 57 | Auto-combat recovery guard | Stops automation for missing recovery items and area exits. |
+| 58 | Content registry loading | Manifest-backed, validated stable-ID content loading. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
