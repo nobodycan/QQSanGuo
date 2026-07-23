@@ -1,6 +1,7 @@
 extends Reference
 
 const StateV2 = preload("res://autoload/GameStateV2.gd")
+const V1ToV2Migrator = preload("res://autoload/V1ToV2Migrator.gd")
 
 var save_a_path = "user://save_a.json"
 var save_b_path = "user://save_b.json"
@@ -54,6 +55,12 @@ func save_data_compatible(snapshot: Dictionary, loaded_revision: String, registr
 	if not compatibility.ok:
 		return {"ok": false, "error": compatibility.reason}
 	return save_data(compatibility.state)
+
+func import_legacy_snapshot(legacy_snapshot: Dictionary, registry: Node) -> Dictionary:
+	var migrated = V1ToV2Migrator.new().migrate_snapshot_registered(legacy_snapshot, registry)
+	if not migrated.ok:
+		return {"ok": false, "error": migrated.error}
+	return save_data_compatible(migrated.state, str(registry.content_revision()), registry)
 
 func save_runtime_skills(snapshot: Dictionary, inventory: Node, registry: Node) -> Dictionary:
 	var captured = state.capture_runtime_skills(snapshot, inventory, registry)

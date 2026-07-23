@@ -41,6 +41,18 @@ func _init():
 	corrupt.close()
 	var recovered = manager.load_latest()
 	test.expect(recovered.ok and recovered.generation == 0, "falls back to valid generation")
+	var legacy_state = load("res://autoload/GameState.gd").new()
+	var legacy_snapshot = legacy_state.new_save_data()
+	legacy_state.free()
+	legacy_snapshot.map_path = "res://Level1.tscn"
+	legacy_snapshot.player.money = 25
+	legacy_snapshot.inventory = {"0": ["铁剑", 1]}
+	legacy_snapshot.skills = {"known": ["横击剑"], "equipped": ["横击剑"]}
+	var imported = manager.import_legacy_snapshot(legacy_snapshot, registry)
+	test.expect(imported.ok and imported.generation == 1 and imported.data.wallet.money == 25 and imported.data.inventory.slots[0].template_id == "item.iron_sword" and imported.data.skills.equipped == ["skill.basic_slash"], "imports a registry-validated legacy snapshot into alternating V2 storage")
+	legacy_snapshot.inventory = {"0": ["unknown", 1]}
+	var rejected_import = manager.import_legacy_snapshot(legacy_snapshot, registry)
+	test.expect(not rejected_import.ok and manager.load_latest().generation == 1, "rejects unsafe legacy imports without advancing the V2 generation")
 	_cleanup(manager)
 	registry.free()
 	test.finish(self, "save_manager_v2")
