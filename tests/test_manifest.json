@@ -326,6 +326,13 @@
       "script": "tests/test_shop_service.gd"
     },
     {
+      "id": "shop_session",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_shop_session.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

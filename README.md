@@ -110,6 +110,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 33 | Shop definitions | Stable catalog IDs, validated products, and flag-gated availability. |
 | 34 | Shop purchasing | Catalog-priced atomic purchases with repeat-ID protection. |
 | 35 | Shop selling | Slot-based atomic resale with quest-item protection. |
+| 36 | Shop sessions | Flag-gated catalog visibility enforced before purchase. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
