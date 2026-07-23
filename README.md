@@ -114,6 +114,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 37 | Dungeon state | Idempotent entry, checkpoint, failure, retry, and completion flow. |
 | 38 | Dungeon completion | Atomic completion rewards and first-clear world flags. |
 | 39 | Boss encounters | Idempotent phase progression, defeat, and reset state. |
+| 40 | Boss completion | Atomic defeat rewards and persistent defeated-boss records. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
