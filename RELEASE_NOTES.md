@@ -1,225 +1,225 @@
-# Release Notes
-
-## Unreleased
-
-The phase sections below are cumulative and map directly to the implementation milestones summarized in the README. Each section records the shipped authority boundary, compatibility work, and deterministic behavior covered by its associated tests.
-
-### Phase 29 - Quest Foundation
-
-- Added a deterministic five-state quest model with idempotent event IDs and invalid-transition rejection.
-- Added QuestDefinition prerequisite DAG validation with orphan and cycle rejection.
-- Added idempotent event-counted QuestObjective progress for talk, kill, collect, and map-entry targets.
-
-### Phase 28 - Dialogue Foundation
-
-- Added stable NPC registration and flag-gated dialogue definition normalization without scene-path coupling.
-- Added a single-interaction lock to reject duplicate and concurrent NPC interactions.
-- Added DialoguePresenter and InteractionSession so UI closes release interaction ownership deterministically.
-
-### Phase 27 - World State Foundation
-
-- Added a versioned WorldState and V2 world section v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only operations.
-- Added safe empty-v0 migration plus duplicate-ID and malformed-section rejection coverage.
-- Added idempotent world commands for flags, map unlocks, boss defeats, and checkpoints.
-- Added MapAccessPolicy to reject unknown, invalid-spawn, and locked map transitions before scene loading.
-- Added a SceneManager access-gated replacement path that leaves the active world untouched for locked transitions.
-
-### Phase 26 - Loot Foundation
-
-- Added a seed-deterministic LootTable with guaranteed, probabilistic, quantity-ranged, and condition-gated drops.
-- Added atomic multi-item reward commits; a full inventory rolls back every item and currency component.
-- Added LootRewardService to resolve fixed-seed table output into templates and commit it through one idempotent reward operation.
-- Added WorldPickup collection semantics that preserve pickups when reward preflight fails, including full inventories.
-- Added DefeatRewardGate to deduplicate repeated death and spawner callbacks before rewards are emitted.
-- Wired the dengmao Boss death adapter through DefeatRewardGate so repeated `die()` calls cannot double grant rewards.
-
-### Phase 25 - Deterministic Enhancement Foundation
-
-- Added persisted per-instance enhancement levels from `+0` through `+10`, with safe equipment v1-to-v2 migration.
-- Added explicit 10000-to-14000 basis-point multipliers, deterministic rounding, derived enhanced modifiers, and a stable `power_score`.
-- Added regression coverage for every enhancement level, cap rejection, independent same-name instances, and V2 JSON round-trip migration.
-- Added a three-tier enhancement quote and atomic wallet, material, and equipment transaction with idempotent operation handling.
-- Extended the legacy equipment bridge with per-slot enhancement and presenter-safe name, level, and power-score projection.
-- Added EquipmentPresenter for deterministic UI-ready slot titles and metadata derived from canonical equipment instances.
-
-### Phase 24 - Economy Foundation
-
-- Added versioned WalletState with non-negative balance preflight, bounded idempotency ledger, atomic delta application, and v0 migration.
-- Added GameStateV2 wallet section v1 with safe initialization for older envelopes and explicit future/lossy migration rejection.
-- Added a legacy wallet bridge that projects idempotent wallet operations back to the existing money and juntuan UI fields.
-- Routed Steve reward updates through PlayerInventory wallet operations, preserving legacy calls while supporting explicit idempotent reward IDs.
-- Added EconomyTransaction preflight for atomic wallet debit plus inventory credit; duplicate, overdraft, and full-inventory paths leave both states unchanged.
-- Added RewardService for idempotent atomic wallet and optional item rewards; full inventory prevents partial reward grants.
-
-### Phase 23 - Equipment Foundation
-
-- Added a versioned 10-slot EquipmentState with job/level validation, equip/swap/unequip commands, and base-derived modifier aggregation without stat drift.
-- Promoted GameStateV2 equipment to section v1 with safe empty-v0 migration and explicit rejection of lossy or unsupported versions.
-- Added deterministic PlayerStats and EquipmentState composition so equipment modifiers apply after level-derived base stats without drift.
-- Added idempotent EquipmentState v0 migration with explicit aliases and stable slot-distinct identities for repeated legacy equipment names.
-- Added a legacy equipment bridge that converts existing item JSON fields into canonical modifiers, validates eligibility, and projects equipped names to the current UI shape.
+# 发布说明
+
+## 未发布
+
+以下 Phase 为累计变更，并与 README 中的实现里程碑一一对应。每个章节记录已交付的权威边界、兼容性工作，以及相关测试覆盖的确定性行为。
+
+### Phase 29 - 任务基础
+
+- 新增确定性的五状态任务模型，使用幂等事件 ID，并拒绝非法状态转换。
+- 新增 `QuestDefinition` 前置任务 DAG 校验，拒绝孤立前置条件与循环依赖。
+- 新增按事件幂等计数的 `QuestObjective` 进度，覆盖对话、击杀、收集与进入地图目标。
+
+### Phase 28 - 对话基础
+
+- 新增稳定的 NPC 注册与带标记条件的对话定义归一化，不再耦合场景节点路径。
+- 新增单一交互锁，拒绝重复或并发的 NPC 交互。
+- 新增 `DialoguePresenter` 与 `InteractionSession`，使 UI 关闭时能确定性释放交互所有权。
+
+### Phase 27 - 世界状态基础
+
+- 新增版本化 `WorldState` 与 V2 的世界分段 v1，保存标记、解锁地图、已击败 Boss、检查点和一次性操作。
+- 新增安全的空 v0 迁移，以及重复 ID 与畸形分段的拒绝覆盖。
+- 新增用于标记、地图解锁、Boss 击败和检查点的幂等世界命令。
+- 新增 `MapAccessPolicy`，在加载场景前拒绝未知地图、无效出生点和锁定的地图转换。
+- 新增 `SceneManager` 的访问受控替换路径；转换被锁定时保持当前世界不变。
+
+### Phase 26 - 掉落基础
+
+- 新增由种子决定的 `LootTable`，支持保底、概率、数量区间和条件限制掉落。
+- 新增原子多物品奖励提交；背包已满时回滚全部物品与货币组成部分。
+- 新增 `LootRewardService`，将固定种子表结果解析为模板，并通过一次幂等奖励操作提交。
+- 新增 `WorldPickup` 拾取语义；奖励预检失败（包括背包已满）时保留拾取物。
+- 新增 `DefeatRewardGate`，在发放奖励前去重重复死亡和刷怪器回调。
+- 将 `dengmao` Boss 的死亡适配器接入 `DefeatRewardGate`，重复调用 `die()` 不会重复发奖。
+
+### Phase 25 - 确定性强化基础
+
+- 新增每个装备实例持久化的 `+0` 至 `+10` 强化等级，并提供安全的装备 v1 到 v2 迁移。
+- 新增明确的 `10000` 至 `14000` 基点倍率、确定性舍入、派生强化属性与稳定的 `power_score`。
+- 新增所有强化等级、上限拒绝、同名独立实例和 V2 JSON 往返迁移的回归覆盖。
+- 新增三档强化报价，以及包含钱包、材料与装备的原子事务和幂等操作处理。
+- 扩展旧装备桥接层，提供每槽位强化信息和供展示器使用的名称、等级、战力投影。
+- 新增 `EquipmentPresenter`，从规范装备实例确定性生成 UI 可用的槽位标题和元数据。
+
+### Phase 24 - 经济基础
+
+- 新增版本化 `WalletState`，支持非负余额预检、有界幂等账本、原子增量应用和 v0 迁移。
+- 将 `GameStateV2` 钱包分段升级为 v1；安全初始化旧存档，并明确拒绝未来版本或有损迁移。
+- 新增旧钱包桥接层，将幂等钱包操作投影回现有金币与军团 UI 字段。
+- 将 Steve 奖励更新路由至 `PlayerInventory` 钱包操作；保持旧调用兼容，同时支持显式幂等奖励 ID。
+- 新增 `EconomyTransaction` 预检，用于钱包扣款加背包入账的原子事务；重复、透支和背包满路径均不改变任一状态。
+- 新增 `RewardService`，用于幂等的原子钱包及可选物品奖励；背包满时不产生部分发奖。
+
+### Phase 23 - 装备基础
+
+- 新增版本化 10 槽 `EquipmentState`，支持职业/等级校验、穿戴/交换/卸下命令与无属性漂移的基础属性派生聚合。
+- 将 `GameStateV2` 装备分段升级为 v1，支持安全空 v0 迁移，并明确拒绝有损或不支持的版本。
+- 新增确定性 `PlayerStats` 与 `EquipmentState` 组合逻辑，使装备加成在等级基础属性之后生效且不漂移。
+- 新增幂等 `EquipmentState` v0 迁移，使用明确别名并为重复旧装备名称生成稳定、槽位区分的身份。
+- 新增旧装备桥接层，将既有物品 JSON 字段转换为规范加成、校验资格，并投影已装备名称至当前 UI 结构。
 
-### Phase 22 - Inventory Identity Foundation
+### Phase 22 - 背包身份基础
 
-- Added stable ItemTemplate IDs plus explicit stack and non-stack ItemInstance identities as the basis for command-driven inventory state.
-- Added a versioned 50-slot InventoryState with deterministic stack insertion and full-capacity rejection without partial mutation.
-- Added command-model slot movement and stack splitting with quantity-conservation regression coverage.
-- Added inventory consumption with final-stack cleanup and quest-item consumption protection.
-- Added canonical inventory export and idempotent v0-to-v1 migration using legacy item-name aliases.
-- Promoted the GameStateV2 inventory section to v1 with safe empty-v0 migration and explicit rejection of unknown or lossy sections.
-- Added a deterministic 1,000-command inventory regression that proves move/split quantity conservation and export/import canonical equivalence.
-- Added a legacy inventory bridge that imports explicit aliases, applies canonical move/split commands, and projects the state back to the existing UI dictionary format.
-- Routed PlayerInventory pickup insertion through the legacy bridge when metadata is available, preserving the existing UI projection while enforcing canonical capacity rules.
-- Routed legacy inventory take, place, and quantity adjustments through the command bridge; hotbar behavior remains unchanged pending its separate migration.
-- Replaced remaining inventory UI dictionary mutations with PlayerInventory command calls for consumption, deletion, and legacy slot drag operations.
-- Legacy non-stack inventory imports now mint distinct ItemInstance identities, preserving same-name equipment separation across migration.
+- 新增稳定的 `ItemTemplate` ID，以及可堆叠和不可堆叠 `ItemInstance` 的显式身份，作为命令驱动背包状态的基础。
+- 新增版本化 50 槽 `InventoryState`，支持确定性堆叠插入和不产生部分变更的容量满拒绝。
+- 新增命令模型的槽位移动和堆叠拆分，以及数量守恒回归覆盖。
+- 新增背包消耗、最后一组清理和任务物品消耗保护。
+- 新增规范背包导出，以及使用旧物品名称别名的幂等 v0 到 v1 迁移。
+- 将 `GameStateV2` 背包分段升级为 v1，支持安全空 v0 迁移，并明确拒绝未知或有损分段。
+- 新增确定性的 1,000 命令背包回归，证明移动/拆分的数量守恒和导入导出的规范等价性。
+- 新增旧背包桥接层，导入明确别名、应用规范移动/拆分命令，并将状态投影回现有 UI 字典格式。
+- 当物品元数据可用时，将 `PlayerInventory` 拾取插入路由至旧背包桥接层，在维持现有 UI 投影的同时执行规范容量规则。
+- 将旧背包拿取、放置和数量调整路由至命令桥接层；热键栏保持不变，等待独立迁移阶段。
+- 将剩余背包 UI 的字典直接修改替换为 `PlayerInventory` 命令调用，覆盖消耗、删除和旧槽位拖拽。
+- 旧不可堆叠背包导入现在会创建不同的 `ItemInstance` 身份，迁移后仍可区分同名装备。
 
-### Phase 21 - Combat Gate Audit
+### Phase 21 - 战斗 Gate 审计
 
-- Recorded the Combat Gate as pending and identified the missing two-skill by two-enemy deterministic scenario coverage.
-- Added a passing deterministic two-skill by two-enemy CombatAction integration matrix.
-- Added a fixed-seed 12-tick encounter trace covering target selection, enemy state transitions, and spawn ownership; matching seeds reproduce and distinct pilot roles diverge.
-- Added a 54,000-tick combat soak covering continuous targeting, effect expiry, idempotent defeats, and one-time rewards across 60 encounters.
-- Routed the legacy Steve and Snake `injury` entry points through CombatAction and Vitals while retaining animation and UI compatibility callbacks.
-- Added project-started scene coverage for real Steve/Snake adapter damage, health-bar synchronization, death signaling, and reward presentation.
-- Extended the test runner with a project-scene mode so Autoload-backed scenes can be tested while retaining strict runtime and script diagnostics.
-- Added CombatDriver so manual and automation PlayerIntent sources share SkillBook and CombatAction resolution for the two-skill by two-enemy matrix.
-- Routed Steve's auto-chase and hit callbacks through CombatDriver, with real-scene coverage for manual/basic and automation/active skills against two Snake instances.
-- Removed Steve's legacy magic-to-health setter and routed self-heal HP/MP recovery through Vitals.
-- Added the Phase 21 Combat Gate acceptance report, documenting verified evidence and the remaining real-scene soak requirement.
-- Added a 54,000-tick real Steve/Snake adapter-scene soak covering 60 encounters and 120 shared-driver dispatches.
-- Made real Snake death idempotent and added scene coverage proving repeated death grants the money reward once.
-- Expanded the real Steve/Snake fixture to cover the complete manual and automation two-skill by two-enemy matrix.
-- Routed Steve's remaining injury signal through the CombatAction/Vitals compatibility adapter.
-- Routed dengmao Boss incoming damage through CombatAction and Vitals while preserving legacy presentation.
-- Added project-scene coverage for dengmao resolved damage and Vitals-backed HP synchronization.
-- Recorded Phase 21 Combat Gate acceptance after the final 33-test Godot Gate and 75-scene smoke check passed.
+- 记录 Combat Gate 为待完成，并识别缺失的双技能、双敌人确定性场景覆盖。
+- 新增通过的双技能、双敌人 `CombatAction` 确定性集成矩阵。
+- 新增固定种子的 12 tick 遭遇追踪，覆盖目标选择、敌人状态转换和刷怪归属；相同种子可复现，不同试点角色会分歧。
+- 新增 54,000 tick 战斗浸泡测试，覆盖 60 场遭遇中的持续目标选择、效果过期、幂等击败与一次性奖励。
+- 将旧 Steve 和 Snake 的 `injury` 入口路由至 `CombatAction` 与 `Vitals`，同时保留动画和 UI 兼容回调。
+- 新增由项目启动的场景覆盖，验证真实 Steve/Snake 适配器伤害、血条同步、死亡信号和奖励展示。
+- 将测试运行器扩展为项目场景模式，使 Autoload 支持的场景可测试，同时保留严格运行时和脚本诊断。
+- 新增 `CombatDriver`，使手动和自动化 `PlayerIntent` 来源共享 `SkillBook` 与 `CombatAction` 的双技能、双敌人解析。
+- 将 Steve 的自动追击和命中回调路由至 `CombatDriver`，并覆盖手动/普攻和自动化/主动技能对两个 Snake 实例的真实场景验证。
+- 移除 Steve 旧的魔法值到生命值 setter，并将自疗 HP/MP 恢复路由至 `Vitals`。
+- 新增 Phase 21 Combat Gate 验收报告，记录已验证证据和剩余的真实场景浸泡要求。
+- 新增 54,000 tick 的真实 Steve/Snake 适配器场景浸泡，覆盖 60 场遭遇和 120 次共享驱动派发。
+- 使真实 Snake 死亡幂等，并新增场景覆盖，证明重复死亡只发放一次金币奖励。
+- 扩展真实 Steve/Snake fixture，覆盖完整的手动和自动化双技能、双敌人矩阵。
+- 将 Steve 剩余的受伤信号路由至 `CombatAction`/`Vitals` 兼容适配器。
+- 将 `dengmao` Boss 受到的伤害路由至 `CombatAction` 和 `Vitals`，同时保持旧展示逻辑。
+- 新增项目场景覆盖，验证 `dengmao` 的解析伤害和由 `Vitals` 支持的 HP 同步。
+- 最终 33 项 Godot Gate 与 75 场景 smoke 检查通过后，记录 Phase 21 Combat Gate 验收。
 
-### Phase 20 - EnemyBrain Foundation
+### Phase 20 - EnemyBrain 基础
 
-- Added deterministic idle/chase/attack/return/dead enemy AI transitions with 10,000 tick regression coverage.
-- Added scoped spawn ownership and one-time defeat reward protection.
-- Added two pilot enemy definitions with distinct combat signatures for the Combat Gate matrix.
+- 新增确定性的空闲/追击/攻击/返回/死亡敌人 AI 状态转换，并有 10,000 tick 回归覆盖。
+- 新增作用域化刷怪归属和一次性击败奖励保护。
+- 新增两个战斗特征不同的试点敌人定义，用于 Combat Gate 矩阵。
 
-### Phase 19 - Skills Foundation
+### Phase 19 - 技能基础
 
-- Added data-driven skill unlock, MP cost, and cooldown validation for basic and active pilot skills.
+- 新增数据驱动的技能解锁、MP 消耗与冷却校验，覆盖试点普攻与主动技能。
 
-### Phase 18 - Damage Foundation
+### Phase 18 - 伤害基础
 
-- Added deterministic damage resolution with multiplier, critical, defense, finite-number validation, and a non-negative floor.
-- Added deterministic stackable effect state with refresh and expiry behavior.
-- Added CombatAction to compose hit deduplication, damage calculation, and Vitals resolution.
+- 新增确定性伤害解析，支持倍率、暴击、防御、有限数值校验与非负下限。
+- 新增确定性的可叠加效果状态，支持刷新与过期行为。
+- 新增 `CombatAction`，组合命中去重、伤害计算与 `Vitals` 解析。
 
-### Phase 17 - Targeting Foundation
+### Phase 17 - 目标选择基础
 
-- Added faction-aware target registration with stable nearest-target selection and release handling.
-- Added hit resolution that rejects friendly/self targets and deduplicates stable hit IDs.
+- 新增阵营感知的目标注册、稳定的最近目标选择和释放处理。
+- 新增命中解析，拒绝友方/自身目标并去重稳定命中 ID。
 
-### Phase 16 - Vitals Foundation
+### Phase 16 - Vitals 基础
 
-- Added a versioned Vitals model for HP/MP clamp, recovery, idempotent death, and revival.
-- Added regression coverage for overkill, duplicate death prevention, dead recovery, and revival bounds.
-- Added an explicit adapter for legacy negative-damage and positive-recovery health deltas.
-- Routed Steve healing and injury signals through Vitals while preserving legacy death presentation.
-- Recorded Phase 16 acceptance after the full 19-test Godot Gate passed.
+- 新增版本化 `Vitals` 模型，处理 HP/MP 限制、恢复、幂等死亡与复活。
+- 新增过量伤害、重复死亡防护、死亡状态恢复和复活边界的回归覆盖。
+- 新增针对旧负伤害与正恢复生命值增量的显式适配器。
+- 将 Steve 治疗与受伤信号路由至 `Vitals`，同时保留旧死亡展示。
+- 完整 19 项 Godot Gate 通过后，记录 Phase 16 验收。
 
-### Phase 15 - PlayerStats Foundation
+### Phase 15 - PlayerStats 基础
 
-- Added a versioned PlayerStats v1 model with explicit 1–30 XP progression, derived stats, and level-cap overflow XP.
-- Added a PlayerInventory compatibility adapter and upgraded the V2 player section default to version 1.
-- Added per-level N-1/N/N+1 regression coverage, multi-level progression, and level-30 cap validation.
-- Added idempotent player v0-to-v1 migration for legacy experience and attribute fields.
-- Routed Steve experience rewards through PlayerStats instead of directly incrementing legacy level and attributes.
-- Added V2 envelope coverage for player v0 migration and repeat-normalization equivalence.
-- Recorded the Phase 15 authority boundary; legacy equipment attribute mutation remains explicitly deferred to Phase 23.
+- 新增版本化 `PlayerStats` v1 模型，包含明确的 1–30 级经验进度、派生属性和等级上限后的溢出经验。
+- 新增 `PlayerInventory` 兼容适配器，并将 V2 player 分段默认版本提升为 1。
+- 新增每级 N-1/N/N+1 回归覆盖、多级升级与 30 级上限验证。
+- 新增旧经验和属性字段的幂等 player v0 到 v1 迁移。
+- 将 Steve 经验奖励路由至 `PlayerStats`，不再直接增加旧等级和属性。
+- 新增 V2 envelope 覆盖，验证 player v0 迁移和重复归一化等价性。
+- 记录 Phase 15 权威边界；旧装备属性修改明确延后至 Phase 23。
 
-### Phase 14 - Player Intent Foundation
+### Phase 14 - 玩家意图基础
 
-- Added `PlayerIntent`, `PlayerInputSampler`, and a deterministic `PlayerMovementModel` for future shared manual and automation control.
-- Updated the legacy Steve adapter to consume resolved movement intents; non-idle manual input interrupts automation in the same physics frame.
-- Added a movement animation adapter for the legacy idle, run, jump, and climb animation-tree states.
-- Added a 600-frame movement state-transition regression that proves temporary movement locks do not persist.
-- Recorded Phase 14 acceptance evidence for shared intent entry, movement/animation extraction, and manual interruption of automation.
-- Added regression coverage for intent arbitration, climbing jumps, and movement locking.
+- 新增 `PlayerIntent`、`PlayerInputSampler` 和确定性的 `PlayerMovementModel`，为未来共享的手动与自动控制提供基础。
+- 更新旧 Steve 适配器以使用已解析的移动意图；非空闲手动输入会在同一物理帧打断自动化。
+- 新增移动动画适配器，支持旧动画树的 idle、run、jump 与 climb 状态。
+- 新增 600 帧移动状态转换回归，证明临时移动锁不会持续残留。
+- 记录 Phase 14 验收证据，覆盖共享意图入口、移动/动画提取和手动中断自动化。
+- 新增意图仲裁、攀爬跳跃和移动锁定的回归覆盖。
 
-### Phase 13 - Foundation Gate Audit
+### Phase 13 - Foundation Gate 审计
 
-- Foundation Gate now passes all 16 manifest tests on Godot `3.5.3`, including 75 `PackedScene` resource smoke checks.
-- Removed test-owned state and scene resources before shutdown, eliminating process-exit resource leaks without suppressing errors.
-- Added a minimal scene-restore fixture and focused scene smoke coverage on `PackedScene` loadability rather than legacy gameplay side effects.
-- Removed the V1 save test's intentional invalid-JSON engine error without weakening backup recovery coverage.
+- Foundation Gate 现在在 Godot `3.5.3` 下通过全部 16 项 manifest 测试，其中包括 75 个 `PackedScene` 资源 smoke 检查。
+- 在关闭前移除测试拥有的状态和场景资源，消除进程退出资源泄漏，而不抑制错误。
+- 新增最小场景恢复 fixture，并将场景 smoke 覆盖聚焦于 `PackedScene` 可加载性，而非旧玩法副作用。
+- 移除 V1 存档测试中故意制造的无效 JSON 引擎错误，同时不削弱备份恢复覆盖。
 
-### Phase 12 - Settings and Audio Foundation
+### Phase 12 - 设置与音频基础
 
-- Added isolated `settings.cfg` persistence for master audio volume through `AudioManager`.
-- Added an audio settings round-trip test; existing Godot exit resource-leak logs remain visible to the strict runner.
+- 新增独立 `settings.cfg`，通过 `AudioManager` 持久化主音量。
+- 新增音频设置往返测试；现有 Godot 退出资源泄漏日志仍对严格运行器可见。
 
-### Phase 11 - V1 to V2 Migration Aliases
+### Phase 11 - V1 到 V2 迁移别名
 
-- Added versioned aliases for pilot V1 map paths, Chinese item names, and skill names.
-- Added migration regression coverage that rejects unresolved legacy values explicitly.
+- 新增试点 V1 地图路径、中文物品名与技能名的版本化别名。
+- 新增迁移回归覆盖，明确拒绝无法解析的旧值。
 
-### Phase 10 - Dual-Generation Save Foundation
+### Phase 10 - 双代存档基础
 
-- Added isolated V2 `save_a/save_b` generation selection and non-active generation writes.
-- Added regression coverage for alternating generations and recovery from an invalid higher generation.
+- 新增独立 V2 `save_a`/`save_b` 代际选择和非活动代写入。
+- 新增交替代际和从更高代无效存档恢复的回归覆盖。
 
-### Phase 09 - V2 State Envelope Foundation
+### Phase 09 - V2 状态信封基础
 
-- Added an isolated V2 JSON-safe state envelope with section versions and stable map/spawn location fields.
-- Added a Godot regression test for schema rejection and V2 JSON round-trip normalization.
+- 新增独立、JSON 安全的 V2 状态信封，包含分段版本和稳定的地图/出生点位置字段。
+- 新增 Godot 回归测试，覆盖 schema 拒绝和 V2 JSON 往返归一化。
 
-### Phase 08 - Map Migration Inventory
+### Phase 08 - 地图迁移清单
 
-- Added a machine-readable inventory of five candidate maps, their embedded Player/UI nodes, and direct scene-change usage.
+- 新增机器可读的五张候选地图清单，记录其嵌入的 Player/UI 节点与直接场景切换使用情况。
 
-### Phase 07 - Map Definition Pilot
+### Phase 07 - 地图定义试点
 
-- Added stable map, spawn, and portal definitions for the Level1 and JiangLin pilot maps.
-- Extended content auditing to reject missing default spawns, portal target maps, and portal target spawns.
+- 为 Level1 与 JiangLin 试点地图新增稳定的地图、出生点和传送门定义。
+- 扩展内容审计，拒绝缺少默认出生点、传送门目标地图或传送门目标出生点的内容。
 
-### Phase 06 - Transactional World Replacement Foundation
+### Phase 06 - 事务化世界替换基础
 
-- Added `SceneManager.replace_world`, which validates and instances a candidate before replacing the existing `WorldRoot` child.
-- Added a regression test proving missing candidates preserve the current world without emitting an engine error.
+- 新增 `SceneManager.replace_world`，在替换现有 `WorldRoot` 子节点前校验并实例化候选场景。
+- 新增回归测试，证明候选场景缺失时保留当前世界且不产生引擎错误。
 
-### Phase 05 - Persistent Runtime Root Foundation
+### Phase 05 - 持久运行时根基础
 
-- Added the compatibility-first `GameRoot` scene with stable service, world, player, runtime actor, UI, and transition containers.
-- Added a Godot lifecycle regression test for the root session ID and empty compatibility container invariants.
+- 新增兼容性优先的 `GameRoot` 场景，提供稳定的服务、世界、玩家、运行时 Actor、UI 与转换容器。
+- 新增 Godot 生命周期回归测试，验证根会话 ID 和空兼容容器不变量。
 
-### Phase 04 - ContentRegistry Pilot
+### Phase 04 - ContentRegistry 试点
 
-- Added versioned pilot packs for one item, skill, and map using stable ASCII IDs with legacy-name aliases.
-- Added `content_registry_audit` to validate pack presence, ID format/uniqueness, and referenced scene or icon paths.
+- 新增版本化试点包，包含一个物品、技能和地图；使用稳定 ASCII ID 与旧名称别名。
+- 新增 `content_registry_audit`，校验包存在、ID 格式/唯一性，以及引用的场景或图标路径。
 
-### Phase 03 - Global Boundary Foundation
+### Phase 03 - 全局边界基础
 
-- Added `ContentRegistry`, `EventBus`, and `AudioManager` as the remaining target Autoloads.
-- Added a versioned legacy-reference baseline and resource-lane static gate that rejects new legacy global references, direct scene switches, and unsafe runtime APIs.
+- 新增 `ContentRegistry`、`EventBus` 和 `AudioManager`，作为剩余目标 Autoload。
+- 新增版本化旧引用基线和资源通道静态 Gate，拒绝新增旧全局引用、直接场景切换和不安全运行时 API。
 
-### Phase 01 Follow-up - Cold Import and Icon Fallback Safety
+### Phase 01 后续 - 冷导入与图标回退安全
 
-- Replaced the `SkillsFactory.gd` fallback texture `preload()` with runtime `load()` so the script can parse before a project's first Godot import.
-- Added `startup_import_safety` to the resource lane, preventing a reintroduction of the cold-import-unsafe preload.
-- Fixed `ItemIconResolver` to check the source `.png` file instead of treating an orphaned `.png.import` sidecar as a valid icon.
-- Updated the icon resolver regression test to assert raw-file absence, matching the intended fallback contract.
+- 将 `SkillsFactory.gd` 的回退纹理 `preload()` 替换为运行时 `load()`，使脚本可在项目首次 Godot 导入前解析。
+- 将 `startup_import_safety` 加入资源通道，防止重新引入冷导入不安全的 preload。
+- 修复 `ItemIconResolver`，检查源 `.png` 文件，而不把孤立的 `.png.import` 旁车文件当作有效图标。
+- 更新图标解析器回归测试，断言原始文件缺失，匹配预期回退契约。
 
-### Verification
+### 验证
 
-- A clean isolated Godot 3.5.3 import completed with 16,099 generated cache files and no temporary import files.
-- The `SkillsFactory` cold-import regression test and the post-import icon fallback regression test pass.
+- 在隔离环境完成一次干净的 Godot 3.5.3 导入，生成 16,099 个缓存文件且没有临时导入文件。
+- `SkillsFactory` 冷导入回归测试和导入后的图标回退回归测试均通过。
 
-### Phase 02 - Test Orchestration and Structured Diagnostics
+### Phase 02 - 测试编排与结构化诊断
 
-- Added `scripts/test_runner.ps1` as the single test entry point with lane selection, watchdogs, isolated test homes, UTF-8 logs, JSON reports, and JUnit output.
-- Added protocol self-tests for pass, explicit failure, timeout, and false-green error logs.
-- Added `tests/TestProtocol.gd` and migrated current GDScript tests to emit `TEST_RESULT` instead of using bare `assert`.
-- Added a versioned test manifest covering unit, integration, resource, and scene tests.
-- Godot executable discovery uses `-GodotPath` or `GODOT_BIN`; when unavailable, Godot tests are reported as blocked rather than passing.
+- 新增 `scripts/test_runner.ps1` 作为统一测试入口，提供通道选择、看门狗、隔离测试主目录、UTF-8 日志、JSON 报告和 JUnit 输出。
+- 新增协议自检，覆盖通过、显式失败、超时和假绿错误日志。
+- 新增 `tests/TestProtocol.gd`，并将现有 GDScript 测试迁移为发出 `TEST_RESULT`，不再使用裸 `assert`。
+- 新增版本化测试清单，覆盖 unit、integration、resource 与 scene 测试。
+- Godot 可执行文件通过 `-GodotPath` 或 `GODOT_BIN` 发现；不可用时 Godot 测试会报告为 blocked，而不会误报通过。
 
-### Verification
+### 验证
 
-- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test_runner.ps1 -SelfTest` passes.
-- Full Godot lanes require a Godot 3.5.3 executable and remain pending on machines without it.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/test_runner.ps1 -SelfTest` 通过。
+- 完整 Godot 测试通道需要 Godot 3.5.3 可执行文件；在未安装的机器上保持待执行状态。
