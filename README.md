@@ -106,6 +106,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 29 | Quest state | Five-state quests, prerequisite DAG validation, and idempotent objective progress. |
 | 30 | Quest turn-in | Ready-only atomic reward settlement and idempotent completion. |
 | 31 | Quest availability | DAG-driven deterministic prerequisite unlocks. |
+| 32 | Shop pricing | Deterministic purchase and floor-rounded resale quotes. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
