@@ -82,6 +82,8 @@ DialoguePresenter emits UI-safe available lines, while InteractionSession releas
 
 Phase 29 begins with a deterministic five-state quest model and idempotent event IDs for unlock, accept, objective completion, and turn-in.
 
+QuestDefinition validates prerequisite DAGs and rejects missing or cyclic dependencies before content is enabled.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

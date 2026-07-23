@@ -5,6 +5,7 @@
 ### Phase 29 - Quest Foundation
 
 - Added a deterministic five-state quest model with idempotent event IDs and invalid-transition rejection.
+- Added QuestDefinition prerequisite DAG validation with orphan and cycle rejection.
 
 ### Phase 28 - Dialogue Foundation
 
