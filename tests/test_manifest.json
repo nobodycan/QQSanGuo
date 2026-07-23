@@ -389,6 +389,13 @@
       "script": "tests/test_auto_combat_service.gd"
     },
     {
+      "id": "dungeon_access_policy",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_dungeon_access_policy.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
