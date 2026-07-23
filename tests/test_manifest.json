@@ -347,6 +347,13 @@
       "script": "tests/test_dungeon_completion_service.gd"
     },
     {
+      "id": "boss_encounter_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_boss_encounter_state.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
