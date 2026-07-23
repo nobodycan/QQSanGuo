@@ -340,6 +340,13 @@
       "script": "tests/test_dungeon_state.gd"
     },
     {
+      "id": "dungeon_completion_service",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_dungeon_completion_service.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

@@ -112,6 +112,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 35 | Shop selling | Slot-based atomic resale with quest-item protection. |
 | 36 | Shop sessions | Flag-gated catalog visibility enforced before purchase. |
 | 37 | Dungeon state | Idempotent entry, checkpoint, failure, retry, and completion flow. |
+| 38 | Dungeon completion | Atomic completion rewards and first-clear world flags. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
