@@ -389,6 +389,13 @@
       "script": "tests/test_boss_session.gd"
     },
     {
+      "id": "boss_victory_session",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_boss_victory_session.gd"
+    },
+    {
       "id": "auto_combat_policy",
       "kind": "godot",
       "lane": "unit",

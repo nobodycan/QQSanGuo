@@ -125,6 +125,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 48 | Boss access | Progress-aware eligibility checks before boss encounters. |
 | 49 | Encounter director | Unified transient encounter lifecycle and resource scope. |
 | 50 | Boss sessions | Access-checked, scope-backed atomic boss startup. |
+| 51 | Boss victory | Scope-backed atomic Boss rewards and world progress. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
