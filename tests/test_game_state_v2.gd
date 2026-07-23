@@ -13,6 +13,7 @@ func _init():
 	test.expect(state.validate_content_compatibility(envelope, "v1-pilot-phase76").ok and state.validate_content_compatibility(envelope, "v2-next").reason == "content_revision_mismatch", "accepts only saves matching the loaded content revision")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
+	test.expect(normalized.section_versions.skills == 1 and normalized.skills.version == 1 and normalized.skills.known.empty(), "creates canonical skill section v1")
 	test.expect(normalized.section_versions.wallet == 1 and normalized.wallet.version == 1 and normalized.wallet.money == 0, "creates wallet section v1")
 	test.expect(normalized.section_versions.world == 1 and normalized.world.version == 1, "creates world section v1")
 	var parsed = JSON.parse(to_json(normalized))
@@ -71,6 +72,18 @@ func _init():
 	unsafe_equipment["section_versions"] = unsafe_equipment_versions
 	unsafe_equipment["equipment"] = {"Sword": "legacy sword"}
 	test.expect(state.normalize(unsafe_equipment) == null, "rejects equipment v0 that lacks a lossless instance migration")
+	var legacy_skills = state.new_envelope()
+	legacy_skills.section_versions.skills = 0
+	legacy_skills.skills = {}
+	var migrated_skills = state.normalize(legacy_skills)
+	test.expect(migrated_skills != null and migrated_skills.skills.version == 1, "upgrades empty skill v0 to v1")
+	var unsafe_skills = state.new_envelope()
+	unsafe_skills.section_versions.skills = 0
+	unsafe_skills.skills = {"known": ["legacy.basic"]}
+	test.expect(state.normalize(unsafe_skills) == null, "rejects non-empty v0 skills without registry migration")
+	var invalid_skills = state.new_envelope()
+	invalid_skills.skills.equipped = ["skill.willow_return"]
+	test.expect(state.normalize(invalid_skills) == null, "rejects equipped skills that are missing from known skills")
 	var legacy_wallet = state.new_envelope()
 	var legacy_wallet_versions = legacy_wallet.section_versions.duplicate()
 	legacy_wallet_versions.erase("wallet")

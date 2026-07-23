@@ -22,6 +22,13 @@ func migrate_name_registered(name: String, category: String, registry: Node) -> 
 		return {"ok": false, "error": "unresolved_" + category, "value": name}
 	return {"ok": true, "id": resolved.data}
 
+func migrate_skills_registered(raw: Dictionary, registry: Node) -> Dictionary:
+	var skill_state = load("res://actors/SkillState.gd").new()
+	var migrated = skill_state.migrate_legacy_registered(raw, registry)
+	if migrated.empty():
+		return {"ok": false, "error": "unresolved_skills", "state": {}}
+	return {"ok": true, "error": "", "state": migrated}
+
 func _resolve_registry(registry: Node, category: String, value: String) -> Dictionary:
 	if registry == null or not registry.has_method("resolve_legacy"):
 		return {"ok": false}

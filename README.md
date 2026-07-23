@@ -151,6 +151,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 74 | Boss failure | Scope-backed Boss failure resets encounter phase safely. |
 | 75 | Dungeon retry | Cleaned runs can restart from preserved checkpoints. |
 | 76 | Registry-backed legacy skills | Legacy skill nodes project trusted Registry definitions after Autoload startup. |
+| 77 | Persistent skill state | V2 saves normalize canonical skills and migrate validated legacy skill names. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

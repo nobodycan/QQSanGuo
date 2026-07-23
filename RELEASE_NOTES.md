@@ -233,6 +233,12 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 77 - 技能状态持久化
+
+- 新增 `SkillState` v1，统一持久化已知技能、装备技能与冷却计数；稳定 ID、装备归属和非负冷却均在归一化时校验。
+- `GameStateV2` 的 `skills` 分段升级为 v1。空 v0 分段可无损升级，非空旧数据必须显式经 Registry 别名迁移，避免将中文旧名称当作稳定 ID 写入新存档。
+- `V1ToV2Migrator` 新增注册表技能迁移入口，未知技能或装备未解锁技能会被拒绝；README 与中文发布说明已同步。
+
 ### Phase 76 - 注册表驱动的旧技能兼容
 
 - `SkillsFactory` 现在会在 Autoload 完成初始化后，从已验证的 `ContentRegistry` 读取技能定义，并投影回旧场景继续使用的中文技能名及字段结构。

@@ -151,6 +151,13 @@
       "script": "tests/test_skill_book.gd"
     },
     {
+      "id": "skill_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_skill_state.gd"
+    },
+    {
       "id": "enemy_brain",
       "kind": "godot",
       "lane": "unit",

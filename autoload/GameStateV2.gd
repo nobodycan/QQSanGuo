@@ -5,14 +5,15 @@ const InventoryState = preload("res://actors/InventoryState.gd")
 const EquipmentState = preload("res://actors/EquipmentState.gd")
 const WalletState = preload("res://actors/WalletState.gd")
 const WorldState = preload("res://actors/WorldState.gd")
+const SkillState = preload("res://actors/SkillState.gd")
 
 func new_envelope() -> Dictionary:
 	return {
 		"schema_version": SCHEMA_VERSION,
-		"section_versions": {"metadata": 1, "location": 1, "player": 1, "wallet": WalletState.VERSION, "inventory": InventoryState.VERSION, "equipment": EquipmentState.VERSION, "skills": 0, "quests": 0, "world": WorldState.VERSION, "legacy": 0},
+		"section_versions": {"metadata": 1, "location": 1, "player": 1, "wallet": WalletState.VERSION, "inventory": InventoryState.VERSION, "equipment": EquipmentState.VERSION, "skills": SkillState.VERSION, "quests": 0, "world": WorldState.VERSION, "legacy": 0},
 		"metadata": {"content_revision": "v1-pilot-phase76"},
 		"location": {"map_id": "", "spawn_id": ""},
-		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "wallet": WalletState.new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": EquipmentState.new().new_state(), "skills": {}, "quests": {}, "world": WorldState.new().new_state(), "legacy": {}
+		"player": preload("res://actors/PlayerStats.gd").new().new_state(), "wallet": WalletState.new().new_state(), "inventory": InventoryState.new().new_state(), "equipment": EquipmentState.new().new_state(), "skills": SkillState.new().new_state(), "quests": {}, "world": WorldState.new().new_state(), "legacy": {}
 	}
 
 func normalize(raw):
@@ -69,6 +70,17 @@ func normalize(raw):
 		if result.equipment.empty():
 			return null
 	result.section_versions.equipment = EquipmentState.VERSION
+	var skills_version = int(raw.section_versions.get("skills", 0))
+	if skills_version > SkillState.VERSION:
+		return null
+	var skill_state = SkillState.new()
+	if skills_version == 0:
+		result.skills = skill_state.migrate_v0(result.skills)
+	else:
+		result.skills = skill_state.normalize(result.skills)
+	if result.skills.empty():
+		return null
+	result.section_versions.skills = SkillState.VERSION
 	var world_version = int(raw.section_versions.get("world", 0))
 	if world_version > WorldState.VERSION: return null
 	var world_state = WorldState.new()

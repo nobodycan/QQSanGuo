@@ -20,5 +20,7 @@ func _init():
 	var registry = ContentRegistry.new()
 	registry.load_content()
 	test.expect(migrator.migrate_location_registered("res://Level1.tscn", registry).location.map_id == "map.level_one" and migrator.migrate_name_registered("铁剑", "items", registry).id == "item.iron_sword", "migrates legacy data through validated registry aliases")
+	var migrated_skills = migrator.migrate_skills_registered({"known": ["横击剑", "饮血剑舞"], "equipped": ["饮血剑舞"]}, registry)
+	test.expect(migrated_skills.ok and migrated_skills.state.equipped == ["skill.blood_sword_dance"] and not migrator.migrate_skills_registered({"known": ["unknown"], "equipped": []}, registry).ok, "migrates only validated legacy skills to canonical state")
 	registry.free()
 	test.finish(self, "v1_to_v2_migration")
