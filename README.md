@@ -117,6 +117,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 40 | Boss completion | Atomic defeat rewards and persistent defeated-boss records. |
 | 41 | Boss phase policy | Data-driven health thresholds for deterministic phase resolution. |
 | 42 | Auto-combat policy | Deterministic foreground safety and stop conditions. |
+| 43 | Auto-combat planning | Stable active-skill priority and basic-attack fallback. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

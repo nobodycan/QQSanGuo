@@ -375,6 +375,13 @@
       "script": "tests/test_auto_combat_policy.gd"
     },
     {
+      "id": "auto_combat_planner",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_auto_combat_planner.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
