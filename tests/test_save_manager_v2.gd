@@ -17,6 +17,16 @@ func _init():
 	second.location = {"map_id":"map.jianglin","spawn_id":"spawn.entry"}
 	var saved_second = manager.save_data(second)
 	test.expect(saved_second.ok and saved_second.generation == 1 and saved_second.path != saved_first.path, "alternates generation path")
+	var incompatible = File.new()
+	incompatible.open(saved_second.path, File.READ)
+	var incompatible_data = JSON.parse(incompatible.get_as_text()).result
+	incompatible.close()
+	incompatible_data.metadata.content_revision = "v2-next"
+	incompatible.open(saved_second.path, File.WRITE)
+	incompatible.store_string(to_json(incompatible_data))
+	incompatible.close()
+	var compatible = manager.load_latest_compatible("v1-pilot")
+	test.expect(compatible.ok and compatible.generation == 0, "falls back to the newest content-compatible generation")
 	var corrupt = File.new()
 	corrupt.open(saved_second.path, File.WRITE)
 	corrupt.store_string("{\"schema_version\":999}")

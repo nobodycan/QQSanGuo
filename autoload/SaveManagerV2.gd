@@ -15,6 +15,24 @@ func load_latest() -> Dictionary:
 	candidates.sort_custom(self, "_newer_generation")
 	return candidates[0]
 
+func load_latest_compatible(loaded_revision: String) -> Dictionary:
+	var candidates = []
+	var saw_mismatch = false
+	for path in [save_a_path, save_b_path]:
+		var loaded = _read_generation(path)
+		if not loaded.ok:
+			continue
+		var compatibility = state.validate_content_compatibility(loaded.data, loaded_revision)
+		if compatibility.ok:
+			loaded.data = compatibility.state
+			candidates.append(loaded)
+		elif compatibility.reason == "content_revision_mismatch":
+			saw_mismatch = true
+	if candidates.empty():
+		return {"ok": false, "error": "content_revision_mismatch" if saw_mismatch else "missing_save"}
+	candidates.sort_custom(self, "_newer_generation")
+	return candidates[0]
+
 func save_data(snapshot: Dictionary) -> Dictionary:
 	var normalized = state.normalize(snapshot)
 	if normalized == null: return {"ok": false, "error": "invalid_state"}
