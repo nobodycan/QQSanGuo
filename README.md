@@ -76,6 +76,8 @@ Phase 28 begins with stable NPC and dialogue definitions, including flag-gated d
 
 InteractionLock ensures only one NPC interaction can be active, preventing double-click and stale-callback overlap.
 
+DialoguePresenter emits UI-safe available lines, while InteractionSession releases the lock when a dialogue closes.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

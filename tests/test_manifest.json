@@ -263,6 +263,7 @@
     {"id":"map_access_policy","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_map_access_policy.gd"},
     {"id":"dialogue_definition","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_dialogue_definition.gd"},
     {"id":"interaction_lock","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_interaction_lock.gd"},
+    {"id":"dialogue_presenter","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_dialogue_presenter.gd"},
     {
       "id": "legacy_equipment_bridge",
       "kind": "godot",
