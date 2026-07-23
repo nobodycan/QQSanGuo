@@ -237,5 +237,9 @@
     "UI\\side_bar.gd:22:\t\t\t\t\t\t\t\t\t\t\tPlayerInventory.aim",
     "UI\\side_bar.gd:24:\tfind_parent(\"UserInterFace\").update_inventory(PlayerInventory.money, PlayerInventory.juntuan)",
     "UI\\TransPortation.gd:11:#\tSceneChange.goto_scene(\"res://JiangLinXiJiao\", bajun)",
-    "UI\\TransPortation.gd:12:\tget_tree().change_scene(\"res://JiangLinXiJiao.tscn\")"
+    "UI\\TransPortation.gd:12:\tget_tree().change_scene(\"res://JiangLinXiJiao.tscn\")",
+    "PlayerInventory.gd:124:\tif not has_node(\"/root/jsonData\"): ",
+    "PlayerInventory.gd:138:\tif not has_node(\"/root/jsonData\"): ",
+    "PlayerInventory.gd:192:\tif not has_node(\"/root/jsonData\"): ",
+    "PlayerInventory.gd:239:\treturn get_node(\"/root/jsonData\").item_data"
 ]

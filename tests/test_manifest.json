@@ -256,6 +256,13 @@
       "script": "tests/test_legacy_inventory_bridge.gd"
     },
     {
+      "id": "legacy_skill_bridge",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_legacy_skill_bridge.gd"
+    },
+    {
       "id": "equipment_state",
       "kind": "godot",
       "lane": "unit",

@@ -233,6 +233,12 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 79 - 旧运行时技能桥接
+
+- 新增 `LegacySkillBridge`，将 `PlayerInventory` 中的旧中文技能数组导入 `SkillState`，并可将规范状态安全投影回当前 UI 使用的旧字段结构。
+- `PlayerInventory` 在 Autoload 初始化后自动连接 `ContentRegistry`；提供规范技能状态的导出和应用入口，未知旧名或无效规范状态不会污染运行时数组。
+- 新增桥接回归，并更新 README 与中文发布说明。
+
 ### Phase 78 - 注册表校验的技能存档
 
 - `SkillState` 新增 Registry 校验，确保已知、装备与冷却中的每个稳定技能 ID 都解析为当前加载内容中的 `skill` 条目。

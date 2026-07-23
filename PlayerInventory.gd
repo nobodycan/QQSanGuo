@@ -6,6 +6,7 @@ const NUM_HOTBAR_SLOTS = 8
 const EQUIPMENT_SLOTS = ["Head", "Up_Body", "Necklace", "Hand", "Sword", "Boot", "Down_Body", "Wing", "Mask", "Ring"]
 const LegacyInventoryBridge = preload("res://actors/LegacyInventoryBridge.gd")
 const LegacyWalletBridge = preload("res://actors/LegacyWalletBridge.gd")
+const LegacySkillBridge = preload("res://actors/LegacySkillBridge.gd")
 
 var money = 0
 var juntuan = 0
@@ -47,6 +48,7 @@ var equipped_skills = []
 var active_item_slot = 0
 var inventory_bridge = LegacyInventoryBridge.new()
 var wallet_bridge = LegacyWalletBridge.new()
+var skill_bridge = LegacySkillBridge.new()
 var wallet_initialized = false
 var wallet_operation_sequence = 0
 
@@ -76,6 +78,31 @@ func add_item(item_name, item_quantity):
 func _ready():
 	call_deferred("_initialize_inventory_bridge")
 	call_deferred("_initialize_wallet_bridge")
+	call_deferred("_initialize_skill_bridge")
+
+func _initialize_skill_bridge():
+	var registry = get_node_or_null("/root/ContentRegistry")
+	if registry == null or not skill_bridge.import_legacy(known_skills, equipped_skills, registry):
+		return
+	var projected = skill_bridge.project_legacy(registry)
+	if not projected.empty():
+		known_skills = projected.known
+		equipped_skills = projected.equipped
+
+func export_canonical_skills(registry: Node) -> Dictionary:
+	if not skill_bridge.import_legacy(known_skills, equipped_skills, registry):
+		return {}
+	return skill_bridge.export_canonical()
+
+func apply_canonical_skills(raw: Dictionary, registry: Node) -> bool:
+	if not skill_bridge.apply_canonical(raw, registry):
+		return false
+	var projected = skill_bridge.project_legacy(registry)
+	if projected.empty():
+		return false
+	known_skills = projected.known
+	equipped_skills = projected.equipped
+	return true
 
 func _initialize_wallet_bridge():
 	wallet_initialized = wallet_bridge.import_legacy(money, juntuan)
