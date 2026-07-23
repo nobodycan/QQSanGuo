@@ -13,6 +13,8 @@ func decide(context: Dictionary) -> Dictionary:
 		return _deny("inventory_full")
 	if bool(context.get("quest_complete", false)):
 		return _deny("quest_complete")
+	if ["boss", "dungeon"].has(str(context.get("active_encounter_kind", ""))):
+		return _deny("boss_or_dungeon")
 	if not bool(context.get("has_reachable_target", false)):
 		return _deny("no_reachable_target")
 	return {"ok": true, "reason": ""}

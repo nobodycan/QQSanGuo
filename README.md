@@ -129,6 +129,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 52 | Dungeon victory | Scope-backed atomic dungeon rewards and world progress. |
 | 53 | Dungeon failure | Scope-backed failure state retaining retry checkpoints. |
 | 54 | Encounter scope invariants | Reject duplicate or unknown owned resources. |
+| 55 | Auto-combat encounter guard | Stops automation during active Boss or dungeon runs. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

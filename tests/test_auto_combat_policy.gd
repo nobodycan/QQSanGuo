@@ -12,7 +12,9 @@ func _init():
 	full.inventory_full = true
 	var no_target = ready.duplicate()
 	no_target.has_reachable_target = false
-	test.expect(policy.decide(full).reason == "inventory_full" and policy.decide(no_target).reason == "no_reachable_target", "stops for full inventory and unreachable targets")
+	var boss = ready.duplicate()
+	boss.active_encounter_kind = "boss"
+	test.expect(policy.decide(full).reason == "inventory_full" and policy.decide(no_target).reason == "no_reachable_target" and policy.decide(boss).reason == "boss_or_dungeon", "stops for full inventory, unreachable targets, and controlled encounters")
 	var dead = ready.duplicate()
 	dead.player_alive = false
 	test.expect(policy.decide(dead).reason == "player_dead", "stops when the player dies")
