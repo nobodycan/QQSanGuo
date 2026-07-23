@@ -78,6 +78,10 @@ InteractionLock ensures only one NPC interaction can be active, preventing doubl
 
 DialoguePresenter emits UI-safe available lines, while InteractionSession releases the lock when a dialogue closes.
 
+## Quest Foundation
+
+Phase 29 begins with a deterministic five-state quest model and idempotent event IDs for unlock, accept, objective completion, and turn-in.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

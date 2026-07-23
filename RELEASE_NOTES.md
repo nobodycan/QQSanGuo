@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Phase 29 - Quest Foundation
+
+- Added a deterministic five-state quest model with idempotent event IDs and invalid-transition rejection.
+
 ### Phase 28 - Dialogue Foundation
 
 - Added stable NPC registration and flag-gated dialogue definition normalization without scene-path coupling.
