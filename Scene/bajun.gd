@@ -5,8 +5,8 @@ onready var userInterface = get_tree().get_root().get_node("bajun/UserInterFace"
 var load_scene = null
 func _ready():
 	$UserInterFace/AnimationPlayer.play("shade_in")
-	yield(get_tree().create_timer(3), "timeout")
-	$UserInterFace/AnimationPlayer.play("shade_out")
+	var shade_timer = get_tree().create_timer(3.0)
+	shade_timer.connect("timeout", $UserInterFace/AnimationPlayer, "play", ["shade_out"])
 #	FreeNodes.connect("freeig_orphans", self, "free_it_orphaned")
 
 #func free_it_orphaned():
