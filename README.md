@@ -145,6 +145,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 68 | Content revision | Manifest and Registry expose the stable save-compatible revision. |
 | 69 | Save content compatibility | V2 saves can be checked against the loaded content revision. |
 | 70 | Compatible V2 save selection | Dual-slot saves select the newest matching content revision. |
+| 71 | Compatible V2 save writes | Dual-slot writes reject mismatched content revisions. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

@@ -13,6 +13,10 @@ func _init():
 	first.location = {"map_id":"map.level_one","spawn_id":"spawn.start"}
 	var saved_first = manager.save_data(first)
 	test.expect(saved_first.ok and saved_first.generation == 0, "writes initial generation")
+	var stale = manager.state.new_envelope()
+	stale.metadata.content_revision = "v2-next"
+	var rejected = manager.save_data_compatible(stale, "v1-pilot")
+	test.expect(not rejected.ok and rejected.error == "content_revision_mismatch" and manager.load_latest().generation == 0, "rejects incompatible writes before changing save generations")
 	var second = manager.state.new_envelope()
 	second.location = {"map_id":"map.jianglin","spawn_id":"spawn.entry"}
 	var saved_second = manager.save_data(second)

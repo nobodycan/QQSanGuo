@@ -49,6 +49,12 @@ func save_data(snapshot: Dictionary) -> Dictionary:
 	verified["path"] = target
 	return verified
 
+func save_data_compatible(snapshot: Dictionary, loaded_revision: String) -> Dictionary:
+	var compatibility = state.validate_content_compatibility(snapshot, loaded_revision)
+	if not compatibility.ok:
+		return {"ok": false, "error": compatibility.reason}
+	return save_data(compatibility.state)
+
 func _read_generation(path: String) -> Dictionary:
 	var file = File.new()
 	if not file.file_exists(path) or file.open(path, File.READ) != OK: return {"ok": false}
