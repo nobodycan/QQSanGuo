@@ -368,6 +368,13 @@
       "script": "tests/test_boss_phase_policy.gd"
     },
     {
+      "id": "auto_combat_policy",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_auto_combat_policy.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
