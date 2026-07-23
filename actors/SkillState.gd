@@ -51,6 +51,18 @@ func migrate_legacy_registered(raw, registry: Node) -> Dictionary:
 	result.equipped.sort()
 	return result
 
+func validate_registered(raw, registry: Node) -> Dictionary:
+	var state = normalize(raw)
+	if state.empty():
+		return {"ok": false, "error": "invalid_skill_state", "state": {}}
+	if registry == null or not registry.has_method("get_entry"):
+		return {"ok": false, "error": "invalid_registry", "state": {}}
+	for skill_id in state.known:
+		var entry = registry.get_entry(skill_id)
+		if not entry.get("ok", false) or typeof(entry.get("data", null)) != TYPE_DICTIONARY or str(entry.data.get("kind", "")) != "skill":
+			return {"ok": false, "error": "unknown_skill", "state": {}}
+	return {"ok": true, "error": "", "state": state}
+
 func _normalize_skill_ids(raw) -> Array:
 	if typeof(raw) != TYPE_ARRAY:
 		return []

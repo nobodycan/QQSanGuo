@@ -233,6 +233,12 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 78 - 注册表校验的技能存档
+
+- `SkillState` 新增 Registry 校验，确保已知、装备与冷却中的每个稳定技能 ID 都解析为当前加载内容中的 `skill` 条目。
+- `GameStateV2` 和 `SaveManagerV2` 的兼容读写入口现在可接收 `ContentRegistry`；伪造、移除或错误类型的技能 ID 会在写入前拒绝，并在读取双槽时回退到最近有效代际。
+- 未传 Registry 的旧调用保持原有兼容行为；新增回归覆盖未知技能拒绝与有效代际回退。
+
 ### Phase 77 - 技能状态持久化
 
 - 新增 `SkillState` v1，统一持久化已知技能、装备技能与冷却计数；稳定 ID、装备归属和非负冷却均在归一化时校验。

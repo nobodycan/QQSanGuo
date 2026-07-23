@@ -1,6 +1,7 @@
 extends SceneTree
 
 const StateV2 = preload("res://autoload/GameStateV2.gd")
+const ContentRegistry = preload("res://autoload/ContentRegistry.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
@@ -8,9 +9,15 @@ func _init():
 	var test = TestProtocol.new()
 	var envelope = state.new_envelope()
 	envelope.location = {"map_id": "map.level_one", "spawn_id": "spawn.start"}
+	var registry = ContentRegistry.new()
+	registry.load_content()
 	var normalized = state.normalize(envelope)
 	test.expect(normalized != null, "normalizes valid v2 envelope")
 	test.expect(state.validate_content_compatibility(envelope, "v1-pilot-phase76").ok and state.validate_content_compatibility(envelope, "v2-next").reason == "content_revision_mismatch", "accepts only saves matching the loaded content revision")
+	test.expect(state.validate_content_compatibility(envelope, "v1-pilot-phase76", registry).ok, "accepts empty canonical skill state against registry")
+	var forged_skill = state.new_envelope()
+	forged_skill.skills.known = ["skill.forged"]
+	test.expect(state.validate_content_compatibility(forged_skill, "v1-pilot-phase76", registry).reason == "unknown_skill", "rejects persisted skills absent from registry")
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
 	test.expect(normalized.section_versions.skills == 1 and normalized.skills.version == 1 and normalized.skills.known.empty(), "creates canonical skill section v1")
@@ -116,4 +123,5 @@ func _init():
 	envelope = state.new_envelope()
 	envelope.schema_version = 3
 	test.expect(state.normalize(envelope) == null, "rejects unsupported schema")
+	registry.free()
 	test.finish(self, "game_state_v2")

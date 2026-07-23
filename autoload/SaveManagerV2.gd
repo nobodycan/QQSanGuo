@@ -15,14 +15,14 @@ func load_latest() -> Dictionary:
 	candidates.sort_custom(self, "_newer_generation")
 	return candidates[0]
 
-func load_latest_compatible(loaded_revision: String) -> Dictionary:
+func load_latest_compatible(loaded_revision: String, registry: Node = null) -> Dictionary:
 	var candidates = []
 	var saw_mismatch = false
 	for path in [save_a_path, save_b_path]:
 		var loaded = _read_generation(path)
 		if not loaded.ok:
 			continue
-		var compatibility = state.validate_content_compatibility(loaded.data, loaded_revision)
+		var compatibility = state.validate_content_compatibility(loaded.data, loaded_revision, registry)
 		if compatibility.ok:
 			loaded.data = compatibility.state
 			candidates.append(loaded)
@@ -49,8 +49,8 @@ func save_data(snapshot: Dictionary) -> Dictionary:
 	verified["path"] = target
 	return verified
 
-func save_data_compatible(snapshot: Dictionary, loaded_revision: String) -> Dictionary:
-	var compatibility = state.validate_content_compatibility(snapshot, loaded_revision)
+func save_data_compatible(snapshot: Dictionary, loaded_revision: String, registry: Node = null) -> Dictionary:
+	var compatibility = state.validate_content_compatibility(snapshot, loaded_revision, registry)
 	if not compatibility.ok:
 		return {"ok": false, "error": compatibility.reason}
 	return save_data(compatibility.state)

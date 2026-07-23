@@ -18,5 +18,7 @@ func _init():
 	var migrated = skills.migrate_legacy_registered({"known": ["横击剑", "饮血剑舞"], "equipped": ["饮血剑舞"]}, registry)
 	test.expect(migrated.known == ["skill.basic_slash", "skill.blood_sword_dance"] and migrated.equipped == ["skill.blood_sword_dance"], "migrates legacy skill names through validated aliases")
 	test.expect(skills.migrate_legacy_registered({"known": ["unknown"], "equipped": []}, registry).empty(), "rejects unresolved legacy skill names")
+	test.expect(skills.validate_registered({"version": 1, "known": ["skill.basic_slash"], "equipped": [], "cooldowns": {}}, registry).ok, "accepts canonical skills present in registry")
+	test.expect(skills.validate_registered({"version": 1, "known": ["skill.forged"], "equipped": [], "cooldowns": {}}, registry).error == "unknown_skill", "rejects stable-looking skills missing from registry")
 	registry.free()
 	test.finish(self, "skill_state")

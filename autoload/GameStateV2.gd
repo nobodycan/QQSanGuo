@@ -92,7 +92,7 @@ func normalize(raw):
 	result.section_versions.world = WorldState.VERSION
 	return result
 
-func validate_content_compatibility(raw: Dictionary, loaded_revision: String) -> Dictionary:
+func validate_content_compatibility(raw: Dictionary, loaded_revision: String, registry: Node = null) -> Dictionary:
 	if loaded_revision.empty():
 		return {"ok": false, "reason": "invalid_loaded_revision", "state": null}
 	var normalized = normalize(raw)
@@ -100,4 +100,9 @@ func validate_content_compatibility(raw: Dictionary, loaded_revision: String) ->
 		return {"ok": false, "reason": "invalid_save", "state": null}
 	if normalized.metadata.content_revision != loaded_revision:
 		return {"ok": false, "reason": "content_revision_mismatch", "state": null}
+	if registry != null:
+		var skills = SkillState.new().validate_registered(normalized.skills, registry)
+		if not skills.ok:
+			return {"ok": false, "reason": skills.error, "state": null}
+		normalized.skills = skills.state
 	return {"ok": true, "reason": "", "state": normalized}
