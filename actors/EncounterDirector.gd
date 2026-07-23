@@ -19,7 +19,7 @@ func apply(raw: Dictionary, event_id: String, action: String, resource_id: Strin
 	var result = raw.duplicate(true)
 	if result.events.has(event_id):
 		return {"ok": true, "duplicate": true, "state": result}
-	if not _valid_transition(result.status, action, resource_id):
+	if not _valid_transition(result.status, action, resource_id, result.resources):
 		return {"ok": false, "duplicate": false, "state": raw.duplicate(true)}
 	if action == "start": result.status = ACTIVE
 	elif action == "victory": result.status = VICTORY
@@ -36,10 +36,10 @@ func apply(raw: Dictionary, event_id: String, action: String, resource_id: Strin
 func _valid_state(raw: Dictionary) -> bool:
 	return typeof(raw) == TYPE_DICTIONARY and not str(raw.get("kind", "")).empty() and not str(raw.get("encounter_id", "")).empty() and not str(raw.get("run_id", "")).empty() and STATUSES.has(str(raw.get("status", ""))) and typeof(raw.get("resources", null)) == TYPE_ARRAY and typeof(raw.get("events", null)) == TYPE_ARRAY
 
-func _valid_transition(status: String, action: String, resource_id: String) -> bool:
+func _valid_transition(status: String, action: String, resource_id: String, resources: Array = []) -> bool:
 	if status == PREPARED: return action == "start" or action == "abort"
 	if status == ACTIVE:
-		if action == "attach": return not resource_id.empty()
-		if action == "detach": return not resource_id.empty()
+		if action == "attach": return not resource_id.empty() and not resources.has(resource_id)
+		if action == "detach": return not resource_id.empty() and resources.has(resource_id)
 		return action == "victory" or action == "failure" or action == "abort"
 	return (status == VICTORY or status == FAILURE or status == ABORTED) and action == "cleanup"

@@ -9,6 +9,7 @@ func _init():
 	var run = director.new_run("dungeon", "dungeon.pilot", "run.1")
 	run = director.apply(run, "start.1", "start").state
 	run = director.apply(run, "attach.1", "attach", "actor.snake.1").state
+	test.expect(not director.apply(run, "attach.duplicate", "attach", "actor.snake.1").ok and not director.apply(run, "detach.missing", "detach", "actor.snake.2").ok, "rejects duplicate or unknown scoped resources")
 	run = director.apply(run, "victory.1", "victory").state
 	run = director.apply(run, "cleanup.1", "cleanup").state
 	test.expect(run.status == EncounterDirector.CLEANED and run.resources.empty(), "cleans all encounter-owned resources after victory")
