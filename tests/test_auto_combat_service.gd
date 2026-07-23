@@ -11,5 +11,8 @@ func _init():
 	test.expect(action.ok and action.action == "cast" and action.skill_id == "skill.active", "plans actions only after passing safety policy")
 	context.inventory_full = true
 	var stopped = service.decide(context)
-	test.expect(not stopped.ok and stopped.reason == "inventory_full" and stopped.action == "idle", "safety stop overrides action planning")
+	context.inventory_full = false
+	context.transitioning = true
+	var transitioning = service.decide(context)
+	test.expect(not stopped.ok and stopped.reason == "inventory_full" and stopped.action == "idle" and not transitioning.ok and transitioning.reason == "transition" and transitioning.action == "idle", "safety stops override action planning")
 	test.finish(self, "auto_combat_service")

@@ -9,6 +9,10 @@ func decide(context: Dictionary) -> Dictionary:
 		return _deny("player_dead")
 	if bool(context.get("manual_stop", false)):
 		return _deny("manual_stop")
+	if bool(context.get("transitioning", false)):
+		return _deny("transition")
+	if bool(context.get("pause_or_blocking_ui", false)):
+		return _deny("pause_or_blocking_ui")
 	if bool(context.get("inventory_full", false)):
 		return _deny("inventory_full")
 	if bool(context.get("quest_complete", false)):

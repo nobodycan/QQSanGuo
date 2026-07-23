@@ -138,6 +138,11 @@
 - `AutoCombatPolicy` 现在识别活动 Boss 或副本遭遇，并以稳定的 `boss_or_dungeon` 原因停止自动战斗。
 - 受控遭遇不会再与自动战斗同时争夺目标和技能决策入口。
 
+### Phase 56 - 自动战斗界面与切图保护
+
+- `AutoCombatPolicy` 新增 `transition` 与 `pause_or_blocking_ui` 停止原因。
+- 场景切换或阻塞 UI 出现时，`AutoCombatService` 在技能规划之前返回空闲动作。
+
 ### Phase 29 - 任务基础
 
 - 新增确定性的五状态任务模型，使用幂等事件 ID，并拒绝非法状态转换。
