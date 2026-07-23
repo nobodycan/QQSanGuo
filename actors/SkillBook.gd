@@ -12,6 +12,14 @@ func add_definition(definition: Dictionary) -> bool:
 	definitions[skill_id] = definition.duplicate(true)
 	return true
 
+func add_registered_definition(registry: Node, skill_id: String) -> bool:
+	if registry == null or not registry.has_method("get_entry"):
+		return false
+	var entry = registry.get_entry(skill_id)
+	if not entry.get("ok", false) or str(entry.data.get("kind", "")) != "skill":
+		return false
+	return add_definition(entry.data)
+
 func unlock(skill_id: String, level: int) -> bool:
 	if not definitions.has(skill_id) or level < int(definitions[skill_id].unlock_level):
 		return false

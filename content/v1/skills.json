@@ -1,5 +1,5 @@
 {
   "entries": [
-    {"id":"skill.basic_slash","legacy_name":"\u6a2a\u51fb\u5251","kind":"skill"}
+    {"id":"skill.basic_slash","legacy_name":"\u6a2a\u51fb\u5251","kind":"skill","unlock_level":1,"magic_cost":0,"cooldown_ticks":0,"damage":10}
   ]
 }

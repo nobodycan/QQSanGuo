@@ -1,6 +1,7 @@
 extends SceneTree
 
 const SkillBook = preload("res://actors/SkillBook.gd")
+const ContentRegistry = preload("res://autoload/ContentRegistry.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
@@ -18,4 +19,9 @@ func _init():
 	book.tick()
 	book.tick()
 	test.expect(book.cast("skill.active_strike", 5).ok, "cast succeeds after cooldown")
+	var registry = ContentRegistry.new()
+	registry.load_content()
+	var registered_book = SkillBook.new()
+	test.expect(registered_book.add_registered_definition(registry, "skill.basic_slash") and registered_book.unlock("skill.basic_slash", 1) and registered_book.cast("skill.basic_slash", 0).damage == 10, "imports executable skills from trusted content registry definitions")
+	registry.free()
 	test.finish(self, "skill_book")
