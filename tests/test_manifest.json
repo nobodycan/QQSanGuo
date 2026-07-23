@@ -438,6 +438,13 @@
       "script": "tests/test_dungeon_checkpoint_service.gd"
     },
     {
+      "id": "dungeon_victory_session",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_dungeon_victory_session.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
