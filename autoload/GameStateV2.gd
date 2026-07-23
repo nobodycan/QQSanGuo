@@ -79,3 +79,13 @@ func normalize(raw):
 	if result.world.empty(): return null
 	result.section_versions.world = WorldState.VERSION
 	return result
+
+func validate_content_compatibility(raw: Dictionary, loaded_revision: String) -> Dictionary:
+	if loaded_revision.empty():
+		return {"ok": false, "reason": "invalid_loaded_revision", "state": null}
+	var normalized = normalize(raw)
+	if normalized == null or typeof(normalized.get("metadata", null)) != TYPE_DICTIONARY or typeof(normalized.metadata.get("content_revision", null)) != TYPE_STRING:
+		return {"ok": false, "reason": "invalid_save", "state": null}
+	if normalized.metadata.content_revision != loaded_revision:
+		return {"ok": false, "reason": "content_revision_mismatch", "state": null}
+	return {"ok": true, "reason": "", "state": normalized}
