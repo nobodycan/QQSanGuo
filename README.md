@@ -156,6 +156,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 79 | Legacy runtime skill bridge | PlayerInventory projects legacy skill UI arrays through canonical Registry-backed state. |
 | 80 | V2 runtime skill sync | GameStateV2 captures and applies Registry-validated PlayerInventory skill state. |
 | 81 | Runtime skill round trip | Regression coverage proves legacy runtime skills round trip through V2 stable IDs. |
+| 82 | Runtime V2 skill save | SaveManagerV2 persists and restores Registry-validated runtime skill state. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

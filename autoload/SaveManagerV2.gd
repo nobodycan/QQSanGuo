@@ -55,6 +55,22 @@ func save_data_compatible(snapshot: Dictionary, loaded_revision: String, registr
 		return {"ok": false, "error": compatibility.reason}
 	return save_data(compatibility.state)
 
+func save_runtime_skills(snapshot: Dictionary, inventory: Node, registry: Node) -> Dictionary:
+	var captured = state.capture_runtime_skills(snapshot, inventory, registry)
+	if not captured.ok:
+		return {"ok": false, "error": captured.reason}
+	return save_data_compatible(captured.state, str(captured.state.metadata.content_revision), registry)
+
+func load_runtime_skills(loaded_revision: String, inventory: Node, registry: Node) -> Dictionary:
+	var loaded = load_latest_compatible(loaded_revision, registry)
+	if not loaded.ok:
+		return loaded
+	var applied = state.apply_runtime_skills(loaded.data, inventory, registry)
+	if not applied.ok:
+		return {"ok": false, "error": applied.reason}
+	loaded.data = applied.state
+	return loaded
+
 func _read_generation(path: String) -> Dictionary:
 	var file = File.new()
 	if not file.file_exists(path) or file.open(path, File.READ) != OK: return {"ok": false}
