@@ -375,6 +375,13 @@
       "script": "tests/test_boss_access_policy.gd"
     },
     {
+      "id": "encounter_director",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_encounter_director.gd"
+    },
+    {
       "id": "auto_combat_policy",
       "kind": "godot",
       "lane": "unit",
