@@ -74,6 +74,8 @@ SceneManager now exposes an access-gated world replacement path that preserves t
 
 Phase 28 begins with stable NPC and dialogue definitions, including flag-gated dialogue nodes that do not depend on scene node paths.
 
+InteractionLock ensures only one NPC interaction can be active, preventing double-click and stale-callback overlap.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.

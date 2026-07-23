@@ -5,6 +5,7 @@
 ### Phase 28 - Dialogue Foundation
 
 - Added stable NPC registration and flag-gated dialogue definition normalization without scene-path coupling.
+- Added a single-interaction lock to reject duplicate and concurrent NPC interactions.
 
 ### Phase 27 - World State Foundation
 
