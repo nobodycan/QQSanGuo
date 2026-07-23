@@ -143,6 +143,11 @@
 - `AutoCombatPolicy` 新增 `transition` 与 `pause_or_blocking_ui` 停止原因。
 - 场景切换或阻塞 UI 出现时，`AutoCombatService` 在技能规划之前返回空闲动作。
 
+### Phase 57 - 自动战斗恢复与区域保护
+
+- `AutoCombatPolicy` 新增无恢复药品、离开自动战斗区域及离开活动半径的确定性停止条件。
+- 新上下文字段保持可选；未提供时兼容既有的自动战斗调用方。
+
 ### Phase 29 - 任务基础
 
 - 新增确定性的五状态任务模型，使用幂等事件 ID，并拒绝非法状态转换。

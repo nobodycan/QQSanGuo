@@ -19,6 +19,12 @@ func decide(context: Dictionary) -> Dictionary:
 		return _deny("quest_complete")
 	if ["boss", "dungeon"].has(str(context.get("active_encounter_kind", ""))):
 		return _deny("boss_or_dungeon")
+	if bool(context.get("needs_recovery", false)) and not bool(context.get("has_recovery_consumable", false)):
+		return _deny("recovery_consumable_missing")
+	if not bool(context.get("inside_auto_zone", true)):
+		return _deny("zone_exit")
+	if not bool(context.get("inside_activity_radius", true)):
+		return _deny("activity_radius_exit")
 	if not bool(context.get("has_reachable_target", false)):
 		return _deny("no_reachable_target")
 	return {"ok": true, "reason": ""}

@@ -131,6 +131,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 54 | Encounter scope invariants | Reject duplicate or unknown owned resources. |
 | 55 | Auto-combat encounter guard | Stops automation during active Boss or dungeon runs. |
 | 56 | Auto-combat UI guard | Stops automation for scene transitions and blocking UI. |
+| 57 | Auto-combat recovery guard | Stops automation for missing recovery items and area exits. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

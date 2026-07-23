@@ -18,7 +18,13 @@ func _init():
 	transitioning.transitioning = true
 	var paused = ready.duplicate()
 	paused.pause_or_blocking_ui = true
-	test.expect(policy.decide(full).reason == "inventory_full" and policy.decide(no_target).reason == "no_reachable_target" and policy.decide(boss).reason == "boss_or_dungeon" and policy.decide(transitioning).reason == "transition" and policy.decide(paused).reason == "pause_or_blocking_ui", "stops for inventory, targets, encounters, scene transitions, and blocking UI")
+	var needs_recovery = ready.duplicate()
+	needs_recovery.needs_recovery = true
+	var zone_exit = ready.duplicate()
+	zone_exit.inside_auto_zone = false
+	var radius_exit = ready.duplicate()
+	radius_exit.inside_activity_radius = false
+	test.expect(policy.decide(full).reason == "inventory_full" and policy.decide(no_target).reason == "no_reachable_target" and policy.decide(boss).reason == "boss_or_dungeon" and policy.decide(transitioning).reason == "transition" and policy.decide(paused).reason == "pause_or_blocking_ui" and policy.decide(needs_recovery).reason == "recovery_consumable_missing" and policy.decide(zone_exit).reason == "zone_exit" and policy.decide(radius_exit).reason == "activity_radius_exit", "stops for inventory, targets, encounters, recovery, UI, and area boundaries")
 	var dead = ready.duplicate()
 	dead.player_alive = false
 	test.expect(policy.decide(dead).reason == "player_dead", "stops when the player dies")
