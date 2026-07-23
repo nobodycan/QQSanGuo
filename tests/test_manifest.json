@@ -333,6 +333,13 @@
       "script": "tests/test_shop_session.gd"
     },
     {
+      "id": "dungeon_state",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_dungeon_state.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
