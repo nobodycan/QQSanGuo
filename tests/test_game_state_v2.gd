@@ -2,6 +2,7 @@ extends SceneTree
 
 const StateV2 = preload("res://autoload/GameStateV2.gd")
 const ContentRegistry = preload("res://autoload/ContentRegistry.gd")
+const PlayerInventory = preload("res://PlayerInventory.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
 func _init():
@@ -18,6 +19,15 @@ func _init():
 	var forged_skill = state.new_envelope()
 	forged_skill.skills.known = ["skill.forged"]
 	test.expect(state.validate_content_compatibility(forged_skill, "v1-pilot-phase76", registry).reason == "unknown_skill", "rejects persisted skills absent from registry")
+	var runtime_inventory = PlayerInventory.new()
+	runtime_inventory.known_skills = ["横击剑"]
+	runtime_inventory.equipped_skills = ["横击剑"]
+	var captured_runtime = state.capture_runtime_skills(envelope, runtime_inventory, registry)
+	test.expect(captured_runtime.ok and captured_runtime.state.skills.known == ["skill.basic_slash"], "captures legacy runtime skills into the V2 stable state")
+	runtime_inventory.known_skills = []
+	runtime_inventory.equipped_skills = []
+	test.expect(state.apply_runtime_skills(captured_runtime.state, runtime_inventory, registry).ok and runtime_inventory.equipped_skills == ["横击剑"], "applies V2 stable skills back to runtime legacy arrays")
+	runtime_inventory.free()
 	test.expect(normalized.section_versions.inventory == 1 and normalized.inventory.version == 1 and normalized.inventory.slots.size() == 50, "creates inventory section v1")
 	test.expect(normalized.section_versions.equipment == 2 and normalized.equipment.version == 2 and normalized.equipment.slots.size() == 10, "creates equipment section v2")
 	test.expect(normalized.section_versions.skills == 1 and normalized.skills.version == 1 and normalized.skills.known.empty(), "creates canonical skill section v1")

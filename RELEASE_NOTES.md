@@ -233,6 +233,10 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 81 - 运行时技能往返验证
+
+- 新增 `GameStateV2` 回归：验证旧中文技能数组可捕获为 V2 稳定 ID，并可再投影回运行时数组，不改变当前 UI 数据形状。
+
 ### Phase 80 - V2 运行时技能同步
 
 - `GameStateV2` 新增运行时技能捕获与应用入口，将 `PlayerInventory` 的规范技能状态写入或读取 V2 `skills` 分段，并持续经 `ContentRegistry` 校验。
