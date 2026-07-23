@@ -1,6 +1,7 @@
 {
   "schema_version": 1,
   "tests": [
+    {"id":"quest_turn_in_service","kind":"godot","lane":"unit","timeout_seconds":30,"script":"tests/test_quest_turn_in_probe.gd"},
     {
       "id": "resource_audit",
       "kind": "powershell",
