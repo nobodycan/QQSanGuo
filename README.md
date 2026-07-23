@@ -160,6 +160,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 83 | Runtime skill save integration | Isolated dual-slot integration verifies runtime skill save and restore. |
 | 84 | Full legacy snapshot migration | Registry-validated V1 snapshot migration preserves legacy-only fields while producing V2 sections. |
 | 85 | Legacy snapshot import | Migrated V1 snapshots enter verified alternating V2 storage without advancing generations on failure. |
+| 86 | V2 legacy restore bridge | Verified V2 snapshots restore through their preserved V1 scene payload only. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

@@ -42,6 +42,8 @@ func _run():
 		test.expect(false, "rejects user path map")
 		_finish(test, state)
 		return
+	var missing_v2 = manager.restore_v2_legacy_snapshot(preload("res://autoload/GameStateV2.gd").new().new_envelope(), "v1-pilot-phase76")
+	test.expect(not missing_v2.ok and missing_v2.error == "legacy_snapshot_unavailable", "rejects V2 restore without a complete legacy bridge snapshot")
 	_finish(test, state)
 
 func _finish(test, state):

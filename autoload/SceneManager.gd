@@ -1,6 +1,7 @@
 extends Node
 
 const GameStateScript = preload("res://autoload/GameState.gd")
+const GameStateV2 = preload("res://autoload/GameStateV2.gd")
 const MapAccessPolicy = preload("res://actors/MapAccessPolicy.gd")
 
 func restore_snapshot(snapshot):
@@ -29,6 +30,15 @@ func change_to_map(map_path):
 	while get_tree().current_scene == null:
 		yield(get_tree(), "idle_frame")
 	return {"ok": true}
+
+func restore_v2_legacy_snapshot(snapshot: Dictionary, loaded_revision: String, registry: Node = null):
+	var compatible = GameStateV2.new().validate_content_compatibility(snapshot, loaded_revision, registry)
+	if not compatible.ok:
+		return _failure(compatible.reason)
+	var legacy = compatible.state.get("legacy", {})
+	if typeof(legacy) != TYPE_DICTIONARY or typeof(legacy.get("v1_snapshot", null)) != TYPE_DICTIONARY:
+		return _failure("legacy_snapshot_unavailable")
+	return restore_snapshot(legacy.v1_snapshot)
 
 func replace_world(world_root: Node, map_path: String) -> Dictionary:
 	if world_root == null or typeof(map_path) != TYPE_STRING or not map_path.begins_with("res://") or not map_path.ends_with(".tscn"):
