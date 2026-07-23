@@ -137,6 +137,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 60 | Registry-backed scene replacement | SceneManager loads maps only from trusted Registry IDs. |
 | 61 | Registry-backed shop purchase | Shop sessions resolve item templates from trusted content. |
 | 62 | Registry-backed skills | The pilot basic skill is an executable content definition. |
+| 63 | Typed content contracts | Registry validates map, skill, and item schemas before publish. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

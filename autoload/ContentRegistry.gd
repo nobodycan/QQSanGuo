@@ -17,7 +17,7 @@ func load_content(manifest_path: String = "res://content/v1/manifest.json") -> D
 		if data.empty() or typeof(data.get("entries", null)) != TYPE_ARRAY:
 			return _failure("invalid_content_pack")
 		for entry in data.entries:
-			if typeof(entry) != TYPE_DICTIONARY or not _is_valid_id(str(entry.get("id", ""))) or staged.has(entry.id) or not _resources_exist(entry):
+			if typeof(entry) != TYPE_DICTIONARY or not _is_valid_id(str(entry.get("id", ""))) or staged.has(entry.id) or not _valid_entry(entry) or not _resources_exist(entry):
 				return _failure("invalid_content_entry")
 			staged[entry.id] = entry.duplicate(true)
 	_entries = staged
@@ -57,6 +57,14 @@ func _resources_exist(entry: Dictionary) -> bool:
 		if entry.has(field) and (typeof(entry[field]) != TYPE_STRING or not ResourceLoader.exists(entry[field])):
 			return false
 	return true
+
+func _valid_entry(entry: Dictionary) -> bool:
+	var kind = str(entry.get("kind", ""))
+	if kind == "map":
+		return typeof(entry.get("scene", null)) == TYPE_STRING and not str(entry.scene).empty() and typeof(entry.get("default_spawn_id", null)) == TYPE_STRING and typeof(entry.get("spawns", null)) == TYPE_ARRAY
+	if kind == "skill":
+		return int(entry.get("unlock_level", 0)) >= 1 and int(entry.get("magic_cost", -1)) >= 0 and int(entry.get("cooldown_ticks", -1)) >= 0 and int(entry.get("damage", -1)) >= 0
+	return ["equipment", "material", "consumable"].has(kind) and int(entry.get("stack_limit", 0)) >= 1 and typeof(entry.get("quest", null)) == TYPE_BOOL
 
 func _is_valid_id(content_id: String) -> bool:
 	var parts = content_id.split(".")

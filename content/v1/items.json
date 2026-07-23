@@ -1,5 +1,5 @@
 {
   "entries": [
-    {"id":"item.iron_sword","legacy_name":"\u94c1\u5251","icon":"res://UI/item_icons/\u94c1\u5251.png","kind":"equipment"}
+    {"id":"item.iron_sword","legacy_name":"\u94c1\u5251","icon":"res://UI/item_icons/\u94c1\u5251.png","kind":"equipment","stack_limit":1,"quest":false}
   ]
 }
