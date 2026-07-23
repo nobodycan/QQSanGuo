@@ -133,6 +133,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 56 | Auto-combat UI guard | Stops automation for scene transitions and blocking UI. |
 | 57 | Auto-combat recovery guard | Stops automation for missing recovery items and area exits. |
 | 58 | Content registry loading | Manifest-backed, validated stable-ID content loading. |
+| 59 | Registry-backed map access | Maps are resolved from validated content definitions. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

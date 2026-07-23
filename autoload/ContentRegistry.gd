@@ -31,6 +31,14 @@ func get_entry(content_id: String) -> Dictionary:
 		return _failure("content_not_found")
 	return {"ok": true, "error_code": "", "operation_id": "content.get", "data": _entries[content_id]}
 
+func entries_of_kind(kind: String) -> Array:
+	var result = []
+	for content_id in _entries.keys():
+		var entry = _entries[content_id]
+		if str(entry.get("kind", "")) == kind:
+			result.append(entry.duplicate(true))
+	return result
+
 func validate_id(content_id: String) -> Dictionary:
 	if not _is_valid_id(content_id):
 		return _failure("invalid_content_id")

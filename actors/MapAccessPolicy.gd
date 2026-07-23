@@ -14,3 +14,8 @@ func can_enter(maps: Array, world: Dictionary, target_map_id: String, target_spa
 		if target_map_id != current_map_id and not normalized_world.unlocked_maps.has(target_map_id): return {"ok": false, "reason": "locked"}
 		return {"ok": true, "reason": "allowed"}
 	return {"ok": false, "reason": "map_missing"}
+
+func can_enter_registered(registry: Node, world: Dictionary, target_map_id: String, target_spawn_id: String, current_map_id: String = "") -> Dictionary:
+	if registry == null or not registry.has_method("entries_of_kind"):
+		return {"ok": false, "reason": "registry_unavailable"}
+	return can_enter(registry.entries_of_kind("map"), world, target_map_id, target_spawn_id, current_map_id)
