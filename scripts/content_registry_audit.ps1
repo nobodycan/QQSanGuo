@@ -6,6 +6,7 @@ $ids = @{}
 $maps = @{}
 $entries = @{}
 $failures = @()
+if (-not ($manifest.PSObject.Properties.Name -contains 'content_revision') -or [string]$manifest.content_revision -notmatch '^v\S+$') { $failures += 'invalid_content_revision' }
 foreach ($pack in $manifest.packs) {
     $path = Join-Path $contentRoot $pack
     if (-not (Test-Path $path)) { $failures += "missing_pack:$pack"; continue }

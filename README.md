@@ -142,6 +142,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 65 | Deterministic content lists | Registry type queries sort entries by stable ID. |
 | 66 | Registry-backed legacy aliases | Legacy names and map paths resolve through validated IDs. |
 | 67 | Content audit parity | Static audit enforces Registry schemas and legacy aliases. |
+| 68 | Content revision | Manifest and Registry expose the stable save-compatible revision. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

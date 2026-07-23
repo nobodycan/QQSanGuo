@@ -2,13 +2,14 @@ extends Node
 
 var _entries = {}
 var _aliases = {}
+var _content_revision = ""
 
 func _ready() -> void:
 	load_content()
 
 func load_content(manifest_path: String = "res://content/v1/manifest.json") -> Dictionary:
 	var manifest = _read_json(manifest_path)
-	if manifest.empty() or typeof(manifest.get("packs", null)) != TYPE_ARRAY:
+	if manifest.empty() or typeof(manifest.get("packs", null)) != TYPE_ARRAY or not _is_valid_revision(str(manifest.get("content_revision", ""))):
 		return _failure("invalid_content_manifest")
 	var staged = {}
 	for pack in manifest.packs:
@@ -26,7 +27,11 @@ func load_content(manifest_path: String = "res://content/v1/manifest.json") -> D
 		return _failure("invalid_content_aliases")
 	_entries = staged
 	_aliases = aliases.duplicate(true)
-	return {"ok": true, "error_code": "", "operation_id": "content.load", "data": {"entry_count": _entries.size()}}
+	_content_revision = str(manifest.content_revision)
+	return {"ok": true, "error_code": "", "operation_id": "content.load", "data": {"entry_count": _entries.size(), "content_revision": _content_revision}}
+
+func content_revision() -> String:
+	return _content_revision
 
 func has_entry(content_id: String) -> bool:
 	return _entries.has(content_id)
@@ -104,6 +109,9 @@ func _is_valid_id(content_id: String) -> bool:
 		if not ((character >= "a" and character <= "z") or (character >= "0" and character <= "9") or character == "_"):
 			return false
 	return true
+
+func _is_valid_revision(revision: String) -> bool:
+	return revision.begins_with("v") and revision.length() > 1 and revision.find(" ") < 0
 
 func _sort_entries_by_id(left: Dictionary, right: Dictionary) -> bool:
 	return str(left.get("id", "")) < str(right.get("id", ""))
