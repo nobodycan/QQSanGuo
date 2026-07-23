@@ -37,6 +37,7 @@ func entries_of_kind(kind: String) -> Array:
 		var entry = _entries[content_id]
 		if str(entry.get("kind", "")) == kind:
 			result.append(entry.duplicate(true))
+	result.sort_custom(self, "_sort_entries_by_id")
 	return result
 
 func validate_id(content_id: String) -> Dictionary:
@@ -77,6 +78,9 @@ func _is_valid_id(content_id: String) -> bool:
 		if not ((character >= "a" and character <= "z") or (character >= "0" and character <= "9") or character == "_"):
 			return false
 	return true
+
+func _sort_entries_by_id(left: Dictionary, right: Dictionary) -> bool:
+	return str(left.get("id", "")) < str(right.get("id", ""))
 
 func _failure(error_code: String) -> Dictionary:
 	return {"ok": false, "error_code": error_code, "operation_id": "content", "data": null}
