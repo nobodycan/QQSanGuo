@@ -98,6 +98,11 @@
 - 新增 `DungeonCheckpointService`，仅允许活跃副本将检查点同步写入 `DungeonState` 与持久化 `WorldState`。
 - 检查点事件使用稳定 ID 幂等处理；非活跃副本、空事件或空检查点均不会改变任一状态。
 
+### Phase 48 - Boss 访问控制
+
+- 新增 `BossAccessPolicy`，在启动遭遇前校验等级、地图解锁、剧情标记和既有击败记录。
+- 默认禁止已击败 Boss 重复开战；内容定义可通过 `repeatable` 显式允许可重复挑战。
+
 ### Phase 29 - 任务基础
 
 - 新增确定性的五状态任务模型，使用幂等事件 ID，并拒绝非法状态转换。
