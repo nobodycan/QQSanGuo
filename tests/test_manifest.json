@@ -312,6 +312,13 @@
       "script": "tests/test_shop_quote.gd"
     },
     {
+      "id": "shop_definition",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_shop_definition.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
