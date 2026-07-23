@@ -118,6 +118,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 41 | Boss phase policy | Data-driven health thresholds for deterministic phase resolution. |
 | 42 | Auto-combat policy | Deterministic foreground safety and stop conditions. |
 | 43 | Auto-combat planning | Stable active-skill priority and basic-attack fallback. |
+| 44 | Auto-combat decisions | Safety-first action decisions from one service boundary. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
