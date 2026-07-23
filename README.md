@@ -121,6 +121,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 44 | Auto-combat decisions | Safety-first action decisions from one service boundary. |
 | 45 | Dungeon access | Level, map-unlock, and world-flag entry checks. |
 | 46 | Dungeon sessions | Access-checked, idempotent dungeon entry service. |
+| 47 | Dungeon checkpoints | Atomic dungeon and world checkpoint persistence. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
