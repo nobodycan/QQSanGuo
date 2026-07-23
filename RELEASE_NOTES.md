@@ -233,6 +233,10 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 83 - 运行时技能存档集成验证
+
+- 新增独立双槽 integration 用例，验证 `SaveManagerV2` 从旧运行时中文技能数组捕获稳定 ID、写入 V2 存档，并在加载后恢复相同的旧 UI 数组。
+
 ### Phase 82 - 运行时 V2 技能存档
 
 - `SaveManagerV2` 新增运行时技能保存和恢复入口，保存时捕获 `PlayerInventory` 的规范状态，读取时在选择兼容双槽代际后投影回旧 UI 数组。

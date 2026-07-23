@@ -221,6 +221,13 @@
       "script": "tests/test_save_manager_v2.gd"
     },
     {
+      "id": "runtime_skill_save",
+      "kind": "godot",
+      "lane": "integration",
+      "timeout_seconds": 60,
+      "script": "tests/test_runtime_skill_save.gd"
+    },
+    {
       "id": "scene_restore",
       "kind": "godot",
       "lane": "integration",
