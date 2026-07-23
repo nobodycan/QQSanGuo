@@ -6,6 +6,7 @@
 
 - Added a deterministic five-state quest model with idempotent event IDs and invalid-transition rejection.
 - Added QuestDefinition prerequisite DAG validation with orphan and cycle rejection.
+- Added idempotent event-counted QuestObjective progress for talk, kill, collect, and map-entry targets.
 
 ### Phase 28 - Dialogue Foundation
 

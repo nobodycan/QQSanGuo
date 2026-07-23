@@ -84,6 +84,8 @@ Phase 29 begins with a deterministic five-state quest model and idempotent event
 
 QuestDefinition validates prerequisite DAGs and rejects missing or cyclic dependencies before content is enabled.
 
+QuestObjective consumes stable talk, kill, collect, and map-entry events idempotently until its declared target is complete.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.
