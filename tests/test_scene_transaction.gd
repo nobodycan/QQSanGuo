@@ -1,6 +1,7 @@
 extends SceneTree
 
 const SceneManagerScript = preload("res://autoload/SceneManager.gd")
+const ContentRegistry = preload("res://autoload/ContentRegistry.gd")
 const WorldState = preload("res://actors/WorldState.gd")
 const TestProtocol = preload("res://tests/TestProtocol.gd")
 
@@ -22,6 +23,13 @@ func _init():
 	unlocked_world.unlocked_maps.append("map.locked")
 	var unlocked = manager.replace_world_if_allowed(world, "res://Login.tscn", maps, unlocked_world, "map.locked", "spawn.entry", "map.start")
 	test.expect(unlocked.ok and world.get_child(0) != locked_previous, "unlocked map commits world replacement")
+	var registry = ContentRegistry.new()
+	registry.load_content()
+	var registered_previous = world.get_child(0)
+	var registry_world = WorldState.new().new_state()
+	var registered = manager.replace_registered_world_if_allowed(world, registry, registry_world, "map.jianglin", "spawn.entry", "map.level_one")
+	test.expect(not registered.ok and registered.error == "map_locked" and world.get_child(0) == registered_previous, "registry map IDs are access-checked before any scene replacement")
+	registry.free()
 	manager.free()
 	world.free()
 	test.finish(self, "scene_transaction")

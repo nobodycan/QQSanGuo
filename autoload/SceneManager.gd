@@ -54,6 +54,15 @@ func replace_world_if_allowed(world_root: Node, map_path: String, maps: Array, w
 		return _failure("map_" + access.reason)
 	return replace_world(world_root, map_path)
 
+func replace_registered_world_if_allowed(world_root: Node, registry: Node, world_state: Dictionary, target_map_id: String, target_spawn_id: String, current_map_id: String = "") -> Dictionary:
+	var access = MapAccessPolicy.new().can_enter_registered(registry, world_state, target_map_id, target_spawn_id, current_map_id)
+	if not access.ok:
+		return _failure("map_" + access.reason)
+	var entry = registry.get_entry(target_map_id)
+	if not entry.ok or str(entry.data.get("kind", "")) != "map":
+		return _failure("map_registry_entry_invalid")
+	return replace_world(world_root, str(entry.data.get("scene", "")))
+
 func _game_state():
 	var singleton = get_node_or_null("/root/GameState")
 	return singleton if singleton != null else GameStateScript.new()

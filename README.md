@@ -134,6 +134,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 57 | Auto-combat recovery guard | Stops automation for missing recovery items and area exits. |
 | 58 | Content registry loading | Manifest-backed, validated stable-ID content loading. |
 | 59 | Registry-backed map access | Maps are resolved from validated content definitions. |
+| 60 | Registry-backed scene replacement | SceneManager loads maps only from trusted Registry IDs. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
