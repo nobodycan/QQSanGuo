@@ -88,6 +88,8 @@ QuestObjective consumes stable talk, kill, collect, and map-entry events idempot
 
 Phase 30 adds QuestTurnInService: only ready-to-turn-in quests can settle rewards. A stable turn-in event first commits the wallet/item reward atomically, then completes the quest; replays do not duplicate rewards.
 
+Phase 31 adds QuestAvailabilityService: a validated prerequisite DAG deterministically unlocks only locked quests whose prerequisites are completed, while repeated refreshes leave task state unchanged.
+
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
 
 ## Phase Delivery Summary
@@ -103,6 +105,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 28 | NPC dialogue | Stable definitions, flag-gated lines, and single-owner interaction sessions. |
 | 29 | Quest state | Five-state quests, prerequisite DAG validation, and idempotent objective progress. |
 | 30 | Quest turn-in | Ready-only atomic reward settlement and idempotent completion. |
+| 31 | Quest availability | DAG-driven deterministic prerequisite unlocks. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

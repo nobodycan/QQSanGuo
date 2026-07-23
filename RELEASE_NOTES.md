@@ -13,6 +13,11 @@
 - 新增 `QuestTurnInService`：仅 `ready_to_turn_in` 任务可结算，奖励通过 `RewardService` 原子提交后才推进至 `completed`。
 - 使用稳定交付事件 ID 同时保证奖励与任务状态幂等；重复交付不会重复发奖。
 
+### Phase 31 - 任务可用性
+
+- 新增 `QuestAvailabilityService`，根据已验证的前置任务 DAG 确定性解锁满足条件的锁定任务。
+- 重复刷新不会重复写入解锁事件；循环或缺失前置条件会被拒绝并保留原状态。
+
 ### Phase 29 - 任务基础
 
 - 新增确定性的五状态任务模型，使用幂等事件 ID，并拒绝非法状态转换。
