@@ -361,6 +361,13 @@
       "script": "tests/test_boss_completion_service.gd"
     },
     {
+      "id": "boss_phase_policy",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_boss_phase_policy.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",
