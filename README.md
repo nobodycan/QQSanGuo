@@ -38,7 +38,7 @@ EconomyTransaction now atomically preflights a wallet debit and inventory grant:
 
 RewardService uses the same ledger to atomically grant money, juntuan, and optional item stacks; a full inventory prevents all reward components from committing.
 
-## Enhancement Foundation
+## Phase 25 - Enhancement Foundation
 
 Equipment instances now persist an independent `enhancement_level` from `+0` through `+10`; existing equipment v1 saves migrate losslessly to `+0`.
 
@@ -60,7 +60,7 @@ LootRewardService resolves stable loot IDs to item templates and commits the who
 
 WorldPickup removes a world drop only after its reward transaction succeeds, so full inventories preserve the pickup.
 
-## World State Foundation
+## Phase 27 - World State Foundation
 
 GameStateV2 now persists a versioned WorldState v1 for flags, unlocked maps, defeated bosses, checkpoints, and once-only world operations; older empty world sections migrate safely.
 
@@ -78,7 +78,7 @@ InteractionLock ensures only one NPC interaction can be active, preventing doubl
 
 DialoguePresenter emits UI-safe available lines, while InteractionSession releases the lock when a dialogue closes.
 
-## Quest Foundation
+## Phase 29 - Quest Foundation
 
 Phase 29 begins with a deterministic five-state quest model and idempotent event IDs for unlock, accept, objective completion, and turn-in.
 
@@ -87,6 +87,21 @@ QuestDefinition validates prerequisite DAGs and rejects missing or cyclic depend
 QuestObjective consumes stable talk, kill, collect, and map-entry events idempotently until its declared target is complete.
 
 DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callbacks from spawning duplicate rewards.
+
+## Phase Delivery Summary
+
+| Phase | Delivered boundary | Main result |
+| --- | --- | --- |
+| 22 | Inventory identity | Versioned 50-slot inventory, deterministic commands, migration, and legacy projection. |
+| 23 | Equipment authority | Versioned slots, eligibility checks, deterministic stat composition, and legacy projection. |
+| 24 | Economy transactions | Idempotent wallet, atomic spend/reward transactions, and legacy wallet bridge. |
+| 25 | Equipment enhancement | Per-instance `+0` to `+10` enhancement, atomic costs, and UI-safe presentation. |
+| 26 | Loot and rewards | Seeded loot resolution, atomic multi-drop rewards, pickup retention, and defeat deduplication. |
+| 27 | Persistent world state | Versioned flags/maps/bosses/checkpoints with gated map transitions. |
+| 28 | NPC dialogue | Stable definitions, flag-gated lines, and single-owner interaction sessions. |
+| 29 | Quest state | Five-state quests, prerequisite DAG validation, and idempotent objective progress. |
+
+See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.
 

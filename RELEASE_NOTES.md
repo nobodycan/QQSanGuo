@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+The phase sections below are cumulative and map directly to the implementation milestones summarized in the README. Each section records the shipped authority boundary, compatibility work, and deterministic behavior covered by its associated tests.
+
 ### Phase 29 - Quest Foundation
 
 - Added a deterministic five-state quest model with idempotent event IDs and invalid-transition rejection.
