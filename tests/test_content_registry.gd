@@ -10,6 +10,8 @@ func _init():
 	test.expect(loaded.ok and loaded.data.entry_count == 4 and registry.has_entry("map.level_one"), "loads every manifest content pack into one stable registry")
 	var map = registry.get_entry("map.jianglin")
 	test.expect(map.ok and map.data.scene == "res://JiangLinXiJiao.tscn", "returns trusted map definitions by stable ID")
+	map.data.scene = "res://mutated.tscn"
+	test.expect(registry.get_entry("map.jianglin").data.scene == "res://JiangLinXiJiao.tscn", "does not expose mutable references to registered content")
 	test.expect(registry.entries_of_kind("map").size() == 2, "exposes copied definitions by declared content kind")
 	test.expect(not registry.load_content("res://tests/fixtures/content_invalid_manifest.json").ok and registry.has_entry("skill.basic_slash"), "rejects incomplete typed entries without replacing loaded content")
 	test.expect(not registry.validate_id("map.bad-id").ok and not registry.get_entry("map.unknown").ok, "rejects malformed and unknown content IDs")

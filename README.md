@@ -138,6 +138,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 61 | Registry-backed shop purchase | Shop sessions resolve item templates from trusted content. |
 | 62 | Registry-backed skills | The pilot basic skill is an executable content definition. |
 | 63 | Typed content contracts | Registry validates map, skill, and item schemas before publish. |
+| 64 | Immutable content reads | Registry callers receive deep-copied content definitions. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

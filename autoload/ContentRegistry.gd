@@ -29,7 +29,7 @@ func has_entry(content_id: String) -> bool:
 func get_entry(content_id: String) -> Dictionary:
 	if not has_entry(content_id):
 		return _failure("content_not_found")
-	return {"ok": true, "error_code": "", "operation_id": "content.get", "data": _entries[content_id]}
+	return {"ok": true, "error_code": "", "operation_id": "content.get", "data": _entries[content_id].duplicate(true)}
 
 func entries_of_kind(kind: String) -> Array:
 	var result = []
