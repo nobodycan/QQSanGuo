@@ -466,6 +466,13 @@
       "script": "tests/test_dungeon_failure_session.gd"
     },
     {
+      "id": "dungeon_retry_session",
+      "kind": "godot",
+      "lane": "unit",
+      "timeout_seconds": 30,
+      "script": "tests/test_dungeon_retry_session.gd"
+    },
+    {
       "id": "item_drop_resources",
       "kind": "godot",
       "lane": "integration",

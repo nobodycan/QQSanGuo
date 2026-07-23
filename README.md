@@ -149,6 +149,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 72 | Content and save gate | Full resource, runtime, and scene acceptance baseline. |
 | 73 | Registry-backed migration | Legacy save aliases resolve through the loaded Registry. |
 | 74 | Boss failure | Scope-backed Boss failure resets encounter phase safely. |
+| 75 | Dungeon retry | Cleaned runs can restart from preserved checkpoints. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
