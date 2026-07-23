@@ -108,6 +108,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 31 | Quest availability | DAG-driven deterministic prerequisite unlocks. |
 | 32 | Shop pricing | Deterministic purchase and floor-rounded resale quotes. |
 | 33 | Shop definitions | Stable catalog IDs, validated products, and flag-gated availability. |
+| 34 | Shop purchasing | Catalog-priced atomic purchases with repeat-ID protection. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 
