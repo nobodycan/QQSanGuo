@@ -146,8 +146,11 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 69 | Save content compatibility | V2 saves can be checked against the loaded content revision. |
 | 70 | Compatible V2 save selection | Dual-slot saves select the newest matching content revision. |
 | 71 | Compatible V2 save writes | Dual-slot writes reject mismatched content revisions. |
+| 72 | Content and save gate | Full resource, runtime, and scene acceptance baseline. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
+
+The [Phase 72 Content And Save Gate acceptance report](docs/superpowers/reports/2026-07-24-phase-72-content-save-gate-acceptance.md) records the full validation baseline.
 
 The legacy dengmao Boss death adapter now uses that gate before it emits drops, money, or experience.
 
