@@ -154,6 +154,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 77 | Persistent skill state | V2 saves normalize canonical skills and migrate validated legacy skill names. |
 | 78 | Registry-validated skill saves | Compatible V2 reads and writes reject skills absent from loaded content. |
 | 79 | Legacy runtime skill bridge | PlayerInventory projects legacy skill UI arrays through canonical Registry-backed state. |
+| 80 | V2 runtime skill sync | GameStateV2 captures and applies Registry-validated PlayerInventory skill state. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

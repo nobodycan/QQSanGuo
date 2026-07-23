@@ -233,6 +233,11 @@
 - 新增 `BossFailureSession`，在匹配的活动 Boss 遭遇失败时，将 Boss 重置到首阶段空闲并同步 Director 的 failure 终态。
 - 未启动的运行作用域被拒绝，稳定失败事件可安全重放而不再次改变 Boss 或遭遇状态。
 
+### Phase 80 - V2 运行时技能同步
+
+- `GameStateV2` 新增运行时技能捕获与应用入口，将 `PlayerInventory` 的规范技能状态写入或读取 V2 `skills` 分段，并持续经 `ContentRegistry` 校验。
+- 无效运行时对象、伪造技能或投影失败都会返回稳定错误，不会部分改写 V2 快照或旧 UI 数组。
+
 ### Phase 79 - 旧运行时技能桥接
 
 - 新增 `LegacySkillBridge`，将 `PlayerInventory` 中的旧中文技能数组导入 `SkillState`，并可将规范状态安全投影回当前 UI 使用的旧字段结构。

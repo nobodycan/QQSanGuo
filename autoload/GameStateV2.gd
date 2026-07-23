@@ -106,3 +106,22 @@ func validate_content_compatibility(raw: Dictionary, loaded_revision: String, re
 			return {"ok": false, "reason": skills.error, "state": null}
 		normalized.skills = skills.state
 	return {"ok": true, "reason": "", "state": normalized}
+
+func capture_runtime_skills(snapshot: Dictionary, inventory: Node, registry: Node) -> Dictionary:
+	var normalized = normalize(snapshot)
+	if normalized == null or inventory == null or not inventory.has_method("export_canonical_skills"):
+		return {"ok": false, "reason": "invalid_runtime", "state": null}
+	var skills = inventory.export_canonical_skills(registry)
+	var validated = SkillState.new().validate_registered(skills, registry)
+	if not validated.ok:
+		return {"ok": false, "reason": validated.error, "state": null}
+	normalized.skills = validated.state
+	return {"ok": true, "reason": "", "state": normalized}
+
+func apply_runtime_skills(snapshot: Dictionary, inventory: Node, registry: Node) -> Dictionary:
+	var compatibility = validate_content_compatibility(snapshot, str(snapshot.get("metadata", {}).get("content_revision", "")), registry)
+	if not compatibility.ok or inventory == null or not inventory.has_method("apply_canonical_skills"):
+		return {"ok": false, "reason": compatibility.reason if not compatibility.ok else "invalid_runtime"}
+	if not inventory.apply_canonical_skills(compatibility.state.skills, registry):
+		return {"ok": false, "reason": "runtime_skill_apply_failed"}
+	return {"ok": true, "reason": "", "state": compatibility.state}
