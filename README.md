@@ -140,6 +140,7 @@ DefeatRewardGate claims stable defeat IDs once, preventing duplicate death callb
 | 63 | Typed content contracts | Registry validates map, skill, and item schemas before publish. |
 | 64 | Immutable content reads | Registry callers receive deep-copied content definitions. |
 | 65 | Deterministic content lists | Registry type queries sort entries by stable ID. |
+| 66 | Registry-backed legacy aliases | Legacy names and map paths resolve through validated IDs. |
 
 See [Release Notes](RELEASE_NOTES.md) for the complete change list and verification scope for each phase.
 

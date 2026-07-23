@@ -1,6 +1,7 @@
 extends Node
 
 var _entries = {}
+var _aliases = {}
 
 func _ready() -> void:
 	load_content()
@@ -20,7 +21,11 @@ func load_content(manifest_path: String = "res://content/v1/manifest.json") -> D
 			if typeof(entry) != TYPE_DICTIONARY or not _is_valid_id(str(entry.get("id", ""))) or staged.has(entry.id) or not _valid_entry(entry) or not _resources_exist(entry):
 				return _failure("invalid_content_entry")
 			staged[entry.id] = entry.duplicate(true)
+	var aliases = _read_json(manifest_path.get_base_dir().plus_file("legacy_aliases.json"))
+	if not _valid_aliases(aliases, staged):
+		return _failure("invalid_content_aliases")
 	_entries = staged
+	_aliases = aliases.duplicate(true)
 	return {"ok": true, "error_code": "", "operation_id": "content.load", "data": {"entry_count": _entries.size()}}
 
 func has_entry(content_id: String) -> bool:
@@ -39,6 +44,12 @@ func entries_of_kind(kind: String) -> Array:
 			result.append(entry.duplicate(true))
 	result.sort_custom(self, "_sort_entries_by_id")
 	return result
+
+func resolve_legacy(category: String, legacy_value: String) -> Dictionary:
+	if not _aliases.has(category) or not _aliases[category].has(legacy_value):
+		return _failure("legacy_alias_not_found")
+	var value = _aliases[category][legacy_value]
+	return {"ok": true, "error_code": "", "operation_id": "content.resolve_legacy", "data": value.duplicate(true) if typeof(value) == TYPE_DICTIONARY else value}
 
 func validate_id(content_id: String) -> Dictionary:
 	if not _is_valid_id(content_id):
@@ -66,6 +77,21 @@ func _valid_entry(entry: Dictionary) -> bool:
 	if kind == "skill":
 		return int(entry.get("unlock_level", 0)) >= 1 and int(entry.get("magic_cost", -1)) >= 0 and int(entry.get("cooldown_ticks", -1)) >= 0 and int(entry.get("damage", -1)) >= 0
 	return ["equipment", "material", "consumable"].has(kind) and int(entry.get("stack_limit", 0)) >= 1 and typeof(entry.get("quest", null)) == TYPE_BOOL
+
+func _valid_aliases(aliases: Dictionary, entries: Dictionary) -> bool:
+	for category in ["items", "skills"]:
+		if typeof(aliases.get(category, null)) != TYPE_DICTIONARY:
+			return false
+		for legacy_name in aliases[category]:
+			if typeof(legacy_name) != TYPE_STRING or not entries.has(str(aliases[category][legacy_name])):
+				return false
+	if typeof(aliases.get("maps", null)) != TYPE_DICTIONARY:
+		return false
+	for legacy_path in aliases.maps:
+		var location = aliases.maps[legacy_path]
+		if typeof(legacy_path) != TYPE_STRING or typeof(location) != TYPE_DICTIONARY or not entries.has(str(location.get("map_id", ""))) or str(entries[location.map_id].get("kind", "")) != "map":
+			return false
+	return true
 
 func _is_valid_id(content_id: String) -> bool:
 	var parts = content_id.split(".")
